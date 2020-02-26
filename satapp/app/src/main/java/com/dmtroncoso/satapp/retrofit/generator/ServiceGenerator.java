@@ -2,6 +2,8 @@ package com.dmtroncoso.satapp.retrofit.generator;
 
 import android.text.TextUtils;
 
+import com.dmtroncoso.satapp.retrofit.service.SataService;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -85,4 +87,5 @@ public class ServiceGenerator {
 
         return retrofit.create(serviceClass);
     }
+
 }

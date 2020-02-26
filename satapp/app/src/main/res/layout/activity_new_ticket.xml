@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/custom_bg"
-    tools:context=".LoggingActivity">
+    tools:context=".tickets.NewTicketActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.213"
+        app:layout_constraintVertical_bias="0.076"
         app:srcCompat="@drawable/ic_logo" />
 
     <androidx.cardview.widget.CardView
@@ -31,14 +31,14 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <EditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/editTextTicketTitulo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
             android:ems="10"
             android:gravity="center"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
+            android:hint="@string/ticket_title_hint"
+            android:inputType="text"
             android:scrollbarSize="4dp"
             app:layout_constraintVertical_bias="0.139" />
 
@@ -46,8 +46,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_width="309dp"
+        android:layout_height="124dp"
         android:layout_marginTop="32dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="@+id/cardView"
@@ -55,14 +55,14 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <EditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/editTextTicketDescription"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
             android:ems="10"
             android:gravity="center"
-            android:hint="Contraseña"
-            android:inputType="textPassword" />
+            android:hint="@string/ticket_description_hint"
+            android:inputType="text" />
 
     </androidx.cardview.widget.CardView>
 
@@ -70,34 +70,13 @@
         android:id="@+id/buttonNewTicket"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Iniciar sesion"
-        android:textColor="#FFFFFF"
+        android:layout_marginTop="32dp"
         android:background="@drawable/custom_button"
+        android:text="@string/new_ticket"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/cardView2"
         app:layout_constraintStart_toStartOf="@+id/cardView2"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
-    <TextView
-        android:id="@+id/textViewMsgTecn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
-        android:text="¿Aún no eres técnico?"
-        android:textColor="#FFFF"
-        app:layout_constraintStart_toStartOf="@+id/buttonLogin"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
-
-    <TextView
-        android:id="@+id/textViewRegistrarse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Registrarse"
-        android:textColor="#009EFD"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewMsgTecn"
-        app:layout_constraintStart_toEndOf="@+id/textViewMsgTecn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
