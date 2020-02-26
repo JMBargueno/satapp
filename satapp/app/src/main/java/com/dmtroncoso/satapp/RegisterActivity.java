@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int READ_REQUEST_CODE = 42;
     TextView textIniciarSesion;
     Button btnRegister;
-    EditText edtName, edtEmail, edtPassword;
+    EditText edtName, edtEmail, edtPassword, edtConfPassword;
     ImageView imgRegister;
     Uri uriSelected;
 
@@ -55,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         edtName = findViewById(R.id.editTextUsernameR);
         edtEmail = findViewById(R.id.editTextEmailR);
         edtPassword = findViewById(R.id.editTextPasswordR);
+        edtConfPassword = findViewById(R.id.editTextConfPasswordR);
         imgRegister = findViewById(R.id.imageViewRegister);
 
         uriSelected = null;
@@ -62,65 +63,68 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (uriSelected != null) {
 
-                    SataService service = ServiceGenerator.createServiceRegister(SataService.class);
+                if(edtConfPassword.getText().toString().equalsIgnoreCase(edtPassword.getText().toString()) && edtConfPassword.getText().toString().length() > 6 && edtPassword.getText().toString().length() > 6) {
+                    if (uriSelected != null) {
 
-                    try {
-                        InputStream inputStream = getContentResolver().openInputStream(uriSelected);
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-                        int cantBytes;
-                        byte[] buffer = new byte[1024*4];
+                        SataService service = ServiceGenerator.createServiceRegister(SataService.class);
 
-                        while ((cantBytes = bufferedInputStream.read(buffer,0,1024*4)) != -1) {
-                            baos.write(buffer,0,cantBytes);
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(uriSelected);
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                            int cantBytes;
+                            byte[] buffer = new byte[1024 * 4];
+
+                            while ((cantBytes = bufferedInputStream.read(buffer, 0, 1024 * 4)) != -1) {
+                                baos.write(buffer, 0, cantBytes);
+                            }
+
+
+                            RequestBody requestFile =
+                                    RequestBody.create(
+                                            MediaType.parse(getContentResolver().getType(uriSelected)), baos.toByteArray());
+
+
+                            MultipartBody.Part body =
+                                    MultipartBody.Part.createFormData("avatar", "avatar", requestFile);
+
+
+                            RequestBody name = RequestBody.create(MultipartBody.FORM, edtName.getText().toString());
+                            RequestBody email = RequestBody.create(MultipartBody.FORM, edtEmail.getText().toString());
+                            RequestBody password = RequestBody.create(MultipartBody.FORM, edtPassword.getText().toString());
+
+                            Call<ResponseBody> callRegister = service.register(body, name, email, password);
+
+                            callRegister.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(RegisterActivity.this, LoggingActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        Log.e("Upload error", response.errorBody().toString());
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
 
 
-                        RequestBody requestFile =
-                                RequestBody.create(
-                                        MediaType.parse(getContentResolver().getType(uriSelected)), baos.toByteArray());
-
-
-                        MultipartBody.Part body =
-                                MultipartBody.Part.createFormData("avatar", "avatar", requestFile);
-
-
-                        RequestBody name = RequestBody.create(MultipartBody.FORM, edtName.getText().toString());
-                        RequestBody email = RequestBody.create(MultipartBody.FORM, edtEmail.getText().toString());
-                        RequestBody password = RequestBody.create(MultipartBody.FORM, edtPassword.getText().toString());
-
-                        Call<ResponseBody> callRegister = service.register(body, name, email, password);
-
-                        callRegister.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if (response.isSuccessful()) {
-                                    Log.d("Uploaded", "Éxito");
-                                    Log.d("Uploaded", response.body().toString());
-                                    Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(RegisterActivity.this, LoggingActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                    Log.e("Upload error", response.errorBody().toString());
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Log.e("Upload error", t.getMessage());
-                            }
-                        });
-
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
-
-
+                }else{
+                    Toast.makeText(RegisterActivity.this, "Contraseñas no coinciden o es demasiado corta", Toast.LENGTH_SHORT).show();
                 }
             }
         });
