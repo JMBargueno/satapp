@@ -85,4 +85,32 @@ public class ServiceGenerator {
 
         return retrofit.create(serviceClass);
     }
+
+    public static <S> S createServiceRegister(Class<S> serviceClass){
+                httpClientBuilder.addInterceptor(new Interceptor() {
+                    @NotNull
+                    @Override
+                    public Response intercept(@NotNull Chain chain) throws IOException {
+                        Request original = chain.request();
+                        HttpUrl originalHttpUrl = original.url();
+
+                        HttpUrl url = originalHttpUrl.newBuilder()
+                                .addQueryParameter("access_token", "elpabloesunchaquetitasyeltroncosounfatiguitas")
+                                .build();
+
+                        Request.Builder requestBuilder = original.newBuilder()
+                                .url(url);
+
+                        Request request = requestBuilder.build();
+                        return chain.proceed(request);
+                    }
+                });
+
+                httpClientBuilder.addInterceptor(logging);
+
+                builder.client(httpClientBuilder.build());
+                retrofit = builder.build();
+
+        return retrofit.create(serviceClass);
+    }
 }
