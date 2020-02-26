@@ -3,7 +3,7 @@ package com.dmtroncoso.satapp.retrofit.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class User {
+public class User {
 
     @SerializedName("id")
     @Expose

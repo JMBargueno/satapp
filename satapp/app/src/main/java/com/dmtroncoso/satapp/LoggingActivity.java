@@ -4,13 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.model.UserResponse;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
@@ -24,6 +27,7 @@ public class LoggingActivity extends AppCompatActivity {
     Button btnLogin;
     SataService service;
     EditText edtEmail, edtPassword;
+    TextView txtRegistrarse;
     String token = "";
 
     @Override
@@ -34,6 +38,16 @@ public class LoggingActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.buttonLogin);
         edtEmail = findViewById(R.id.editTextEmail);
         edtPassword = findViewById(R.id.editTextPassword);
+
+        txtRegistrarse = findViewById(R.id.textViewRegistrarse);
+
+        txtRegistrarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentRegister = new Intent(LoggingActivity.this, RegisterActivity.class);
+                startActivity(intentRegister);
+            }
+        });
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -55,8 +69,7 @@ public class LoggingActivity extends AppCompatActivity {
                                     startActivity(intentMainActivity);
 
                                     token = response.body().getToken();
-
-                                    Toast.makeText(LoggingActivity.this, response.body().getToken(), Toast.LENGTH_SHORT).show();
+                                    SharedPreferencesManager.setSomeStringValue("token", token);
 
                                 } else {
                                     Toast.makeText(LoggingActivity.this, "Email y/o contraseña incorrecta", Toast.LENGTH_SHORT).show();

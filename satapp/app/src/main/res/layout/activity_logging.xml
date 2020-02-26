@@ -78,4 +78,26 @@
         app:layout_constraintStart_toStartOf="@+id/cardView2"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
+    <TextView
+        android:id="@+id/textViewMsgTecn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:text="¿Aún no eres técnico?"
+        android:textColor="#FFFF"
+        app:layout_constraintStart_toStartOf="@+id/buttonLogin"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+
+    <TextView
+        android:id="@+id/textViewRegistrarse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Registrarse"
+        android:textColor="#009EFD"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewMsgTecn"
+        app:layout_constraintStart_toEndOf="@+id/textViewMsgTecn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
