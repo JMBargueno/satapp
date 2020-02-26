@@ -31,6 +31,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -90,13 +91,14 @@ public class RegisterActivity extends AppCompatActivity {
                         RequestBody email = RequestBody.create(MultipartBody.FORM, edtEmail.getText().toString());
                         RequestBody password = RequestBody.create(MultipartBody.FORM, edtPassword.getText().toString());
 
-                        Call<User> callRegister = service.register(body, name, email, password);
+                        Call<ResponseBody> callRegister = service.register(body, name, email, password);
 
-                        callRegister.enqueue(new Callback<User>() {
+                        callRegister.enqueue(new Callback<ResponseBody>() {
                             @Override
-                            public void onResponse(Call<User> call, Response<User> response) {
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 if (response.isSuccessful()) {
-
+                                    Log.d("Uploaded", "Éxito");
+                                    Log.d("Uploaded", response.body().toString());
                                     Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(RegisterActivity.this, LoggingActivity.class);
                                     startActivity(intent);
@@ -106,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<User> call, Throwable t) {
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
                                 Log.e("Upload error", t.getMessage());
                             }
                         });

@@ -3,6 +3,8 @@ package com.dmtroncoso.satapp.retrofit.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.File;
+
 public class User {
 
     @SerializedName("id")
@@ -31,7 +33,7 @@ public class User {
 
     private String avatar;
 
-    public User(String name, String email, String password, String avatar) {
+    public User(String avatar, String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
