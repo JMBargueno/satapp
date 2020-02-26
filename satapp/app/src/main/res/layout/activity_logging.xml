@@ -23,7 +23,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="64dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,8 @@
         <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@null"
             android:ems="10"
             android:gravity="center"
             android:hint="Email"
@@ -46,7 +47,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="32dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="@+id/cardView"
@@ -56,7 +57,8 @@
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@null"
             android:ems="10"
             android:gravity="center"
             android:hint="Contraseña"
