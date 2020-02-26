@@ -26,4 +26,22 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //Android Glide - Images
+    implementation 'com.kirich1409.svgplugin:glide4:1.0.0'
+    implementation "com.github.bumptech.glide:glide:4.11.0"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.11.0"
+    implementation "com.caverock:androidsvg:1.2.1"
+    implementation 'jp.wasabeef:glide-transformations:4.0.0'
+    // If you want to use the GPU Filters
+    implementation 'jp.co.cyberagent.android:gpuimage:2.0.0'
+    //Retrofit and Okhttp3
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.3.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
+    //CardView
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    //Lyfecycle
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha03'
 }
