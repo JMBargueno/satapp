@@ -122,6 +122,8 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
 
+                    }else if(uriSelected == null){
+                        
                     }
                 }else{
                     Toast.makeText(RegisterActivity.this, "Contraseñas no coinciden o es demasiado corta", Toast.LENGTH_SHORT).show();
