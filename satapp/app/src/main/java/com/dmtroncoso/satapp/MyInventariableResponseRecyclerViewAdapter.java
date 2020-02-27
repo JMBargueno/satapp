@@ -2,29 +2,33 @@ package com.dmtroncoso.satapp;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.dmtroncoso.satapp.InventariableListFragment.OnListFragmentInteractionListener;
-import com.dmtroncoso.satapp.dummy.DummyContent.DummyItem;
 
+import com.bumptech.glide.Glide;
+import com.dmtroncoso.satapp.retrofit.model.Inventariable;
+import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
+import com.dmtroncoso.satapp.viewmodel.InventariableViewModel;
+
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
+
 public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Adapter<MyInventariableResponseRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private List<InventariableResponse> mValues;
+    InventariableViewModel inventoriableViewModel;
+    Context context;
 
-    public MyInventariableResponseRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+
+    public MyInventariableResponseRecyclerViewAdapter(Context ctx, List<InventariableResponse> items, InventariableViewModel inventariableViewModel) {
+       this.context = ctx;
         mValues = items;
-        mListener = listener;
+        this.inventoriableViewModel = inventariableViewModel;
     }
 
     @Override
@@ -36,32 +40,44 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+        if(mValues != null){
+            holder.mItem = mValues.get(position);
+            // TODO: hacemos uso del ViewModel
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (null != inventoriableViewModel) {
+                        inventoriableViewModel.setIdInventoriableSeleccionado(holder.mItem.getId());
+                    }
                 }
-            }
-        });
+            });
+        }
+    }
+
+    public void setData(List<InventariableResponse> list){
+        if(this.mValues != null) {
+            this.mValues.clear();
+        } else {
+            this.mValues =  new ArrayList<>();
+        }
+        this.mValues.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        if(mValues != null){
+            return mValues.size();
+        } else {
+            return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public InventariableResponse mItem;
 
         public ViewHolder(View view) {
             super(view);
@@ -69,6 +85,9 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
             mIdView = (TextView) view.findViewById(R.id.item_number);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
+
+
+
 
         @Override
         public String toString() {

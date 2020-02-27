@@ -13,18 +13,28 @@ import java.util.List;
 
 public class InventariableViewModel extends AndroidViewModel {
 
-    private InventariableRepository inventariableRepository;
-    private MutableLiveData<List<InventariableResponse>> listInv;
+    MutableLiveData<List<InventariableResponse>> inventariableList;
+    InventariableRepository inventariableRepository;
+    MutableLiveData<String> idInventoriableSeleccionado;
 
-
-    public InventariableViewModel(@NonNull Application application) {
+    public InventariableViewModel(@NonNull Application application, InventariableRepository inventariableRepository, MutableLiveData<List<InventariableResponse>> inventariableList, MutableLiveData<MutableLiveData<String>> idInventoriableSeleccionado) {
         super(application);
-        inventariableRepository = new InventariableRepository();
-        listInv = new MutableLiveData<>();
+        this.inventariableRepository = inventariableRepository;
+        this.inventariableList = inventariableList;
+        this.idInventoriableSeleccionado = new MutableLiveData<>();
+        this.idInventoriableSeleccionado.setValue(null);
     }
 
-    public MutableLiveData<List<InventariableResponse>> getInventariables(){
-        listInv = inventariableRepository.getAllInventariables();
-        return listInv;
+    public MutableLiveData<List<InventariableResponse>> getInventariableList() {
+        inventariableList = inventariableRepository.getAllInventariables();
+        return inventariableList;
+    }
+
+    public void setIdInventoriableSeleccionado(String idInventoriableSeleccionado) {
+        this.idInventoriableSeleccionado.setValue(idInventoriableSeleccionado);
+    }
+
+    public MutableLiveData<String> getIdInventoriableSeleccionado() {
+        return idInventoriableSeleccionado;
     }
 }
