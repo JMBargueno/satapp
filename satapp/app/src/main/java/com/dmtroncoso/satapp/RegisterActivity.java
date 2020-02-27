@@ -79,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                             while ((cantBytes = bufferedInputStream.read(buffer, 0, 1024 * 4)) != -1) {
                                 baos.write(buffer, 0, cantBytes);
                             }
+                            
 
 
                             RequestBody requestFile =
