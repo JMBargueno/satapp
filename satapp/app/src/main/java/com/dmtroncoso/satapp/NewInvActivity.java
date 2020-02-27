@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
+import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 
@@ -36,13 +37,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterActivity extends AppCompatActivity {
+public class NewInvActivity extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 42;
-    TextView textIniciarSesion;
-    Button btnRegister;
-    EditText edtName, edtEmail, edtPassword, edtConfPassword;
-    ImageView imgRegister;
+    TextView textViewCrearInv;
+    Button btnAdd;
+    EditText edtName, editType, editDesc, editUbc;
+    ImageView imgInv;
     Uri uriSelected;
 
     @Override
@@ -50,21 +51,20 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        textIniciarSesion = findViewById(R.id.textViewIniciarSesion);
-        btnRegister = findViewById(R.id.buttonRegister);
-        edtName = findViewById(R.id.editTextUsernameR);
-        edtEmail = findViewById(R.id.editTextEmailR);
-        edtPassword = findViewById(R.id.editTextPasswordR);
-        edtConfPassword = findViewById(R.id.editTextConfPasswordR);
-        imgRegister = findViewById(R.id.imageViewRegister);
+        textViewCrearInv = findViewById(R.id.textView);
+        btnAdd = findViewById(R.id.buttonAdd);
+        edtName = findViewById(R.id.nombreInv);
+        editType = findViewById(R.id.tipoInv);
+        editDesc = findViewById(R.id.descripcionInv);
+        editUbc = findViewById(R.id.ubicacionInv);
+        imgInv = findViewById(R.id.imageviewInventariable);
 
         uriSelected = null;
 
-        btnRegister.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(edtConfPassword.getText().toString().equalsIgnoreCase(edtPassword.getText().toString()) && edtConfPassword.getText().toString().length() > 6 && edtPassword.getText().toString().length() > 6) {
                     if (uriSelected != null) {
 
                         SataService service = ServiceGenerator.createServiceRegister(SataService.class);
@@ -87,30 +87,31 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                             MultipartBody.Part body =
-                                    MultipartBody.Part.createFormData("avatar", "avatar", requestFile);
+                                    MultipartBody.Part.createFormData("imagen", "imagen", requestFile);
 
 
-                            RequestBody name = RequestBody.create(MultipartBody.FORM, edtName.getText().toString());
-                            RequestBody email = RequestBody.create(MultipartBody.FORM, edtEmail.getText().toString());
-                            RequestBody password = RequestBody.create(MultipartBody.FORM, edtPassword.getText().toString());
+                            RequestBody nombre = RequestBody.create(MultipartBody.FORM, edtName.getText().toString());
+                            RequestBody tipo = RequestBody.create(MultipartBody.FORM, editType.getText().toString());
+                            RequestBody descripcion = RequestBody.create(MultipartBody.FORM, editDesc.getText().toString());
+                            RequestBody ubicacion = RequestBody.create(MultipartBody.FORM, editUbc.getText().toString());
 
-                            Call<ResponseBody> callRegister = service.register(body, name, email, password);
+                            Call<Inventariable> uploadInventariable = service.uploadInventariable(body, nombre, tipo, descripcion, ubicacion);
 
-                            callRegister.enqueue(new Callback<ResponseBody>() {
+                            uploadInventariable.enqueue(new Callback<Inventariable>() {
                                 @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                public void onResponse(Call<Inventariable> call, Response<Inventariable> response) {
                                     if (response.isSuccessful()) {
-                                        Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(RegisterActivity.this, LoggingActivity.class);
-                                        startActivity(intent);
+                                        Toast.makeText(NewInvActivity.this, "Equipo registrado", Toast.LENGTH_SHORT).show();
+                                        //Intent intent = new Intent(NewInvActivity.this, LoggingActivity.class);
+                                        //startActivity(intent);
                                     } else {
                                         Log.e("Upload error", response.errorBody().toString());
                                     }
                                 }
 
                                 @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                    Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                                public void onFailure(Call<Inventariable> call, Throwable t) {
+                                    Toast.makeText(NewInvActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -123,29 +124,28 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                     }
-                }else{
-                    Toast.makeText(RegisterActivity.this, "Contraseñas no coinciden o es demasiado corta", Toast.LENGTH_SHORT).show();
                 }
-            }
+
         });
 
-        imgRegister.setOnClickListener(new View.OnClickListener() {
+        imgInv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 performFileSearch();
             }
         });
 
+
     }
     public void performFileSearch(){
 
-
+        //Intent para ir a la galería de fotos
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 
-
+        //Filtra por aquellos archivos que se puedan abrir
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-
+        //Filtra por image
         intent.setType("image/*");
 
         startActivityForResult(intent, READ_REQUEST_CODE);
@@ -163,10 +163,11 @@ public class RegisterActivity extends AppCompatActivity {
                         .with(this)
                         .load(uri)
                         .apply(RequestOptions.bitmapTransform(new CropCircleTransformation()))
-                        .into(imgRegister);
+                        .into(imgInv);
                 uriSelected = uri;
-                imgRegister.setEnabled(true);
+                imgInv.setEnabled(true);
             }
         }
     }
 }
+

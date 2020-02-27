@@ -1,10 +1,12 @@
 package com.dmtroncoso.satapp.retrofit.service;
 
+import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.model.UserResponse;
 
 import okhttp3.MultipartBody;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -31,8 +33,9 @@ public interface SataService {
 
     @POST("/inventariable")
     Call<Inventariable> uploadInventariable(@Part MultipartBody.Part imagen,
-                                            @Part
-
-                                            )
+                                            @Part("tipo") RequestBody tipo,
+                                            @Part("nombre") RequestBody nombre,
+                                            @Part("descripcion") RequestBody descripcion,
+                                            @Part("ubicacion") RequestBody ubicacion);
 
 }

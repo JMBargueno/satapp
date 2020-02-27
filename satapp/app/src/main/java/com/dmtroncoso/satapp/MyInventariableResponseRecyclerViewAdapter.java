@@ -1,3 +1,4 @@
+/*
 package com.dmtroncoso.satapp;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,11 +13,13 @@ import com.dmtroncoso.satapp.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
+*/
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
- */
+ *//*
+
 public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Adapter<MyInventariableResponseRecyclerViewAdapter.ViewHolder> {
 
     private final List<DummyItem> mValues;
@@ -76,3 +79,4 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
         }
     }
 }
+*/
