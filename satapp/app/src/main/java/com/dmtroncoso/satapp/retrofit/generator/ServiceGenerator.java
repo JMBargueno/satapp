@@ -2,6 +2,7 @@ package com.dmtroncoso.satapp.retrofit.generator;
 
 import android.text.TextUtils;
 
+import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +21,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-    public static final String BASE_URL = "https://satapp-api.herokuapp.com";
+
+    private static final String BASE_URL = "https://satapp-api.herokuapp.com";
+    private static ServiceGenerator serviceGenerator = null;
+    private SataService sataService;
 
     private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS);
 
@@ -86,6 +90,47 @@ public class ServiceGenerator {
         }
 
         return retrofit.create(serviceClass);
+    }
+
+    public static <S> S createServiceWithToken(Class<S> serviceClass){
+
+        String authToken = SharedPreferencesManager.getSomeStringValue("token");
+
+        if(!TextUtils.isEmpty(authToken)){
+            AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken);
+
+            if(!httpClient.interceptors().contains(interceptor)){
+                httpClientBuilder.addInterceptor(new Interceptor() {
+                    @NotNull
+                    @Override
+                    public Response intercept(@NotNull Chain chain) throws IOException {
+                        Request original = chain.request();
+                        HttpUrl originalHttpUrl = original.url();
+
+                        HttpUrl url = originalHttpUrl.newBuilder()
+                                .build();
+
+                        Request.Builder requestBuilder = original.newBuilder()
+                                .url(url);
+
+                        Request request = requestBuilder.build();
+                        return chain.proceed(request);
+                    }
+                });
+
+                httpClientBuilder.addInterceptor(interceptor);
+                httpClientBuilder.addInterceptor(logging);
+
+                builder.client(httpClientBuilder.build());
+                retrofit = builder.build();
+            }
+        }
+
+        return retrofit.create(serviceClass);
+    }
+
+    public SataService getSataService(){
+        return sataService;
     }
 
 }

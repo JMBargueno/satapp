@@ -23,7 +23,6 @@ import retrofit2.Response;
 public class NewTicketActivity extends AppCompatActivity implements View.OnClickListener{
     private SataService servicio;
     private ServiceGenerator serviceGenerator;
-    private SharedPreferencesManager sharedPreferencesManager;
     EditText etTitle, etDescription;
     Button btnNewTicket;
 
@@ -42,7 +41,8 @@ public class NewTicketActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void retrofitInit() {
-        serviceGenerator = ServiceGenerator.createService(ServiceGenerator.class,sharedPreferencesManager.getSomeStringValue("token"));
+        serviceGenerator = ServiceGenerator.createServiceWithToken(ServiceGenerator.class);
+        servicio = serviceGenerator.getSataService();
     }
 
     private void getViews() {
@@ -50,7 +50,6 @@ public class NewTicketActivity extends AppCompatActivity implements View.OnClick
         etDescription = findViewById(R.id.editTextTicketDescription);
         btnNewTicket = findViewById(R.id.buttonNewTicket);
     }
-
 
     @Override
     public void onClick(View v) {

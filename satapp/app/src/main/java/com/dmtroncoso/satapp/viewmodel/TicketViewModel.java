@@ -16,4 +16,6 @@ public class TicketViewModel extends AndroidViewModel {
     public TicketViewModel(@NonNull Application application) {
         super(application);
     }
+
+
 }
