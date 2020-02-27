@@ -22,4 +22,11 @@ public interface SataService {
                                 @Part("name") RequestBody name,
                                 @Part("email") RequestBody email,
                                 @Part("password") RequestBody password);
+
+    @Multipart
+    @POST("/users")
+    Call<ResponseBody> registerWithOutUri(@Part("name") RequestBody name,
+                                @Part("email") RequestBody email,
+                                @Part("password") RequestBody password);
 }
+

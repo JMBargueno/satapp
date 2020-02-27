@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
-        android:text="¿Aún no eres técnico?"
+        android:text="¿Aún no eres usuario?"
         android:textColor="#FFFF"
         app:layout_constraintStart_toStartOf="@+id/buttonLogin"
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />

@@ -66,7 +66,6 @@ public class ServiceGenerator {
                         HttpUrl originalHttpUrl = original.url();
 
                         HttpUrl url = originalHttpUrl.newBuilder()
-                                .addQueryParameter("access_token", "elpabloesunchaquetitasyeltroncosounfatiguitas")
                                 .build();
 
                         Request.Builder requestBuilder = original.newBuilder()
@@ -89,12 +88,7 @@ public class ServiceGenerator {
     }
 
     public static <S> S createServiceRegisterTest(Class<S> serviceClass){
-        String authToken = SharedPreferencesManager.getSomeStringValue("token");
 
-        if(!TextUtils.isEmpty(authToken)){
-            AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken);
-
-            if(!httpClient.interceptors().contains(interceptor)){
                 httpClientBuilder.addInterceptor(new Interceptor() {
                     @NotNull
                     @Override
@@ -113,14 +107,10 @@ public class ServiceGenerator {
                         return chain.proceed(request);
                     }
                 });
-
-                httpClientBuilder.addInterceptor(interceptor);
                 httpClientBuilder.addInterceptor(logging);
 
                 builder.client(httpClientBuilder.build());
                 retrofit = builder.build();
-            }
-        }
 
         return retrofit.create(serviceClass);
     }
