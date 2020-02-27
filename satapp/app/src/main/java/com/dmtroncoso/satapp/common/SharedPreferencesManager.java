@@ -21,7 +21,17 @@ public class SharedPreferencesManager {
         editor.commit();
     }
 
+    public static void setSomeStringValue(String dataLabel, String dataValue){
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putString(dataLabel, dataValue);
+        editor.commit();
+    }
+
     public static  int getSomeIntValue(String dataLabel){
         return getSharedPreferences().getInt(dataLabel, 0);
+    }
+
+    public static  String getSomeStringValue(String dataLabel){
+        return getSharedPreferences().getString(dataLabel, null);
     }
 }
