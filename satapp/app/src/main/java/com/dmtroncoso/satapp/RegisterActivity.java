@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText edtName, edtEmail, edtPassword, edtConfPassword;
     ImageView imgRegister;
     Uri uriSelected;
+    SataService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.editTextPasswordR);
         edtConfPassword = findViewById(R.id.editTextConfPasswordR);
         imgRegister = findViewById(R.id.imageViewRegister);
+        service = ServiceGenerator.createServiceRegister(SataService.class);
 
         uriSelected = null;
 
@@ -66,8 +68,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if(edtConfPassword.getText().toString().equalsIgnoreCase(edtPassword.getText().toString()) && edtConfPassword.getText().toString().length() > 6 && edtPassword.getText().toString().length() > 6) {
                     if (uriSelected != null) {
-
-                        SataService service = ServiceGenerator.createServiceRegister(SataService.class);
 
                         try {
                             InputStream inputStream = getContentResolver().openInputStream(uriSelected);
@@ -122,10 +122,34 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
 
-                    }else if(uriSelected == null){
-                        
+                    }else if(uriSelected == null) {
+                        //SataService service = ServiceGenerator.createServiceRegister(SataService.class);
+
+                        RequestBody name = RequestBody.create(MultipartBody.FORM, edtName.getText().toString());
+                        RequestBody email = RequestBody.create(MultipartBody.FORM, edtEmail.getText().toString());
+                        RequestBody password = RequestBody.create(MultipartBody.FORM, edtPassword.getText().toString());
+
+                        Call<ResponseBody> callRegister = service.registerWithOutUri(name, email, password);
+
+                        callRegister.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(RegisterActivity.this, LoggingActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    Log.e("Upload error", response.errorBody().toString());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                }else{
+                    }else{
                     Toast.makeText(RegisterActivity.this, "Contraseñas no coinciden o es demasiado corta", Toast.LENGTH_SHORT).show();
                 }
             }
