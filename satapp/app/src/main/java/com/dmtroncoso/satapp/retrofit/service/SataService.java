@@ -18,14 +18,8 @@ public interface SataService {
 
     @Multipart
     @POST("/users")
-    Call<ResponseBody> register(@Part MultipartBody.Part avatar,
+    Call<User> register(@Part MultipartBody.Part avatar,
                                 @Part("name") RequestBody name,
-                                @Part("email") RequestBody email,
-                                @Part("password") RequestBody password);
-
-    @Multipart
-    @POST("/users")
-    Call<ResponseBody> registerWithOutUri(@Part("name") RequestBody name,
                                 @Part("email") RequestBody email,
                                 @Part("password") RequestBody password);
 }
