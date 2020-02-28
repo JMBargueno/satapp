@@ -115,4 +115,30 @@ public class ServiceGenerator {
 
         return retrofit.create(serviceClass);
     }
+
+    public static <S> S createServiceTicket(Class<S> serviceClass){
+
+        final String tokenUserLogged = SharedPreferencesManager.getSomeStringValue("token");
+
+        httpClientBuilder.addInterceptor(new Interceptor() {
+            @NotNull
+            @Override
+            public Response intercept(@NotNull Chain chain) throws IOException {
+                Request original = chain.request();
+
+                Request.Builder requestBuilder = original.newBuilder()
+                        .header("Authorization","Bearer "+ tokenUserLogged);
+
+                Request request = requestBuilder.build();
+                return chain.proceed(request);
+            }
+        });
+
+        httpClientBuilder.addInterceptor(logging);
+
+        builder.client(httpClientBuilder.build());
+        retrofit = builder.build();
+
+        return retrofit.create(serviceClass);
+    }
 }

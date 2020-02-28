@@ -26,5 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MyApp.getContext(), QRScannerActivity.class));
             }
         });
+
+
     }
 }

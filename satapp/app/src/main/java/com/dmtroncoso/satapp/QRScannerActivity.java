@@ -3,11 +3,15 @@ package com.dmtroncoso.satapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.dmtroncoso.satapp.common.MyApp;
+import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -29,7 +33,19 @@ public class QRScannerActivity extends AppCompatActivity implements ZXingScanner
     @Override
     public void handleResult(Result result) {
         resultScanner = result.getText();
-        onBackPressed();
+        Log.v("Scanner", result.getText());
+        Toast.makeText(this, resultScanner, Toast.LENGTH_SHORT).show();
+        scannerView.stopCamera();
+
+        //Convertimos el resultado en un array de strings
+        convertResultToArray(resultScanner);
+    }
+
+    public String[] convertResultToArray(String textScanned){
+
+        String[] parts = textScanned.split("-");
+
+        return parts;
     }
 
     @Override
