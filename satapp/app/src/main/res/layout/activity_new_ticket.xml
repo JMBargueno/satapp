@@ -67,16 +67,36 @@
     </androidx.cardview.widget.CardView>
 
     <Button
+        android:id="@+id/buttonAddImages"
+        android:layout_width="100dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/custom_button"
+        android:text="@string/new_ticket_image"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/cardView2"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+    <Button
         android:id="@+id/buttonNewTicket"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:background="@drawable/custom_button"
         android:text="@string/new_ticket"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/cardView2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/cardView2"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+        tools:layout_editor_absoluteY="592dp" />
+
+    <ImageView
+        android:id="@+id/imageViewFoto1"
+        android:layout_width="155dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        app:layout_constraintStart_toEndOf="@+id/buttonAddImages"
+        app:layout_constraintTop_toTopOf="@+id/buttonAddImages"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

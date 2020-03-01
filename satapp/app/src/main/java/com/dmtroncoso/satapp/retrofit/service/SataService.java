@@ -23,7 +23,9 @@ public interface SataService {
 
     @Multipart
     @POST("/ticket")
-    Call<TicketResponse> nuevoTicket(@Body Ticket ticket);
+    Call<TicketResponse> nuevoTicket(@Part("title") RequestBody title,
+                                     @Part("description") RequestBody description,
+                                     @Part List<MultipartBody.Part> images);
 
     @POST("/users")
     Call<User> register(@Body UserRegister userRegister);

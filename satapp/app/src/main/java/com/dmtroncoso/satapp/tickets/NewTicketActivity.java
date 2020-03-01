@@ -1,30 +1,57 @@
 package com.dmtroncoso.satapp.tickets;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.ClipData;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.dmtroncoso.satapp.LoggingActivity;
 import com.dmtroncoso.satapp.R;
+import com.dmtroncoso.satapp.RegisterActivity;
 import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.model.Ticket;
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
+import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewTicketActivity extends AppCompatActivity implements View.OnClickListener{
-    private SataService servicio;
-    private ServiceGenerator serviceGenerator;
+public class NewTicketActivity extends AppCompatActivity{
+
+    private static final int READ_REQUEST_CODE = 42;
     EditText etTitle, etDescription;
-    Button btnNewTicket;
+    ImageView imgTicket;
+    Button btnNewTicket, btnAddImages;
+    List<MultipartBody.Part> listUri = new ArrayList<>();
+    private SataService servicio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,63 +60,141 @@ public class NewTicketActivity extends AppCompatActivity implements View.OnClick
 
         retrofitInit();
         getViews();
-        events();
-    }
-
-    private void events() {
-        btnNewTicket.setOnClickListener(this);
     }
 
     private void retrofitInit() {
-        serviceGenerator = ServiceGenerator.createServiceWithToken(ServiceGenerator.class);
-        servicio = serviceGenerator.getSataService();
+        servicio = ServiceGenerator.createServiceWithToken(SataService.class);
     }
 
     private void getViews() {
         etTitle = findViewById(R.id.editTextTicketTitulo);
         etDescription = findViewById(R.id.editTextTicketDescription);
+        imgTicket = findViewById(R.id.imageViewFoto1);
         btnNewTicket = findViewById(R.id.buttonNewTicket);
+        btnAddImages = findViewById(R.id.buttonAddImages);
+    }
+
+    private void uploadImages(final List<Uri> fileUris) {
+        btnNewTicket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(etTitle.getText().toString().isEmpty()){
+                    etTitle.setError("El título no puede estar vacío");
+                }else if(etDescription.getText().toString().isEmpty()){
+                    etDescription.setError("La descripción no puede estar vacía");
+                }else if (!fileUris.isEmpty()) {
+
+                        try {
+                            for (int i = 0; i < fileUris.size(); i++) {
+                                InputStream inputStream = getContentResolver().openInputStream(fileUris.get(i));
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                                int cantBytes;
+                                byte[] buffer = new byte[1024 * 4];
+
+                                while ((cantBytes = bufferedInputStream.read(buffer, 0, 1024 * 4)) != -1) {
+                                    baos.write(buffer, 0, cantBytes);
+                                }
+
+                                RequestBody requestFile =
+                                        RequestBody.create(
+                                                baos.toByteArray() , MediaType.parse(getContentResolver().getType(fileUris.get(i))));
+
+                                MultipartBody.Part body =
+                                        MultipartBody.Part.createFormData("avatar", "avatar" + i, requestFile);
+                                listUri.add(body);
+                            }
+
+                            RequestBody title = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
+                            RequestBody description = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
+
+                            Call<TicketResponse> callNewTicket = servicio.nuevoTicket(title, description, listUri);
+
+                            callNewTicket.enqueue(new Callback<TicketResponse>() {
+                                @Override
+                                public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(NewTicketActivity.this, "Nuevo ticket registrado", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(NewTicketActivity.this, LoggingActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        Log.e("Upload error", response.errorBody().toString());
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<TicketResponse> call, Throwable t) {
+                                    Toast.makeText(NewTicketActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }else if(listUri.isEmpty()) {
+
+                        RequestBody title = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
+                        RequestBody description = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
+
+                        Call<TicketResponse> newTicketWithoutUri = servicio.nuevoTicket(title,description,null);
+                        newTicketWithoutUri.enqueue(new Callback<TicketResponse>() {
+                            @Override
+                            public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
+                                if(response.isSuccessful()){
+                                    Toast.makeText(NewTicketActivity.this, "Nuevo ticket registrado", Toast.LENGTH_SHORT).show();
+                                    onBackPressed();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<TicketResponse> call, Throwable t) {
+                                Toast.makeText(NewTicketActivity.this, "Se produjo un error de conexión", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+        });
+
+        btnAddImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performFileSearch();
+            }
+        });
+    }
+
+    private void performFileSearch() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+        startActivityForResult(Intent.createChooser(intent, "Seleccionar Imagen"), READ_REQUEST_CODE);
     }
 
     @Override
-    public void onClick(View v) {
-        int id = v.getId();
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            ClipData clipData = data.getClipData();
+            ArrayList<Uri> fileUris = new ArrayList<>();
+            if (clipData != null) {
+                for(int i=0;i<clipData.getItemCount();i++){
+                    ClipData.Item item = clipData.getItemAt(i);
+                    fileUris.add(item.getUri());
+                }
+                //Uriselected , obtenemos la imagen
+                Glide
+                        .with(this)
+                        .load(fileUris.indexOf(0))
+                        .into(imgTicket);
 
-        if (id==R.id.buttonNewTicket){
-            newTicket();
+                uploadImages(fileUris);
+            }
         }
     }
 
-    private void newTicket() {
-
-        String title = etTitle.getText().toString();
-        String description = etDescription.getText().toString();
-
-        if(title.isEmpty()){
-            etTitle.setError("El título no puede estar vacío");
-        }else if(description.isEmpty()){
-            etDescription.setError("La descripción no puede estar vacía");
-        }else{
-            Ticket t = new Ticket(title,description);
-
-            Call<TicketResponse> call =servicio.nuevoTicket(t);
-
-            call.enqueue(new Callback<TicketResponse>() {
-                @Override
-                public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
-                    if(response.isSuccessful()){
-                        Toast.makeText(NewTicketActivity.this, "El ticket se creó correctamente", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }else{
-                        Toast.makeText(NewTicketActivity.this, "Se produjo un error.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<TicketResponse> call, Throwable t) {
-                    Toast.makeText(NewTicketActivity.this, "Se produjo un problema de conexión", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
 }

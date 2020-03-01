@@ -3,4 +3,5 @@
     <string name="ticket_title_hint">Título</string>
     <string name="ticket_description_hint">Describa la incidencia</string>
     <string name="new_ticket">Nuevo ticket</string>
+    <string name="new_ticket_image">Añadir fotos</string>
 </resources>
