@@ -73,6 +73,7 @@ public class LoggingActivity extends AppCompatActivity {
 
                                 } else {
                                     Toast.makeText(LoggingActivity.this, "Email y/o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+
                                 }
                             }
 

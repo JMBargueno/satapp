@@ -60,17 +60,19 @@ public class QRScannerActivity extends AppCompatActivity implements ZXingScanner
     @Override
     public void handleResult(Result result) {
         resultScanner = result.getText();
-        Log.v("Scanner", result.getText());
-        Toast.makeText(this, resultScanner, Toast.LENGTH_SHORT).show();
-        scannerView.stopCamera();
+        onBackPressed();
 
         //Convertimos el resultado en un array de strings
         convertResultToArray(resultScanner);
+
+        scannerView.resumeCameraPreview(QRScannerActivity.this);
     }
 
     public String[] convertResultToArray(String textScanned){
 
         String[] parts = textScanned.split("-");
+
+        Toast.makeText(this, "Title : "+parts[0]+" / "+"Description : "+parts[1], Toast.LENGTH_SHORT).show();
 
         return parts;
     }

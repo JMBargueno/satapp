@@ -130,8 +130,21 @@ public class RegisterActivity extends AppCompatActivity {
                         RequestBody email = RequestBody.create(MultipartBody.FORM, edtEmail.getText().toString());
                         RequestBody password = RequestBody.create(MultipartBody.FORM, edtPassword.getText().toString());
 
-                        service.register(null, name, email, password);
-                        finish();
+                        Call<User> registerWithOutUri = service.register(null, name, email, password);
+                        registerWithOutUri.enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                if(response.isSuccessful()){
+                                    Toast.makeText(RegisterActivity.this, "Registrado correctamente", Toast.LENGTH_SHORT).show();
+                                    onBackPressed();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+                                Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                     }else{
                     Toast.makeText(RegisterActivity.this, "Contraseñas no coinciden o es demasiado corta", Toast.LENGTH_SHORT).show();
