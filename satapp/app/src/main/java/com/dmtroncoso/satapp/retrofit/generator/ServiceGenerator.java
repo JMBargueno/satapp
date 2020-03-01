@@ -2,6 +2,8 @@ package com.dmtroncoso.satapp.retrofit.generator;
 
 import android.text.TextUtils;
 
+import com.dmtroncoso.satapp.common.SharedPreferencesManager;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -18,7 +20,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
-    public static final String BASE_URL = "http://10.0.2.2:8080";
+    public static final String BASE_URL = "https://satapp-api.herokuapp.com";
 
     private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS);
 
@@ -82,6 +84,60 @@ public class ServiceGenerator {
                 retrofit = builder.build();
             }
         }
+
+        return retrofit.create(serviceClass);
+    }
+
+    public static <S> S createServiceRegister(Class<S> serviceClass){
+                httpClientBuilder.addInterceptor(new Interceptor() {
+                    @NotNull
+                    @Override
+                    public Response intercept(@NotNull Chain chain) throws IOException {
+                        Request original = chain.request();
+                        HttpUrl originalHttpUrl = original.url();
+
+                        HttpUrl url = originalHttpUrl.newBuilder()
+                                .addQueryParameter("access_token", "elpabloesunchaquetitasyeltroncosounfatiguitas")
+                                .build();
+
+                        Request.Builder requestBuilder = original.newBuilder()
+                                .url(url);
+
+                        Request request = requestBuilder.build();
+                        return chain.proceed(request);
+                    }
+                });
+
+                httpClientBuilder.addInterceptor(logging);
+
+                builder.client(httpClientBuilder.build());
+                retrofit = builder.build();
+
+        return retrofit.create(serviceClass);
+    }
+
+    public static <S> S createServiceTicket(Class<S> serviceClass){
+
+        final String tokenUserLogged = SharedPreferencesManager.getSomeStringValue("token");
+
+        httpClientBuilder.addInterceptor(new Interceptor() {
+            @NotNull
+            @Override
+            public Response intercept(@NotNull Chain chain) throws IOException {
+                Request original = chain.request();
+
+                Request.Builder requestBuilder = original.newBuilder()
+                        .header("Authorization","Bearer "+ tokenUserLogged);
+
+                Request request = requestBuilder.build();
+                return chain.proceed(request);
+            }
+        });
+
+        httpClientBuilder.addInterceptor(logging);
+
+        builder.client(httpClientBuilder.build());
+        retrofit = builder.build();
 
         return retrofit.create(serviceClass);
     }

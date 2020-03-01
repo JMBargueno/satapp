@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_bg"
+    tools:context=".RegisterActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageViewRegister"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.09"
+            app:srcCompat="@drawable/ic_add_immage" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewR4"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewR2">
+
+            <EditText
+                android:id="@+id/editTextConfPasswordR"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Confirmar contraseña"
+                android:inputType="textPassword"
+                android:scrollbarSize="4dp"
+                app:layout_constraintVertical_bias="0.139" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewR3"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="64dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewRegister">
+
+            <EditText
+                android:id="@+id/editTextUsernameR"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Usuario"
+                android:inputType="textPersonName"
+                android:scrollbarSize="4dp"
+                app:layout_constraintVertical_bias="0.139" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewR"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewR3">
+
+            <EditText
+                android:id="@+id/editTextEmailR"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:scrollbarSize="4dp"
+                app:layout_constraintVertical_bias="0.139" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewR2"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/cardViewR"
+            app:layout_constraintStart_toStartOf="@+id/cardViewR"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewR">
+
+            <EditText
+                android:id="@+id/editTextPasswordR"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Contraseña"
+                android:inputType="textPassword" />
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/buttonRegister"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/custom_button"
+            android:text="Registrarse"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="@+id/cardViewR2"
+            app:layout_constraintStart_toStartOf="@+id/cardViewR2"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewR4" />
+
+        <TextView
+            android:id="@+id/textViewTecnico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="12dp"
+            android:gravity="left"
+            android:text="¿Eres usuario?"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="@+id/buttonRegister"
+            app:layout_constraintTop_toBottomOf="@+id/buttonRegister" />
+
+        <TextView
+            android:id="@+id/textViewIniciarSesion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Iniciar Sesión"
+            android:textColor="#009EFD"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTecnico"
+            app:layout_constraintStart_toEndOf="@+id/textViewTecnico"
+            app:layout_constraintTop_toTopOf="@+id/textViewTecnico" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
