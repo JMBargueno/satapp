@@ -100,7 +100,7 @@ public class NewTicketActivity extends AppCompatActivity {
                                             baos.toByteArray() , MediaType.parse(getContentResolver().getType(fileUris.get(i))));
 
                             MultipartBody.Part body =
-                                    MultipartBody.Part.createFormData("fotos", "fotos" + i, requestFile);
+                                    MultipartBody.Part.createFormData("images", "images" + i, requestFile);
                             listUri.add(body);
                         }
 
@@ -178,7 +178,7 @@ public class NewTicketActivity extends AppCompatActivity {
                     ClipData.Item item = clipData.getItemAt(i);
                     fileUris.add(item.getUri());
                 }
-                //Uriselected , obtenemos la imagen
+                //Uriselected , obtenemos la primera imagen
                 Glide
                         .with(this)
                         .load(android.R.drawable.ic_dialog_dialer)

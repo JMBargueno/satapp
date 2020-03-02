@@ -1,6 +1,7 @@
 package com.dmtroncoso.satapp.retrofit.generator;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 
@@ -120,11 +121,13 @@ public class ServiceGenerator {
 
         final String tokenUserLogged = SharedPreferencesManager.getSomeStringValue("token");
 
+
         httpClientBuilder.addInterceptor(new Interceptor() {
             @NotNull
             @Override
             public Response intercept(@NotNull Chain chain) throws IOException {
                 Request original = chain.request();
+                Log.d("A VERRR",original.url().toString());
 
                 Request.Builder requestBuilder = original.newBuilder()
                         .header("Authorization","Bearer "+ tokenUserLogged);
