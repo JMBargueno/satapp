@@ -55,13 +55,13 @@ public class NewTicketActivity extends AppCompatActivity {
         servicio = ServiceGenerator.createServiceTicket(SataService.class);
 
         getViews();
-
         btnAddImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 performFileSearch();
             }
         });
+        ticketNoImages();
     }
 
     private void getViews() {
@@ -70,6 +70,37 @@ public class NewTicketActivity extends AppCompatActivity {
         imgTicket = findViewById(R.id.imageViewFoto1);
         btnNewTicket = findViewById(R.id.buttonNewTicket);
         btnAddImages = findViewById(R.id.buttonAddImages);
+    }
+
+    private void ticketNoImages(){
+        btnNewTicket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(etTitle.getText().toString().isEmpty()){
+                    etTitle.setError("El título no puede estar vacío");
+                }else if(etDescription.getText().toString().isEmpty()){
+                    etDescription.setError("La descripción no puede estar vacía");
+                }
+                RequestBody title = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
+                RequestBody description = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
+
+                Call<TicketResponse> newTicketWithoutUri = servicio.nuevoTicket(title,description,null);
+                newTicketWithoutUri.enqueue(new Callback<TicketResponse>() {
+                    @Override
+                    public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(NewTicketActivity.this, "Nuevo ticket registrado", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<TicketResponse> call, Throwable t) {
+                        Toast.makeText(NewTicketActivity.this, "Se produjo un error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     private void uploadImages(final List<Uri> fileUris) {
@@ -94,7 +125,6 @@ public class NewTicketActivity extends AppCompatActivity {
                             while ((cantBytes = bufferedInputStream.read(buffer, 0, 1024 * 4)) != -1) {
                                 baos.write(buffer, 0, cantBytes);
                             }
-
                             RequestBody requestFile =
                                     RequestBody.create(
                                             baos.toByteArray() , MediaType.parse(getContentResolver().getType(fileUris.get(i))));
@@ -132,27 +162,8 @@ public class NewTicketActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }else if(listUri.isEmpty()) {
-
-                    RequestBody title = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
-                    RequestBody description = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
-
-                    Call<TicketResponse> newTicketWithoutUri = servicio.nuevoTicket(title,description,null);
-                    newTicketWithoutUri.enqueue(new Callback<TicketResponse>() {
-                        @Override
-                        public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
-                            if(response.isSuccessful()){
-                                Toast.makeText(NewTicketActivity.this, "Nuevo ticket registrado", Toast.LENGTH_SHORT).show();
-                                onBackPressed();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<TicketResponse> call, Throwable t) {
-                            Toast.makeText(NewTicketActivity.this, "Se produjo un error de conexión", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    ticketNoImages();
                 }
             }
         });
