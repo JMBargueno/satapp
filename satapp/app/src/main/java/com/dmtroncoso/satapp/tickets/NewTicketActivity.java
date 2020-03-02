@@ -82,10 +82,10 @@ public class NewTicketActivity extends AppCompatActivity {
                 }else if(etDescription.getText().toString().isEmpty()){
                     etDescription.setError("La descripción no puede estar vacía");
                 }
-                RequestBody title = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
-                RequestBody description = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
+                RequestBody titulo = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
+                RequestBody descripcion = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
 
-                Call<TicketResponse> newTicketWithoutUri = servicio.nuevoTicket(title,description,null);
+                Call<TicketResponse> newTicketWithoutUri = servicio.nuevoTicket(null,titulo,descripcion);
                 newTicketWithoutUri.enqueue(new Callback<TicketResponse>() {
                     @Override
                     public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
@@ -130,14 +130,14 @@ public class NewTicketActivity extends AppCompatActivity {
                                             baos.toByteArray() , MediaType.parse(getContentResolver().getType(fileUris.get(i))));
 
                             MultipartBody.Part body =
-                                    MultipartBody.Part.createFormData("images", "images" + i, requestFile);
+                                    MultipartBody.Part.createFormData("fotos", "fotos" + i, requestFile);
                             listUri.add(body);
                         }
 
-                        RequestBody title = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
-                        RequestBody description = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
+                        RequestBody titulo = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
+                        RequestBody descripcion = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
 
-                        Call<TicketResponse> callNewTicket = servicio.nuevoTicket(title, description, listUri);
+                        Call<TicketResponse> callNewTicket = servicio.nuevoTicket(listUri,titulo, descripcion);
 
                         callNewTicket.enqueue(new Callback<TicketResponse>() {
                             @Override

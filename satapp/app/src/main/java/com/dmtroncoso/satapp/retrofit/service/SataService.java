@@ -28,8 +28,8 @@ public interface SataService {
 
     @Multipart
     @POST("/ticket")
-    Call<TicketResponse> nuevoTicket(@Part("title") RequestBody title,
-                                     @Part("description") RequestBody description,
-                                     @Part List<MultipartBody.Part> images);
+    Call<TicketResponse> nuevoTicket(@Part List<MultipartBody.Part> fotos,
+                                     @Part("titulo") RequestBody titulo,
+                                     @Part("descripcion") RequestBody descripcion);
 }
 
