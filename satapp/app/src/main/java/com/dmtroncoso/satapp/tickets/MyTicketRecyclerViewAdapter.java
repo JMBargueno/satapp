@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dmtroncoso.satapp.R;
+import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.tickets.TicketFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
@@ -43,8 +45,7 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
+                    Toast.makeText(MyApp.getContext(), holder.mItem.getId(), Toast.LENGTH_SHORT).show();
                     mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
