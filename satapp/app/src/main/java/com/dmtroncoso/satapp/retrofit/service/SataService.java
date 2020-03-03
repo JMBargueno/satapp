@@ -1,7 +1,10 @@
 package com.dmtroncoso.satapp.retrofit.service;
 
+import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.model.UserResponse;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -22,5 +25,11 @@ public interface SataService {
                                 @Part("name") RequestBody name,
                                 @Part("email") RequestBody email,
                                 @Part("password") RequestBody password);
+
+    @Multipart
+    @POST("/ticket")
+    Call<TicketResponse> nuevoTicket(@Part List<MultipartBody.Part> fotos,
+                                     @Part("titulo") RequestBody titulo,
+                                     @Part("descripcion") RequestBody descripcion);
 }
 

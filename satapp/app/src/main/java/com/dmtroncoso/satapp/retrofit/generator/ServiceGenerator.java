@@ -1,6 +1,7 @@
 package com.dmtroncoso.satapp.retrofit.generator;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 
@@ -119,6 +120,7 @@ public class ServiceGenerator {
     public static <S> S createServiceTicket(Class<S> serviceClass){
 
         final String tokenUserLogged = SharedPreferencesManager.getSomeStringValue("token");
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
 
         httpClientBuilder.addInterceptor(new Interceptor() {
             @NotNull
@@ -130,6 +132,7 @@ public class ServiceGenerator {
                         .header("Authorization","Bearer "+ tokenUserLogged);
 
                 Request request = requestBuilder.build();
+
                 return chain.proceed(request);
             }
         });
