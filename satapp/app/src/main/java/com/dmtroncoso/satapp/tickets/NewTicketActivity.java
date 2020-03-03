@@ -1,5 +1,6 @@
 package com.dmtroncoso.satapp.tickets;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +20,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.dmtroncoso.satapp.CalendarActivity;
 import com.dmtroncoso.satapp.LoggingActivity;
+import com.dmtroncoso.satapp.QRScannerActivity;
 import com.dmtroncoso.satapp.R;
+import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
@@ -41,6 +47,7 @@ import retrofit2.Response;
 public class NewTicketActivity extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 42;
+    static final int SCANNER_CODE = 5;
     EditText etTitle, etDescription;
     ImageView imgTicket;
     Button btnNewTicket, btnAddImages;

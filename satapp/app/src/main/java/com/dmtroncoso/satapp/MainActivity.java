@@ -12,21 +12,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.dmtroncoso.satapp.common.MyApp;
+import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
+import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
+import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.NewTicketActivity;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
     Button btnScanner, btnTicket;
+    SataService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnScanner = findViewById(R.id.buttonScan);
         btnTicket = findViewById(R.id.buttonTicket);
         btnTicket.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MyApp.getContext(), NewTicketActivity.class));
             }
         });
+
+        service = ServiceGenerator.createServiceTicket(SataService.class);
     }
 
     @Override
@@ -65,6 +77,25 @@ public class MainActivity extends AppCompatActivity {
                 String[] parts = data.getStringArrayExtra("result");
                 Log.v("Scanner", parts[0]);
                 Log.v("Scanner", parts[1]);
+
+                RequestBody titulo = RequestBody.create(parts[0] , MultipartBody.FORM);
+                RequestBody descripcion = RequestBody.create(parts[1] , MultipartBody.FORM);
+
+                Call<TicketResponse> call = service.nuevoTicket(null, titulo, descripcion);
+
+                call.enqueue(new Callback<TicketResponse>() {
+                    @Override
+                    public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(MainActivity.this, "Ticket creado correctamente", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<TicketResponse> call, Throwable t) {
+                        Toast.makeText(MainActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             }
         }

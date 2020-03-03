@@ -77,8 +77,6 @@ public class QRScannerActivity extends AppCompatActivity implements ZXingScanner
 
         String[] parts = textScanned.split("-");
 
-        Toast.makeText(this, "Title : "+parts[0]+" / "+"Description : "+parts[1], Toast.LENGTH_SHORT).show();
-
         return parts;
     }
 
