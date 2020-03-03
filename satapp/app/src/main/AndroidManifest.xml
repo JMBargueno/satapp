@@ -14,11 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
         <activity android:name=".CalendarActivity"></activity>
-=======
         <activity android:name=".tickets.NewTicketActivity"></activity>
->>>>>>> jallamas-tickets
         <activity android:name=".QRScannerActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
