@@ -90,10 +90,7 @@ public class NewTicketActivity extends AppCompatActivity {
                 }else if(etDescription.getText().toString().isEmpty()){
                     etDescription.setError("La descripción no puede estar vacía");
                 }
-
-
-
-                Toast.makeText(NewTicketActivity.this, idInventario, Toast.LENGTH_SHORT).show();
+                
 
                 Bundle bundle = getIntent().getExtras();
                 if (bundle != null)
