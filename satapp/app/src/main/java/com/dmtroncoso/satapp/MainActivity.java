@@ -74,29 +74,11 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SCANNER_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                String[] parts = data.getStringArrayExtra("result");
-                Log.v("Scanner", parts[0]);
-                Log.v("Scanner", parts[1]);
-
-                RequestBody inventariable = RequestBody.create(parts[0] , MultipartBody.FORM);
-                RequestBody titulo = RequestBody.create(parts[1] , MultipartBody.FORM);
-                RequestBody descripcion = RequestBody.create(parts[2] , MultipartBody.FORM);
-
-                Call<TicketResponse> call = service.nuevoTicketQR(null, titulo, descripcion, inventariable);
-
-                call.enqueue(new Callback<TicketResponse>() {
-                    @Override
-                    public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
-                        if(response.isSuccessful()){
-                            Toast.makeText(MainActivity.this, "Ticket creado correctamente", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<TicketResponse> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                String parts = data.getDataString();
+                Toast.makeText(this, parts, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, NewTicketActivity.class);
+                intent.putExtra("idInventario", parts);
+                startActivity(intent);
             }
             }
         }

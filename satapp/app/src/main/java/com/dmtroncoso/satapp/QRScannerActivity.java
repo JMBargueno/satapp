@@ -66,7 +66,7 @@ public class QRScannerActivity extends AppCompatActivity implements ZXingScanner
 
         Intent returnIntent = new Intent();
 
-        returnIntent.putExtra("result", convertResultToArray(resultScanner));
+        returnIntent.putExtra("result", resultScanner);
         setResult(Activity.RESULT_OK, returnIntent);
         onBackPressed();
 
