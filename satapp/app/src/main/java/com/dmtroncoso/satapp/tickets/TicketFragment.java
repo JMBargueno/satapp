@@ -1,4 +1,4 @@
-package com.dmtroncoso.satapp.anotaciones;
+package com.dmtroncoso.satapp.tickets;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dmtroncoso.satapp.R;
-import com.dmtroncoso.satapp.retrofit.model.anotaciones.Notas;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class anotacionesFragment extends Fragment {
+public class TicketFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -35,13 +34,13 @@ public class anotacionesFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public anotacionesFragment() {
+    public TicketFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static anotacionesFragment newInstance(int columnCount) {
-        anotacionesFragment fragment = new anotacionesFragment();
+    public static TicketFragment newInstance(int columnCount) {
+        TicketFragment fragment = new TicketFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -60,7 +59,7 @@ public class anotacionesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_anotaciones_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_ticket_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -71,7 +70,7 @@ public class anotacionesFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            //recyclerView.setAdapter(new MyanotacionesRecyclerViewAdapter(, mListener));
+            recyclerView.setAdapter(new MyTicketRecyclerViewAdapter(, mListener));
         }
         return view;
     }
@@ -106,6 +105,6 @@ public class anotacionesFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Notas item);
+        void onListFragmentInteraction(Ticket item);
     }
 }

@@ -1,4 +1,4 @@
-package com.dmtroncoso.satapp.anotaciones;
+package com.dmtroncoso.satapp.tickets;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,17 +8,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dmtroncoso.satapp.R;
-import com.dmtroncoso.satapp.anotaciones.anotacionesFragment.OnListFragmentInteractionListener;
-import com.dmtroncoso.satapp.retrofit.model.anotaciones.Notas;
+import com.dmtroncoso.satapp.tickets.TicketFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 
-public class MyanotacionesRecyclerViewAdapter extends RecyclerView.Adapter<MyanotacionesRecyclerViewAdapter.ViewHolder> {
+public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Notas> mValues;
+    private final List<Ticket> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyanotacionesRecyclerViewAdapter(List<Notas> items, OnListFragmentInteractionListener listener) {
+    public MyTicketRecyclerViewAdapter(List<Ticket> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -26,13 +25,14 @@ public class MyanotacionesRecyclerViewAdapter extends RecyclerView.Adapter<Myano
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_anotaciones, parent, false);
+                .inflate(R.layout.fragment_ticket, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +54,7 @@ public class MyanotacionesRecyclerViewAdapter extends RecyclerView.Adapter<Myano
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 
-        public Notas mItem;
+        public Ticket mItem;
 
         public ViewHolder(View view) {
             super(view);

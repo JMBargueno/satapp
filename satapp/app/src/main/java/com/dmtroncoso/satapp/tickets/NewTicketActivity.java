@@ -90,7 +90,7 @@ public class NewTicketActivity extends AppCompatActivity {
                 }else if(etDescription.getText().toString().isEmpty()){
                     etDescription.setError("La descripción no puede estar vacía");
                 }
-                
+
 
                 Bundle bundle = getIntent().getExtras();
                 if (bundle != null)
