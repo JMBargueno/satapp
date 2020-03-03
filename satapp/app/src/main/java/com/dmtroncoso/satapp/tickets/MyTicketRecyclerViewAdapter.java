@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Ticket> mValues;
+    private List<Ticket> mValues;
     private final OnListFragmentInteractionListener mListener;
 
     public MyTicketRecyclerViewAdapter(List<Ticket> items, OnListFragmentInteractionListener listener) {
@@ -31,8 +31,13 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
+        if(mValues != null){
+            holder.mItem = mValues.get(position);
 
+            holder.txtTitle.setText(holder.mItem.getTitulo());
+            holder.txtDescription.setText(holder.mItem.getDescripcion());
+
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,19 +51,34 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
         });
     }
 
+    public void setData(List<Ticket> resultList){
+        this.mValues = resultList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
-        return mValues.size();
+        if(mValues != null){
+            return mValues.size();
+        }else{
+            return 0;
+        }
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
+        public final TextView txtTitle;
+        public final TextView txtDescription;
 
         public Ticket mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
+
+            txtTitle = view.findViewById(R.id.textViewTitleTicket);
+            txtDescription = view.findViewById(R.id.textViewDescriptionTicket);
 
         }
 

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dmtroncoso.satapp.R;
+import com.dmtroncoso.satapp.data.TicketViewModel;
 
 import java.util.List;
 
@@ -29,6 +32,10 @@ public class TicketFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    TicketViewModel ticketViewModel;
+    List<Ticket> listTickets;
+    MyTicketRecyclerViewAdapter adapter;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -54,6 +61,8 @@ public class TicketFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        ticketViewModel = new ViewModelProvider(getActivity()).get(TicketViewModel.class);
     }
 
     @Override
@@ -70,9 +79,24 @@ public class TicketFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyTicketRecyclerViewAdapter(, mListener));
+
+            adapter = new MyTicketRecyclerViewAdapter(listTickets, mListener);
+            recyclerView.setAdapter(adapter);
+
+            loadTicketData();
         }
+
         return view;
+    }
+
+    public void loadTicketData(){
+        ticketViewModel.getTickets().observe(getActivity(), new Observer<List<Ticket>>() {
+            @Override
+            public void onChanged(List<Ticket> tickets) {
+                listTickets = tickets;
+                adapter.setData(tickets);
+            }
+        });
     }
 
 
