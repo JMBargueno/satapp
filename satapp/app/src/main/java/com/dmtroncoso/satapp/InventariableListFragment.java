@@ -12,8 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dmtroncoso.satapp.dummy.DummyContent;
-import com.dmtroncoso.satapp.dummy.DummyContent.DummyItem;
+
 
 import java.util.List;
 
@@ -71,7 +70,7 @@ public class InventariableListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyInventariableResponseRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
         }
         return view;
     }
@@ -79,7 +78,7 @@ public class InventariableListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+       // mListener = null;
     }
 
 

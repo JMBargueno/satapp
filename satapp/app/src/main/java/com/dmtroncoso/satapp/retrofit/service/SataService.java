@@ -1,10 +1,11 @@
 package com.dmtroncoso.satapp.retrofit.service;
 
-<<<<<<< HEAD
+
+import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
-=======
+
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
->>>>>>> master
+
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.model.UserResponse;
 
@@ -31,23 +32,18 @@ public interface SataService {
                                 @Part("email") RequestBody email,
                                 @Part("password") RequestBody password);
 
-<<<<<<< HEAD
+
 
     @GET("/inventariable")
     Call<InventariableResponse> getInventariables();
 
-    @POST("/inventariable")
-    Call<Inventariable> uploadInventariable(@Part MultipartBody.Part imagen,
-                                            @Part
 
-                                            )
 
-=======
     @Multipart
     @POST("/ticket")
     Call<TicketResponse> nuevoTicket(@Part List<MultipartBody.Part> fotos,
                                      @Part("titulo") RequestBody titulo,
                                      @Part("descripcion") RequestBody descripcion);
->>>>>>> master
+
 }
 

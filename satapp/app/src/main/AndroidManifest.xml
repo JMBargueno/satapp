@@ -14,14 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
         <activity android:name=".ValidateUserActivity"></activity>
         <activity android:name=".AssignIncidenceActivity" />
-=======
         <activity android:name=".CalendarActivity"></activity>
         <activity android:name=".tickets.NewTicketActivity"></activity>
         <activity android:name=".QRScannerActivity" />
->>>>>>> master
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".LoggingActivity">
