@@ -49,7 +49,7 @@ public class NewInvActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_new_inv);
 
         textViewCrearInv = findViewById(R.id.textView);
         btnAdd = findViewById(R.id.buttonAdd);
@@ -67,7 +67,7 @@ public class NewInvActivity extends AppCompatActivity {
 
                     if (uriSelected != null) {
 
-                        SataService service = ServiceGenerator.createServiceRegister(SataService.class);
+                        SataService service = ServiceGenerator.createServiceInventariable(SataService.class);
 
                         try {
                             InputStream inputStream = getContentResolver().openInputStream(uriSelected);
@@ -90,16 +90,16 @@ public class NewInvActivity extends AppCompatActivity {
                                     MultipartBody.Part.createFormData("imagen", "imagen", requestFile);
 
 
-                            RequestBody nombre = RequestBody.create(MultipartBody.FORM, edtName.getText().toString());
-                            RequestBody tipo = RequestBody.create(MultipartBody.FORM, editType.getText().toString());
-                            RequestBody descripcion = RequestBody.create(MultipartBody.FORM, editDesc.getText().toString());
-                            RequestBody ubicacion = RequestBody.create(MultipartBody.FORM, editUbc.getText().toString());
+                            RequestBody nombre = RequestBody.create(edtName.getText().toString(),MultipartBody.FORM);
+                            RequestBody tipo = RequestBody.create(editType.getText().toString(),MultipartBody.FORM);
+                            RequestBody descripcion = RequestBody.create(editDesc.getText().toString(),MultipartBody.FORM);
+                            RequestBody ubicacion = RequestBody.create(editUbc.getText().toString(),MultipartBody.FORM);
 
-                            Call<Inventariable> uploadInventariable = service.uploadInventariable(body, nombre, tipo, descripcion, ubicacion);
+                            Call<ResponseBody> uploadInventariable = service.uploadInventariable(body, nombre, tipo, descripcion, ubicacion);
 
-                            uploadInventariable.enqueue(new Callback<Inventariable>() {
+                            uploadInventariable.enqueue(new Callback<ResponseBody>() {
                                 @Override
-                                public void onResponse(Call<Inventariable> call, Response<Inventariable> response) {
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     if (response.isSuccessful()) {
                                         Toast.makeText(NewInvActivity.this, "Equipo registrado", Toast.LENGTH_SHORT).show();
                                         //Intent intent = new Intent(NewInvActivity.this, LoggingActivity.class);
@@ -110,7 +110,7 @@ public class NewInvActivity extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onFailure(Call<Inventariable> call, Throwable t) {
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
                                     Toast.makeText(NewInvActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
                                 }
                             });
