@@ -29,5 +29,16 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/buttonScan"
         app:layout_constraintTop_toBottomOf="@+id/buttonScan" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="183dp"
+        android:layout_marginEnd="185dp"
+        android:text="Abrir listado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonTicket" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
