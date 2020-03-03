@@ -78,10 +78,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.v("Scanner", parts[0]);
                 Log.v("Scanner", parts[1]);
 
-                RequestBody titulo = RequestBody.create(parts[0] , MultipartBody.FORM);
-                RequestBody descripcion = RequestBody.create(parts[1] , MultipartBody.FORM);
+                RequestBody inventariable = RequestBody.create(parts[0] , MultipartBody.FORM);
+                RequestBody titulo = RequestBody.create(parts[1] , MultipartBody.FORM);
+                RequestBody descripcion = RequestBody.create(parts[2] , MultipartBody.FORM);
 
-                Call<TicketResponse> call = service.nuevoTicket(null, titulo, descripcion);
+                Call<TicketResponse> call = service.nuevoTicketQR(null, titulo, descripcion, inventariable);
 
                 call.enqueue(new Callback<TicketResponse>() {
                     @Override
