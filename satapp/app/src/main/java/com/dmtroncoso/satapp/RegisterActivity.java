@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import okhttp3.MediaType;
@@ -95,11 +96,11 @@ public class RegisterActivity extends AppCompatActivity {
                             RequestBody email = RequestBody.create(MultipartBody.FORM, edtEmail.getText().toString());
                             RequestBody password = RequestBody.create(MultipartBody.FORM, edtPassword.getText().toString());
 
-                            Call<ResponseBody> callRegister = service.register(body, name, email, password);
+                            Call<User> callRegister = service.register(body, name, email, password);
 
-                            callRegister.enqueue(new Callback<ResponseBody>() {
+                            callRegister.enqueue(new Callback<User>() {
                                 @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                public void onResponse(Call<User> call, Response<User> response) {
                                     if (response.isSuccessful()) {
                                         Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(RegisterActivity.this, LoggingActivity.class);
@@ -110,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                public void onFailure(Call<User> call, Throwable t) {
                                     Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -130,22 +131,18 @@ public class RegisterActivity extends AppCompatActivity {
                         RequestBody email = RequestBody.create(MultipartBody.FORM, edtEmail.getText().toString());
                         RequestBody password = RequestBody.create(MultipartBody.FORM, edtPassword.getText().toString());
 
-                        Call<ResponseBody> callRegister = service.registerWithOutUri(name, email, password);
-
-                        callRegister.enqueue(new Callback<ResponseBody>() {
+                        Call<User> registerWithOutUri = service.register(null, name, email, password);
+                        registerWithOutUri.enqueue(new Callback<User>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if (response.isSuccessful()) {
-                                    Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(RegisterActivity.this, LoggingActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                    Log.e("Upload error", response.errorBody().toString());
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                if(response.isSuccessful()){
+                                    Toast.makeText(RegisterActivity.this, "Registrado correctamente", Toast.LENGTH_SHORT).show();
+                                    onBackPressed();
                                 }
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<User> call, Throwable t) {
                                 Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
                             }
                         });
