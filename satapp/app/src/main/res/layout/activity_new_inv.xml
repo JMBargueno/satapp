@@ -35,7 +35,7 @@
             android:background="@null"
             android:ems="10"
             android:gravity="center"
-            android:hint="Ubicacion"
+            android:hint="Código"
             android:scrollbarSize="4dp"
             app:layout_constraintVertical_bias="0.139" />
 
