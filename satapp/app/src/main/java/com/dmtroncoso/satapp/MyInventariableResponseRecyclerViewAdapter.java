@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import com.bumptech.glide.Glide;
-import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 import com.dmtroncoso.satapp.viewmodel.InventariableViewModel;
 
@@ -34,7 +32,7 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_inventariableresponse, parent, false);
+                .inflate(R.layout.fragment_inventariable, parent, false);
         return new ViewHolder(view);
     }
 
@@ -43,6 +41,8 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
         if(mValues != null){
             holder.mItem = mValues.get(position);
             // TODO: hacemos uso del ViewModel
+
+            holder.inventariableName.setText(holder.mItem.getNombre());
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -75,23 +75,20 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
         public InventariableResponse mItem;
+        public TextView inventariableName, textViewInventariableListLocation;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            inventariableName = view.findViewById(R.id.textViewInventariableOnListName);
+            textViewInventariableListLocation = view.findViewById(R.id.textViewInventariableListLocation);
+
         }
 
 
 
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
+
     }
 }

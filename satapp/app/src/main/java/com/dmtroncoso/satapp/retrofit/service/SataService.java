@@ -32,12 +32,8 @@ public interface SataService {
                                 @Part("email") RequestBody email,
                                 @Part("password") RequestBody password);
 
-
-
     @GET("/inventariable")
     Call<InventariableResponse> getInventariables();
-
-
 
     @Multipart
     @POST("/ticket")

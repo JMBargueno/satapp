@@ -10,4 +10,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".InventariableListFragment"
-    tools:listitem="@layout/fragment_inventariableresponse" />
+    tools:listitem="@layout/fragment_inventariable" />
