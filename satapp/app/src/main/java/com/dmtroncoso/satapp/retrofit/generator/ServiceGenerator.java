@@ -127,7 +127,6 @@ public class ServiceGenerator {
             @Override
             public Response intercept(@NotNull Chain chain) throws IOException {
                 Request original = chain.request();
-                Log.d("A VERRR",original.url().toString());
 
                 Request.Builder requestBuilder = original.newBuilder()
                         .header("Authorization","Bearer "+ tokenUserLogged);

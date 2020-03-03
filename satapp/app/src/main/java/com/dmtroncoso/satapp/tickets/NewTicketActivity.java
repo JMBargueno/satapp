@@ -192,7 +192,7 @@ public class NewTicketActivity extends AppCompatActivity {
                 //Uriselected , obtenemos la primera imagen
                 Glide
                         .with(this)
-                        .load(android.R.drawable.ic_dialog_dialer)
+                        .load(fileUris.get(0))
                         .into(imgTicket);
 
                 uploadImages(fileUris);
