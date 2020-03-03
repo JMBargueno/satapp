@@ -29,13 +29,19 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
-    Button btnScanner, btnTicket;
+
+    Button btnScanner, btnTicket, btnInv;
     SataService service;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+        btnInv = findViewById(R.id.buttonInv);
 
         btnTicket = findViewById(R.id.buttonTicket);
         btnTicket.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +51,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         service = ServiceGenerator.createServiceTicket(SataService.class);
+
+        btnInv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyApp.getContext(), NewInvActivity.class));
+            }
+        });
+
+
     }
 
     @Override

@@ -145,9 +145,16 @@ public class ServiceGenerator {
         return retrofit.create(serviceClass);
     }
 
-    public static <S> S createServiceAnotaciones(Class<S> serviceClass){
+
+    /*public static <S> S createServiceAnotaciones(Class<S> serviceClass) {
 
         final String tokenUserLogged = SharedPreferencesManager.getSomeStringValue("token");
+
+    }*/
+
+
+    public static <S> S createServiceInventariable(Class<S> serviceClass){
+        final String tokenUser = SharedPreferencesManager.getSomeStringValue("token");
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
 
         httpClientBuilder.addInterceptor(new Interceptor() {
@@ -156,10 +163,10 @@ public class ServiceGenerator {
             public Response intercept(@NotNull Chain chain) throws IOException {
                 Request original = chain.request();
 
-                Request.Builder requestBuilder = original.newBuilder()
-                        .header("Authorization","Bearer "+ tokenUserLogged);
+                Request.Builder requestBuilder = original.newBuilder().header("Authorization", "Bearer " + tokenUser);
 
                 Request request = requestBuilder.build();
+
 
                 return chain.proceed(request);
             }
