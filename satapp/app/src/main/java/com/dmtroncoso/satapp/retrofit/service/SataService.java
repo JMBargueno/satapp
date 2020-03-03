@@ -5,6 +5,7 @@ import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.model.UserResponse;
+import com.dmtroncoso.satapp.tickets.Ticket;
 
 import java.util.List;
 
@@ -54,5 +55,8 @@ public interface SataService {
                                        @Part("titulo") RequestBody titulo,
                                        @Part("descripcion") RequestBody descripcion,
                                        @Part("inventariable") RequestBody inventariable);
+
+    @GET("/ticket")
+    Call<List<Ticket>> getAllTickets();
 }
 

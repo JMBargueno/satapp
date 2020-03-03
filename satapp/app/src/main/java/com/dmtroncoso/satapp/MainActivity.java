@@ -19,6 +19,7 @@ import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.NewTicketActivity;
+import com.dmtroncoso.satapp.tickets.TicketActivity;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
 
-    Button btnScanner, btnTicket, btnInv;
+    Button btnScanner, btnTicket, btnGoTicket, btnInv;
     SataService service;
 
 
@@ -44,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
         btnInv = findViewById(R.id.buttonInv);
 
         btnTicket = findViewById(R.id.buttonTicket);
+        btnGoTicket = findViewById(R.id.buttonGoTicket);
+
+        btnGoTicket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyApp.getContext(), TicketActivity.class));
+            }
+        });
         btnTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
