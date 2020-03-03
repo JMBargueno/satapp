@@ -70,9 +70,11 @@ public class LoggingActivity extends AppCompatActivity {
 
                                     token = response.body().getToken();
                                     SharedPreferencesManager.setSomeStringValue("token", token);
+                                    SharedPreferencesManager.setSomeStringValue("pictureUser", response.body().getUser().getPicture());
 
                                 } else {
                                     Toast.makeText(LoggingActivity.this, "Email y/o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+
                                 }
                             }
 

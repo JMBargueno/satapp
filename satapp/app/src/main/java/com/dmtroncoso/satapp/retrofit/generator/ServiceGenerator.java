@@ -1,6 +1,7 @@
 package com.dmtroncoso.satapp.retrofit.generator;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 
@@ -88,43 +89,6 @@ public class ServiceGenerator {
         return retrofit.create(serviceClass);
     }
 
-    public static <S> S createServiceRegisterTest(Class<S> serviceClass){
-        String authToken = SharedPreferencesManager.getSomeStringValue("token");
-
-        if(!TextUtils.isEmpty(authToken)){
-            AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken);
-
-            if(!httpClient.interceptors().contains(interceptor)){
-                httpClientBuilder.addInterceptor(new Interceptor() {
-                    @NotNull
-                    @Override
-                    public Response intercept(@NotNull Chain chain) throws IOException {
-                        Request original = chain.request();
-                        HttpUrl originalHttpUrl = original.url();
-
-                        HttpUrl url = originalHttpUrl.newBuilder()
-                                .addQueryParameter("access_token", "elpabloesunchaquetitasyeltroncosounfatiguitas")
-                                .build();
-
-                        Request.Builder requestBuilder = original.newBuilder()
-                                .url(url);
-
-                        Request request = requestBuilder.build();
-                        return chain.proceed(request);
-                    }
-                });
-
-                httpClientBuilder.addInterceptor(interceptor);
-                httpClientBuilder.addInterceptor(logging);
-
-                builder.client(httpClientBuilder.build());
-                retrofit = builder.build();
-            }
-        }
-
-        return retrofit.create(serviceClass);
-    }
-
     public static <S> S createServiceRegister(Class<S> serviceClass){
                 httpClientBuilder.addInterceptor(new Interceptor() {
                     @NotNull
@@ -153,11 +117,39 @@ public class ServiceGenerator {
         return retrofit.create(serviceClass);
     }
 
+    public static <S> S createServiceTicket(Class<S> serviceClass){
+
+        final String tokenUserLogged = SharedPreferencesManager.getSomeStringValue("token");
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+
+        httpClientBuilder.addInterceptor(new Interceptor() {
+            @NotNull
+            @Override
+            public Response intercept(@NotNull Chain chain) throws IOException {
+                Request original = chain.request();
+
+                Request.Builder requestBuilder = original.newBuilder()
+                        .header("Authorization","Bearer "+ tokenUserLogged);
+
+                Request request = requestBuilder.build();
+
+                return chain.proceed(request);
+            }
+        });
+
+        httpClientBuilder.addInterceptor(logging);
+
+        builder.client(httpClientBuilder.build());
+        retrofit = builder.build();
+
+        return retrofit.create(serviceClass);
+    }
+
     public static <S> S createServiceInventariable(Class<S> serviceClass){
         final String tokenUser = SharedPreferencesManager.getSomeStringValue("token");
-        OkHttpClient.Builder httpclientBuilder = new OkHttpClient.Builder();
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
 
-        httpclientBuilder.addInterceptor(new Interceptor() {
+        httpClientBuilder.addInterceptor(new Interceptor() {
             @NotNull
             @Override
             public Response intercept(@NotNull Chain chain) throws IOException {
