@@ -62,8 +62,6 @@ public class QRScannerActivity extends AppCompatActivity implements ZXingScanner
     public void handleResult(Result result) {
         resultScanner = result.getText();
 
-        //Convertimos el resultado en un array de strings
-
         Intent returnIntent = new Intent();
 
         returnIntent.putExtra("result", resultScanner);
@@ -71,13 +69,6 @@ public class QRScannerActivity extends AppCompatActivity implements ZXingScanner
         onBackPressed();
 
         scannerView.resumeCameraPreview(QRScannerActivity.this);
-    }
-
-    public String[] convertResultToArray(String textScanned){
-
-        String[] parts = textScanned.split("-");
-
-        return parts;
     }
 
     @Override

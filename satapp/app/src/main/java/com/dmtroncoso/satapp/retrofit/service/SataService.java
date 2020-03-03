@@ -35,8 +35,8 @@ public interface SataService {
     @Multipart
     @POST("/ticket")
     Call<TicketResponse> nuevoTicketQR(@Part List<MultipartBody.Part> fotos,
-                                     @Part("titulo") RequestBody titulo,
-                                     @Part("descripcion") RequestBody descripcion,
-                                     @Part("inventariable") RequestBody inventariable);
+                                       @Part("titulo") RequestBody titulo,
+                                       @Part("descripcion") RequestBody descripcion,
+                                       @Part("inventariable") RequestBody inventariable);
 }
 
