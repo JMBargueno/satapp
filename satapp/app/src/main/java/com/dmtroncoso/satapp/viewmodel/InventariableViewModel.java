@@ -17,10 +17,9 @@ public class InventariableViewModel extends AndroidViewModel {
     InventariableRepository inventariableRepository;
     MutableLiveData<String> idInventoriableSeleccionado;
 
-    public InventariableViewModel(@NonNull Application application, InventariableRepository inventariableRepository, MutableLiveData<List<InventariableResponse>> inventariableList, MutableLiveData<MutableLiveData<String>> idInventoriableSeleccionado) {
+    public InventariableViewModel(@NonNull Application application) {
         super(application);
-        this.inventariableRepository = inventariableRepository;
-        this.inventariableList = inventariableList;
+        inventariableRepository = new InventariableRepository();
         this.idInventoriableSeleccionado = new MutableLiveData<>();
         this.idInventoriableSeleccionado.setValue(null);
     }

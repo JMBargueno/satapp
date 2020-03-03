@@ -73,15 +73,17 @@ public class InventariableListFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            adapter = new MyInventariableResponseRecyclerViewAdapter(getActivity(),
+            adapter = new MyInventariableResponseRecyclerViewAdapter(
+                    getActivity(),
                     null,
                     inventariableViewModel);
+            recyclerView.setAdapter(adapter);
 
         }
         return view;

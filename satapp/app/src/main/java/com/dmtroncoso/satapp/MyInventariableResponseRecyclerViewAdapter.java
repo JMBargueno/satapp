@@ -43,6 +43,7 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
             // TODO: hacemos uso del ViewModel
 
             holder.inventariableName.setText(holder.mItem.getNombre());
+            //holder.textViewInventariableListLocation.setText(holder.mItem);
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

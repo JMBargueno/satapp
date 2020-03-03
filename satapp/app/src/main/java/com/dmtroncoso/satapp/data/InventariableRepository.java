@@ -21,7 +21,7 @@ public class InventariableRepository {
 
 
     public InventariableRepository() {
-        service = ServiceGenerator.createService(SataService.class);
+        service = ServiceGenerator.createServiceTicket(SataService.class);
         listaInv = getAllInventariables();
     }
 
@@ -32,6 +32,7 @@ public class InventariableRepository {
         call.enqueue(new Callback<InventariableResponse>() {
             @Override
             public void onResponse(Call<InventariableResponse> call, Response<InventariableResponse> response) {
+
                 if(response.isSuccessful()){
                     data.setValue(response.body());
 

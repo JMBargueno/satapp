@@ -19,7 +19,7 @@ import com.dmtroncoso.satapp.tickets.NewTicketActivity;
 public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
-    Button btnScanner, btnTicket;
+    Button btnScanner, btnTicket, btnListInventoriable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +28,18 @@ public class MainActivity extends AppCompatActivity {
 
         btnScanner = findViewById(R.id.buttonScan);
         btnTicket = findViewById(R.id.buttonTicket);
+
         btnTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MyApp.getContext(), NewTicketActivity.class));
+            }
+        });
+        btnListInventoriable = findViewById(R.id.buttonListInventoriable);
+        btnListInventoriable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyApp.getContext(), InventariableListActivity.class));
             }
         });
     }

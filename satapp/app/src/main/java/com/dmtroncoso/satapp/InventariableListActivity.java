@@ -12,7 +12,7 @@ public class InventariableListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        inventariableViewModel = new ViewModelProvider(this).get(InventariableViewModel.class);
+
         setContentView(R.layout.activity_inventariable_list);
     }
 }
