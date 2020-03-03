@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import okhttp3.MediaType;
@@ -44,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText edtName, edtEmail, edtPassword, edtConfPassword;
     ImageView imgRegister;
     Uri uriSelected;
+    SataService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.editTextPasswordR);
         edtConfPassword = findViewById(R.id.editTextConfPasswordR);
         imgRegister = findViewById(R.id.imageViewRegister);
+        service = ServiceGenerator.createServiceRegister(SataService.class);
 
         uriSelected = null;
 
@@ -66,8 +69,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if(edtConfPassword.getText().toString().equalsIgnoreCase(edtPassword.getText().toString()) && edtConfPassword.getText().toString().length() > 6 && edtPassword.getText().toString().length() > 6) {
                     if (uriSelected != null) {
-
-                        SataService service = ServiceGenerator.createServiceRegister(SataService.class);
 
                         try {
                             InputStream inputStream = getContentResolver().openInputStream(uriSelected);
@@ -79,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                             while ((cantBytes = bufferedInputStream.read(buffer, 0, 1024 * 4)) != -1) {
                                 baos.write(buffer, 0, cantBytes);
                             }
+                            
 
 
                             RequestBody requestFile =
@@ -94,11 +96,11 @@ public class RegisterActivity extends AppCompatActivity {
                             RequestBody email = RequestBody.create(MultipartBody.FORM, edtEmail.getText().toString());
                             RequestBody password = RequestBody.create(MultipartBody.FORM, edtPassword.getText().toString());
 
-                            Call<ResponseBody> callRegister = service.register(body, name, email, password);
+                            Call<User> callRegister = service.register(body, name, email, password);
 
-                            callRegister.enqueue(new Callback<ResponseBody>() {
+                            callRegister.enqueue(new Callback<User>() {
                                 @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                public void onResponse(Call<User> call, Response<User> response) {
                                     if (response.isSuccessful()) {
                                         Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(RegisterActivity.this, LoggingActivity.class);
@@ -109,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                public void onFailure(Call<User> call, Throwable t) {
                                     Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -122,8 +124,30 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
 
+                    }else if(uriSelected == null) {
+                        //SataService service = ServiceGenerator.createServiceRegister(SataService.class);
+
+                        RequestBody name = RequestBody.create(MultipartBody.FORM, edtName.getText().toString());
+                        RequestBody email = RequestBody.create(MultipartBody.FORM, edtEmail.getText().toString());
+                        RequestBody password = RequestBody.create(MultipartBody.FORM, edtPassword.getText().toString());
+
+                        Call<User> registerWithOutUri = service.register(null, name, email, password);
+                        registerWithOutUri.enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                if(response.isSuccessful()){
+                                    Toast.makeText(RegisterActivity.this, "Registrado correctamente", Toast.LENGTH_SHORT).show();
+                                    onBackPressed();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+                                Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                }else{
+                    }else{
                     Toast.makeText(RegisterActivity.this, "Contraseñas no coinciden o es demasiado corta", Toast.LENGTH_SHORT).show();
                 }
             }
