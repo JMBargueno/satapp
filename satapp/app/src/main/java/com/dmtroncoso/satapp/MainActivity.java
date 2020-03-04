@@ -2,9 +2,11 @@ package com.dmtroncoso.satapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +29,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.dmtroncoso.satapp.common.Constants.USUARIOS_SIN_VALIDAR;
+
 public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
@@ -38,14 +42,10 @@ public class MainActivity extends AppCompatActivity {
     SataService service;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
 
 
         btnTicket = findViewById(R.id.buttonTicket);
@@ -75,11 +75,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         service = ServiceGenerator.createServiceTicket(SataService.class);
-
-
-
 
 
     }
@@ -93,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.barCode:
                 startActivityForResult(new Intent(MyApp.getContext(), QRScannerActivity.class), SCANNER_CODE);
                 break;
@@ -116,6 +112,25 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("idInventario", parts);
                 startActivity(intent);
             }
-            }
         }
     }
+
+    public void checkUnvalidatedUsers() {
+
+
+
+        
+        AlertDialog.Builder builderFinish = new AlertDialog.Builder(this);
+        builderFinish.setPositiveButton("¡Vale!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+
+            }
+        });
+
+        builderFinish.setCancelable(true);
+        builderFinish.setMessage(USUARIOS_SIN_VALIDAR);
+        builderFinish.show();
+    }
+}
