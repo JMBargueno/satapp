@@ -35,6 +35,7 @@ public class UserListFragment extends Fragment {
     RecyclerView recyclerView;
     Context context;
     String userId;
+    boolean opciones = true;
 
     public UserListFragment() {
     }
@@ -90,12 +91,20 @@ public class UserListFragment extends Fragment {
         Toast.makeText(getActivity(), "onResume()", Toast.LENGTH_SHORT).show();
 
         //TODO IMPORTANTE
+
+        if(opciones = false){
         userViewModel.getListUserNoVal().observe(getActivity(), new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
                 myUserResponseRecyclerViewAdapter.setData(users);
             }
-        });
+        });}else if(opciones = true){
+        userViewModel.getListAllusers().observe(getActivity(), new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> allusers) {
+                myUserResponseRecyclerViewAdapter.setData(allusers);
+            }
+        });}
 
 
     }

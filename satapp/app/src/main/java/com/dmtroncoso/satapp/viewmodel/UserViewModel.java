@@ -18,6 +18,7 @@ public class UserViewModel extends AndroidViewModel {
 
     private UserRepository userRepository;
     private MutableLiveData<List<User>> listUserNoVal;
+    private MutableLiveData<List<User>> listAllusers;
     private MutableLiveData<String> idUserSeleccionado;
     private MutableLiveData<ResponseBody> img;
 
@@ -25,6 +26,7 @@ public class UserViewModel extends AndroidViewModel {
         super(application);
         userRepository = new UserRepository();
         listUserNoVal = new MutableLiveData<>();
+        listAllusers = new MutableLiveData<>();
         this.idUserSeleccionado = new MutableLiveData<>();
         this.idUserSeleccionado.setValue(null);
     }
@@ -38,6 +40,11 @@ public class UserViewModel extends AndroidViewModel {
         img = userRepository.getImagenes(idUser);
         return img;
 
+    }
+
+    public  MutableLiveData<List<User>> getListAllusers(){
+        listAllusers = userRepository.getAllUsers();
+        return listAllusers;
     }
 
 

@@ -21,18 +21,20 @@ import retrofit2.Response;
 public class UserRepository {
     SataService service;
     MutableLiveData<List<User>> listUsersNoVal;
+    MutableLiveData<List<User>> listAllUsers;
     MutableLiveData<ResponseBody> imagenes;
 
 
     public UserRepository() {
         service = ServiceGenerator.createService(SataService.class);
         listUsersNoVal = getUsersNoVal();
+        listAllUsers = getAllUsers();
 
     }
 
     public MutableLiveData<List<User>> getUsersNoVal(){
         final MutableLiveData data = new MutableLiveData<>();
-        Call<List<User>> call = service.getAllUsers();
+        Call<List<User>> call = service.getNoValUsers();
 
         call.enqueue(new Callback<List<User>>() {
             @Override
@@ -74,6 +76,31 @@ public class UserRepository {
 
         return data;
 
+    }
+
+    public MutableLiveData<List<User>> getAllUsers(){
+        final MutableLiveData data = new MutableLiveData<>();
+        Call<List<User>> call = service.getAllUsers();
+
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if(response.isSuccessful()){
+                    data.setValue(response.body());
+
+                }else{
+                    Toast.makeText(MyApp.getContext(), "Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Error", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        return data;
     }
 
 
