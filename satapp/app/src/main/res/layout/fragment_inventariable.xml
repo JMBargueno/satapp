@@ -19,12 +19,23 @@
 
     <TextView
         android:id="@+id/textViewInventariableListLocation"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Localizacion"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textViewInventariableListStatus"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewInventariableOnListName" />
+
+    <TextView
+        android:id="@+id/textViewInventariableListStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="136dp"
+        android:hint="Estado"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewInventariableOnListName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
