@@ -21,12 +21,13 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
     private List<InventariableResponse> mValues;
     InventariableViewModel inventoriableViewModel;
     Context context;
+    RecyclerView recyclerView;
 
 
     public MyInventariableResponseRecyclerViewAdapter(Context ctx, List<InventariableResponse> items, InventariableViewModel inventariableViewModel) {
        this.context = ctx;
-        mValues = items;
-        this.inventoriableViewModel = inventariableViewModel;
+       this.mValues = items;
+       this.inventoriableViewModel = inventariableViewModel;
     }
 
     @Override

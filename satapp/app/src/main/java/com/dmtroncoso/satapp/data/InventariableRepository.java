@@ -27,23 +27,23 @@ public class InventariableRepository {
 
     public MutableLiveData<List<InventariableResponse>> getAllInventariables(){
         final MutableLiveData data = new MutableLiveData<>();
-        Call<InventariableResponse> call = service.getInventariables();
+        Call<List<InventariableResponse>> call = service.getInventariables();
 
-        call.enqueue(new Callback<InventariableResponse>() {
+        call.enqueue(new Callback<List<InventariableResponse>>() {
             @Override
-            public void onResponse(Call<InventariableResponse> call, Response<InventariableResponse> response) {
+            public void onResponse(Call<List<InventariableResponse>> call, Response<List<InventariableResponse>> response) {
 
                 if(response.isSuccessful()){
                     data.setValue(response.body());
 
                 }else{
-                    Toast.makeText(MyApp.getContext(), "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyApp.getContext(), "Error en onResponse", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<InventariableResponse> call, Throwable t) {
-                Toast.makeText(MyApp.getContext(), "Error", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<InventariableResponse>> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Error onFailure", Toast.LENGTH_SHORT).show();
 
             }
         });

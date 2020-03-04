@@ -33,7 +33,7 @@ public interface SataService {
                                 @Part("password") RequestBody password);
 
     @GET("/inventariable")
-    Call<InventariableResponse> getInventariables();
+    Call<List<InventariableResponse>> getInventariables();
 
     @Multipart
     @POST("/ticket")
