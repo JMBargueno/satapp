@@ -3,6 +3,7 @@ package com.dmtroncoso.satapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,11 +31,8 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
+    CardView cvTicket, cvPc, cvUser;
 
-    Button btnScanner, btnTicket, btnListInventoriable;
-
-
-    Button btnGoTicket;
     SataService service;
 
 
@@ -43,45 +41,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        cvTicket = findViewById(R.id.cardViewTicket);
+        cvPc = findViewById(R.id.cardViewPc);
+        cvUser = findViewById(R.id.cardViewUser);
 
-
-
-
-
-        btnTicket = findViewById(R.id.buttonTicket);
-
-        btnGoTicket = findViewById(R.id.buttonGoTicket);
-
-        btnGoTicket.setOnClickListener(new View.OnClickListener() {
+        cvTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MyApp.getContext(), TicketActivity.class));
             }
         });
 
-        btnTicket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MyApp.getContext(), NewTicketActivity.class));
-            }
-        });
 
-        btnListInventoriable = findViewById(R.id.buttonListInventoriable);
-        btnListInventoriable.setOnClickListener(new View.OnClickListener() {
+        cvPc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MyApp.getContext(), InventariableListActivity.class));
+                //startActivity(new Intent(MyApp.getContext(), NewInvActivity.class));
             }
         });
 
-
+        //form POST ticket
+        //startActivity(new Intent(MyApp.getContext(), NewTicketActivity.class));
 
         service = ServiceGenerator.createServiceTicket(SataService.class);
-
-
-
-
-
     }
 
     @Override
