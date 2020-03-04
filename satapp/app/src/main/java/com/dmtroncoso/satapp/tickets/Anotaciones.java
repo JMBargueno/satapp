@@ -3,7 +3,7 @@ package com.dmtroncoso.satapp.tickets;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class Anotaciones {
+public class Anotaciones {
     @SerializedName("id")
     @Expose
     private String id;

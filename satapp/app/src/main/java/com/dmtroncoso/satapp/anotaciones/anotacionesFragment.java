@@ -1,20 +1,33 @@
 package com.dmtroncoso.satapp.anotaciones;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dmtroncoso.satapp.CalendarActivity;
 import com.dmtroncoso.satapp.R;
+import com.dmtroncoso.satapp.common.MyApp;
+import com.dmtroncoso.satapp.data.anotaciones.AnotacionViewModel;
 import com.dmtroncoso.satapp.retrofit.model.anotaciones.Notas;
+import com.dmtroncoso.satapp.tickets.Anotaciones;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -30,6 +43,9 @@ public class anotacionesFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    AnotacionViewModel anotacionViewModel;
+    List<Anotaciones> listAnotaciones;
+    MyanotacionesRecyclerViewAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -55,6 +71,9 @@ public class anotacionesFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+        anotacionViewModel = new ViewModelProvider(getActivity()).get(AnotacionViewModel.class);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -71,9 +90,22 @@ public class anotacionesFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            //recyclerView.setAdapter(new MyanotacionesRecyclerViewAdapter(, mListener));
+            adapter = new MyanotacionesRecyclerViewAdapter(listAnotaciones, mListener);
+            recyclerView.setAdapter(adapter);
+
+            loadAnotaciones();
         }
         return view;
+    }
+
+    public void loadAnotaciones(){
+        anotacionViewModel.getAnotaciones().observe(getActivity(), new Observer<List<Anotaciones>>() {
+            @Override
+            public void onChanged(List<Anotaciones> anotaciones) {
+                listAnotaciones = anotaciones;
+                adapter.setData(listAnotaciones);
+            }
+        });
     }
 
 
@@ -106,6 +138,50 @@ public class anotacionesFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Notas item);
+        void onListFragmentInteraction(Anotaciones item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.ticket_detail_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Test ticket value");
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+                break;
+            case R.id.calendarEvent:
+                /*Calendar beginTime = Calendar.getInstance();
+                beginTime.set(2020, 2, 01, 18, 54);
+                Calendar endTime = Calendar.getInstance();
+                endTime.set(2020, 2, 01, 21, 01);
+                Intent intent = new Intent(Intent.ACTION_INSERT)
+                        .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                        .putExtra(CalendarContract.Events.TITLE, "Test")
+                        .putExtra(CalendarContract.Events.DESCRIPTION, "Test class")
+                        .putExtra(CalendarContract.Events.EVENT_LOCATION, "The Test")
+                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                        .putExtra(Intent.EXTRA_EMAIL, "myrows.contactme@gmail.com, jallamasalvarez@gmail.com, jmbarguenolopez@gmail.com, pablorodriguezr2000@gmail.com")
+                        .putExtra(CalendarContract.Events.HAS_ALARM, true)
+                        .putExtra(CalendarContract.Reminders.EVENT_ID, CalendarContract.Events._ID)
+                        .putExtra(CalendarContract.Events.ALLOWED_REMINDERS, "METHOD_DEFAULT")
+                        .putExtra(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
+                        .putExtra(CalendarContract.Reminders.MINUTES,5);
+                startActivity(intent);*/
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

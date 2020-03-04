@@ -10,15 +10,16 @@ import android.widget.TextView;
 import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.anotaciones.anotacionesFragment.OnListFragmentInteractionListener;
 import com.dmtroncoso.satapp.retrofit.model.anotaciones.Notas;
+import com.dmtroncoso.satapp.tickets.Anotaciones;
 
 import java.util.List;
 
 public class MyanotacionesRecyclerViewAdapter extends RecyclerView.Adapter<MyanotacionesRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Notas> mValues;
+    private List<Anotaciones> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyanotacionesRecyclerViewAdapter(List<Notas> items, OnListFragmentInteractionListener listener) {
+    public MyanotacionesRecyclerViewAdapter(List<Anotaciones> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -32,7 +33,13 @@ public class MyanotacionesRecyclerViewAdapter extends RecyclerView.Adapter<Myano
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
+
+        if(mValues != null){
+            holder.mItem = mValues.get(position);
+
+            holder.textBody.setText(holder.mItem.getCuerpo());
+            holder.textCreatedAt.setText(holder.mItem.getCreatedAt());
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,20 +53,34 @@ public class MyanotacionesRecyclerViewAdapter extends RecyclerView.Adapter<Myano
         });
     }
 
+    public void setData(List<Anotaciones> resultList){
+        this.mValues = resultList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
-        return mValues.size();
+
+        if (mValues != null) {
+            return mValues.size();
+        }else {
+            return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
+        public final TextView textBody;
+        public final TextView textCreatedAt;
 
-        public Notas mItem;
+        public Anotaciones mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
 
+            textBody = view.findViewById(R.id.textViewBodyAn);
+            textCreatedAt = view.findViewById(R.id.textViewCreatedAtAn);
         }
 
     }

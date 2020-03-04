@@ -67,39 +67,4 @@ public class MainActivity extends AppCompatActivity {
 
         service = ServiceGenerator.createServiceTicket(SataService.class);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.barCode:
-                startActivityForResult(new Intent(MyApp.getContext(), QRScannerActivity.class), SCANNER_CODE);
-                break;
-
-            case R.id.calendarEvent:
-                startActivity(new Intent(MyApp.getContext(), CalendarActivity.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SCANNER_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                String parts = data.getStringExtra("result");
-                //Toast.makeText(this, parts, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, NewTicketActivity.class);
-                intent.putExtra("idInventario", parts);
-                startActivity(intent);
-            }
-            }
-        }
     }

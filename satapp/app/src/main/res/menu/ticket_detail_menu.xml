@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/calendarEvent"
+        android:icon="@drawable/calendar_white_event"
+        android:title="Calendar"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/share"
         android:icon="@drawable/ic_share_share_24dp"
         android:title="Item"

@@ -7,7 +7,7 @@
     tools:context=".anotaciones.AnotacionesActivity">
 
     <fragment
-        android:id="@+id/fragment"
+        android:id="@+id/fragment3"
         android:name="com.dmtroncoso.satapp.anotaciones.anotacionesFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"

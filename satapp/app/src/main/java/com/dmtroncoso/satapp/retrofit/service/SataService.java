@@ -14,6 +14,7 @@ import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.model.UserResponse;
+import com.dmtroncoso.satapp.tickets.Anotaciones;
 import com.dmtroncoso.satapp.tickets.Ticket;
 
 import java.util.List;
@@ -27,6 +28,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface SataService {
 
@@ -70,6 +72,9 @@ public interface SataService {
 
     @GET("/ticket")
     Call<List<Ticket>> getAllTickets();
+
+    @GET("/ticket/{id}")
+    Call<Ticket> getTicketById(@Path("id") String id);
 
 }
 
