@@ -35,6 +35,9 @@ public interface SataService {
     @GET("/users")
     Call<List<User>> getAllUsers();
 
+    @GET("/users/no-validated")
+    Call<List<User>> getNoValUsers();
+
     @GET("/users/img/{idUsuarioSeleccionado}")
     Call<ResponseBody> getUserAvatar(@Path ("idUsuarioSeleccionado") String id);
 
