@@ -63,7 +63,7 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
             holder.txtTitle.setText(holder.mItem.getTitulo());
             holder.txtDescription.setText(holder.mItem.getDescripcion());
 
-            if(holder.mItem.getFotos().size() > 0 || holder.mItem.getFotos() != null) {
+            /*if(holder.mItem.getFotos().size() > 0 || holder.mItem.getFotos() != null) {
                 Call<ResponseBody> call = service.getImageOfTicket(holder.mItem.getFotos().get(0), 0);
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -86,7 +86,7 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
                 });
             }else{
 
-            }
+            }*/
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
