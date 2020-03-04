@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
 
-    Button btnScanner, btnTicket, btnGoTicket, btnInv;
+    Button btnScanner, btnTicket, btnGoTicket, btnInv, btnUNV;
     SataService service;
 
 
@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         btnInv = findViewById(R.id.buttonInv);
-
         btnTicket = findViewById(R.id.buttonTicket);
         btnGoTicket = findViewById(R.id.buttonGoTicket);
+        btnUNV = findViewById(R.id.buttonUsNV);
 
         btnGoTicket.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MyApp.getContext(), NewInvActivity.class));
+            }
+        });
+
+        btnUNV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyApp.getContext(),ListUserActivity.class));
             }
         });
 

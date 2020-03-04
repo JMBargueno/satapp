@@ -93,9 +93,9 @@ public class NewInvActivity extends AppCompatActivity {
                             RequestBody nombre = RequestBody.create(edtName.getText().toString(),MultipartBody.FORM);
                             RequestBody tipo = RequestBody.create(editType.getText().toString(),MultipartBody.FORM);
                             RequestBody descripcion = RequestBody.create(editDesc.getText().toString(),MultipartBody.FORM);
-                            RequestBody codigo = RequestBody.create(editUbc.getText().toString(),MultipartBody.FORM);
+                            RequestBody ubicacion = RequestBody.create(editUbc.getText().toString(),MultipartBody.FORM);
 
-                            Call<ResponseBody> uploadInventariable = service.uploadInventariable(body, nombre, tipo, descripcion, codigo);
+                            Call<ResponseBody> uploadInventariable = service.uploadInventariable(body, nombre, tipo, descripcion, ubicacion);
 
                             uploadInventariable.enqueue(new Callback<ResponseBody>() {
                                 @Override
