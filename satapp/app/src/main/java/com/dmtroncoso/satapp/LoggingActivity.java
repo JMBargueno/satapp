@@ -28,7 +28,7 @@ public class LoggingActivity extends AppCompatActivity {
     SataService service;
     EditText edtEmail, edtPassword;
     TextView txtRegistrarse;
-    String token = "";
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,8 @@ public class LoggingActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.editTextPassword);
 
         txtRegistrarse = findViewById(R.id.textViewRegistrarse);
+
+        token = null;
 
         txtRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +59,7 @@ public class LoggingActivity extends AppCompatActivity {
 
                     SataService service = ServiceGenerator.createService(SataService.class, edtEmail.getText().toString(), edtPassword.getText().toString());
 
-                    if (token.isEmpty()) {
+                    if (token == null) {
                         //Llamada al servicio
 
                         Call<UserResponse> call = service.login();

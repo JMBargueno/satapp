@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,30 +64,34 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
             holder.txtTitle.setText(holder.mItem.getTitulo());
             holder.txtDescription.setText(holder.mItem.getDescripcion());
 
-            /*if(holder.mItem.getFotos().size() > 0 || holder.mItem.getFotos() != null) {
-                Call<ResponseBody> call = service.getImageOfTicket(holder.mItem.getFotos().get(0), 0);
+            if(holder.mItem.getFotos().size() > 0 && holder.mItem.getFotos() != null) {
+                Call<ResponseBody> call = service.getImageOfUser(holder.mItem.getCreadoPor().getId());
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
-                            //Bitmap bitmap = MediaStore.Images.Media.getBitmap(MyApp.getContext().getContentResolver(), response.body());
-                            Log.v("Imagen", response.body() + " body");
-                            Glide
-                                    .with(ctx)
-                                    .load(response.body())
-                                    .apply(RequestOptions.bitmapTransform(new CropCircleTransformation()))
-                                    .into(holder.imageViewTicket);
+                            if (response.body() != null) {
+                                Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
+
+                                Glide
+                                        .with(ctx)
+                                        .load(bmp)
+                                        .apply(RequestOptions.bitmapTransform(new CropCircleTransformation()))
+                                        .into(holder.imageViewTicket);
+                            } else {
+
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                        Toast.makeText(ctx, "Error de conexión", Toast.LENGTH_SHORT).show();
                     }
                 });
             }else{
 
-            }*/
+            }
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
