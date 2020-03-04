@@ -1,11 +1,10 @@
 package com.dmtroncoso.satapp.retrofit.service;
 
-<<<<<<< HEAD
+
 
 
 import com.dmtroncoso.satapp.retrofit.model.Inventariable;
-=======
->>>>>>> Sulfuro1Sprint
+
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;

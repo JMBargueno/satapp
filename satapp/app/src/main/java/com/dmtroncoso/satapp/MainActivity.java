@@ -35,14 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
 
-<<<<<<< HEAD
     Button btnScanner, btnTicket, btnListInventoriable;
-
-
     Button btnGoTicket;
-=======
-    Button btnScanner, btnTicket, btnGoTicket, btnInv, btnUNV;
->>>>>>> Sulfuro1Sprint
+    Button btnInv, btnUNV;
+
     SataService service;
 
 
@@ -52,11 +48,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-<<<<<<< HEAD
-=======
 
-        btnInv = findViewById(R.id.buttonInv);
->>>>>>> Sulfuro1Sprint
+
         btnTicket = findViewById(R.id.buttonTicket);
 
         btnGoTicket = findViewById(R.id.buttonGoTicket);
