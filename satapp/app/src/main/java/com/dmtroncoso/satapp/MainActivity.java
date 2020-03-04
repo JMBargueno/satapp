@@ -12,29 +12,62 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.dmtroncoso.satapp.common.MyApp;
+import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
+import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
+import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.NewTicketActivity;
+import com.dmtroncoso.satapp.tickets.TicketActivity;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
+<<<<<<< HEAD
     Button btnScanner, btnTicket, btnListInventoriable;
+=======
+
+    Button btnScanner, btnTicket, btnGoTicket, btnInv;
+    SataService service;
+
+>>>>>>> master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnScanner = findViewById(R.id.buttonScan);
-        btnTicket = findViewById(R.id.buttonTicket);
 
+
+        btnInv = findViewById(R.id.buttonInv);
+
+        btnTicket = findViewById(R.id.buttonTicket);
+<<<<<<< HEAD
+
+=======
+        btnGoTicket = findViewById(R.id.buttonGoTicket);
+
+        btnGoTicket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyApp.getContext(), TicketActivity.class));
+            }
+        });
+>>>>>>> master
         btnTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MyApp.getContext(), NewTicketActivity.class));
             }
         });
+<<<<<<< HEAD
         btnListInventoriable = findViewById(R.id.buttonListInventoriable);
         btnListInventoriable.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +75,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MyApp.getContext(), InventariableListActivity.class));
             }
         });
+=======
+
+
+        service = ServiceGenerator.createServiceTicket(SataService.class);
+
+        btnInv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyApp.getContext(), NewInvActivity.class));
+            }
+        });
+
+
+>>>>>>> master
     }
 
     @Override
@@ -70,9 +117,11 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SCANNER_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                String[] parts = data.getStringArrayExtra("result");
-                Log.v("Scanner", parts[0]);
-                Log.v("Scanner", parts[1]);
+                String parts = data.getStringExtra("result");
+                //Toast.makeText(this, parts, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, NewTicketActivity.class);
+                intent.putExtra("idInventario", parts);
+                startActivity(intent);
             }
             }
         }

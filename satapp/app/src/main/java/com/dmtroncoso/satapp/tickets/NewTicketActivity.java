@@ -1,5 +1,6 @@
 package com.dmtroncoso.satapp.tickets;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +20,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.dmtroncoso.satapp.CalendarActivity;
 import com.dmtroncoso.satapp.LoggingActivity;
+import com.dmtroncoso.satapp.QRScannerActivity;
 import com.dmtroncoso.satapp.R;
+import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
@@ -41,11 +47,13 @@ import retrofit2.Response;
 public class NewTicketActivity extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 42;
+    static final int SCANNER_CODE = 5;
     EditText etTitle, etDescription;
     ImageView imgTicket;
     Button btnNewTicket, btnAddImages;
     List<MultipartBody.Part> listUri = new ArrayList<>();
     private SataService servicio;
+    String idInventario = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,23 +90,56 @@ public class NewTicketActivity extends AppCompatActivity {
                 }else if(etDescription.getText().toString().isEmpty()){
                     etDescription.setError("La descripción no puede estar vacía");
                 }
-                RequestBody titulo = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
-                RequestBody descripcion = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
 
-                Call<TicketResponse> newTicketWithoutUri = servicio.nuevoTicket(null,titulo,descripcion);
-                newTicketWithoutUri.enqueue(new Callback<TicketResponse>() {
-                    @Override
-                    public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
-                        if(response.isSuccessful()){
-                            Toast.makeText(NewTicketActivity.this, "Nuevo ticket registrado", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
+
+                Bundle bundle = getIntent().getExtras();
+                if (bundle != null)
+                {
+                    idInventario = bundle.getString("idInventario");
+
+                    RequestBody titulo = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
+                    RequestBody descripcion = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
+                    RequestBody inventariable = RequestBody.create(idInventario , MultipartBody.FORM);
+
+                    Call<TicketResponse> newTicketWithoutUri = servicio.nuevoTicketQR(null,titulo,descripcion, inventariable);
+                    newTicketWithoutUri.enqueue(new Callback<TicketResponse>() {
+                        @Override
+                        public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
+                            if(response.isSuccessful()){
+                                Toast.makeText(NewTicketActivity.this, "Nuevo ticket registrado", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
+                            }
                         }
-                    }
-                    @Override
-                    public void onFailure(Call<TicketResponse> call, Throwable t) {
-                        Toast.makeText(NewTicketActivity.this, "Se produjo un error de conexión", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<TicketResponse> call, Throwable t) {
+                            Toast.makeText(NewTicketActivity.this, "Se produjo un error de conexión", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                    RequestBody titulo = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
+                    RequestBody descripcion = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
+
+                    Call<TicketResponse> newTicketWithoutUri = servicio.nuevoTicketQR(null,titulo,descripcion, null);
+                    newTicketWithoutUri.enqueue(new Callback<TicketResponse>() {
+                        @Override
+                        public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
+                            if(response.isSuccessful()){
+                                Toast.makeText(NewTicketActivity.this, "Nuevo ticket registrado", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<TicketResponse> call, Throwable t) {
+                            Toast.makeText(NewTicketActivity.this, "Se produjo un error de conexión", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                if(idInventario != null){
+
+                }else{
+
+                }
             }
         });
     }
@@ -134,29 +175,60 @@ public class NewTicketActivity extends AppCompatActivity {
                             listUri.add(body);
                         }
 
-                        RequestBody titulo = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
-                        RequestBody descripcion = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
 
-                        Call<TicketResponse> callNewTicket = servicio.nuevoTicket(listUri,titulo, descripcion);
+                        Bundle bundle = getIntent().getExtras();
+                        if (bundle != null){
 
-                        callNewTicket.enqueue(new Callback<TicketResponse>() {
-                            @Override
-                            public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
-                                if (response.isSuccessful()) {
-                                    Toast.makeText(NewTicketActivity.this, "Nuevo ticket registrado", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(NewTicketActivity.this, LoggingActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                    Log.e("Upload error", response.errorBody().toString());
+                            idInventario = bundle.getString("idInventario");
+
+                            RequestBody inventariable = RequestBody.create(idInventario , MultipartBody.FORM);
+                            RequestBody titulo = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
+                            RequestBody descripcion = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
+
+                            Call<TicketResponse> callNewTicket = servicio.nuevoTicketQR(listUri, titulo, descripcion, inventariable);
+                            callNewTicket.enqueue(new Callback<TicketResponse>() {
+                                @Override
+                                public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(NewTicketActivity.this, "Nuevo ticket registrado", Toast.LENGTH_SHORT).show();
+                                        /*Intent intent = new Intent(NewTicketActivity.this, LoggingActivity.class);
+                                        startActivity(intent);*/
+                                        onBackPressed();
+                                    } else {
+                                        Log.e("Upload error", response.errorBody().toString());
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(Call<TicketResponse> call, Throwable t) {
-                                Toast.makeText(NewTicketActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                @Override
+                                public void onFailure(Call<TicketResponse> call, Throwable t) {
+                                    Toast.makeText(NewTicketActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
+                        }else{
+                            RequestBody titulo = RequestBody.create(etTitle.getText().toString() , MultipartBody.FORM);
+                            RequestBody descripcion = RequestBody.create(etDescription.getText().toString() , MultipartBody.FORM);
+
+                            Call<TicketResponse> callNewTicket = servicio.nuevoTicketQR(listUri, titulo, descripcion, null);
+                            callNewTicket.enqueue(new Callback<TicketResponse>() {
+                                @Override
+                                public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(NewTicketActivity.this, "Nuevo ticket registrado", Toast.LENGTH_SHORT).show();
+                                        /*Intent intent = new Intent(NewTicketActivity.this, LoggingActivity.class);
+                                        startActivity(intent);*/
+                                        onBackPressed();
+                                    } else {
+                                        Log.e("Upload error", response.errorBody().toString());
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<TicketResponse> call, Throwable t) {
+                                    Toast.makeText(NewTicketActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {

@@ -1,17 +1,25 @@
 package com.dmtroncoso.satapp.retrofit.service;
 
+<<<<<<< HEAD
 
 import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 
+=======
+import com.dmtroncoso.satapp.retrofit.model.Inventariable;
+import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
+import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
+>>>>>>> master
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.model.UserResponse;
+import com.dmtroncoso.satapp.tickets.Ticket;
 
 import java.util.List;
 
 import okhttp3.MultipartBody;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -32,14 +40,41 @@ public interface SataService {
                                 @Part("email") RequestBody email,
                                 @Part("password") RequestBody password);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     @GET("/inventariable")
     Call<List<InventariableResponse>> getInventariables();
 
+<<<<<<< HEAD
+=======
+    @Multipart
+    @POST("/inventariable")
+    Call<ResponseBody> uploadInventariable(@Part MultipartBody.Part imagen,
+                                           @Part("codigo") RequestBody codigo,
+                                            @Part("tipo") RequestBody tipo,
+                                            @Part("nombre") RequestBody nombre,
+                                            @Part("descripcion") RequestBody descripcion);
+
+>>>>>>> master
     @Multipart
     @POST("/ticket")
     Call<TicketResponse> nuevoTicket(@Part List<MultipartBody.Part> fotos,
                                      @Part("titulo") RequestBody titulo,
                                      @Part("descripcion") RequestBody descripcion);
 
+<<<<<<< HEAD
+=======
+    @Multipart
+    @POST("/ticket")
+    Call<TicketResponse> nuevoTicketQR(@Part List<MultipartBody.Part> fotos,
+                                       @Part("titulo") RequestBody titulo,
+                                       @Part("descripcion") RequestBody descripcion,
+                                       @Part("inventariable") RequestBody inventariable);
+
+    @GET("/ticket")
+    Call<List<Ticket>> getAllTickets();
+>>>>>>> master
 }
 

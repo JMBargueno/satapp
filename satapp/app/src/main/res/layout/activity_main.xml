@@ -8,27 +8,18 @@
 
 
     <Button
-        android:id="@+id/buttonScan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="scanner"
-        app:layout_constraintBottom_toTopOf="@+id/buttonTicket"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/buttonTicket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="63dp"
+        android:layout_marginBottom="230dp"
         android:text="Nuevo Ticket"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/buttonScan"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/buttonScan"
-        app:layout_constraintTop_toBottomOf="@+id/buttonScan" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonListInventoriable" />
+
+
 
     <Button
         android:id="@+id/buttonListInventoriable"
@@ -39,6 +30,16 @@
         android:text="Abrir listado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonGoTicket"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Tickets"
+        app:layout_constraintEnd_toEndOf="@+id/buttonTicket"
+        app:layout_constraintStart_toStartOf="@+id/buttonTicket"
         app:layout_constraintTop_toBottomOf="@+id/buttonTicket" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

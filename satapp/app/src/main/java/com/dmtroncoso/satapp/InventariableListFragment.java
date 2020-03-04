@@ -1,3 +1,4 @@
+/*
 package com.dmtroncoso.satapp;
 
 import android.content.Context;
@@ -20,12 +21,14 @@ import com.dmtroncoso.satapp.viewmodel.InventariableViewModel;
 
 import java.util.List;
 
+*/
 /**
  * A fragment representing a list of Items.
  * <p/>
  * Activities containing this fragment MUST implement the {@link }
  * interface.
- */
+ *//*
+
 public class InventariableListFragment extends Fragment {
 
     // TODO: Customize parameter argument names
@@ -37,10 +40,12 @@ public class InventariableListFragment extends Fragment {
     RecyclerView recyclerView;
 
 
-    /**
+    */
+/**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
-     */
+     *//*
+
     public InventariableListFragment() {
     }
 
@@ -118,3 +123,4 @@ public class InventariableListFragment extends Fragment {
 
 
 }
+*/
