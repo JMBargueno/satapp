@@ -43,7 +43,6 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
             // TODO: hacemos uso del ViewModel
 
             holder.inventariableName.setText(holder.mItem.getNombre());
-            //holder.textViewInventariableListLocation.setText(holder.mItem);
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -84,13 +83,18 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
             mView = view;
             inventariableName = view.findViewById(R.id.textViewInventariableOnListName);
             textViewInventariableListLocation = view.findViewById(R.id.textViewInventariableListLocation);
-
         }
+    }
 
+    public void setList(List<InventariableResponse> list) {
+        this.mValues = list;
+        notifyDataSetChanged();
+    }
 
-
-
-
+    public void addAll(List<InventariableResponse> newList) {
+        int lastIndex = mValues.size() - 1;
+        mValues.addAll(newList);
+        notifyItemRangeInserted(lastIndex, newList.size());
     }
 }
 

@@ -2,6 +2,8 @@ package com.dmtroncoso.satapp.retrofit.service;
 
 
 
+import androidx.paging.PagedList;
+
 import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 
@@ -27,6 +29,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 
 public interface SataService {
 
@@ -70,6 +73,9 @@ public interface SataService {
 
     @GET("/ticket")
     Call<List<Ticket>> getAllTickets();
+
+    @GET("inventariable")
+    Call<PagedList<InventariableResponse>> getInventariablesPagedList(@Query("limit") int limit);
 
 }
 

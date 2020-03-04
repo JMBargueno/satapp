@@ -1,4 +1,3 @@
-
 package com.dmtroncoso.satapp;
 
 import android.content.Context;
@@ -21,27 +20,17 @@ import com.dmtroncoso.satapp.viewmodel.InventariableViewModel;
 
 import java.util.List;
 
-
-
 public class InventariableListFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
     private InventariableViewModel inventariableViewModel;
     MyInventariableResponseRecyclerViewAdapter adapter;
     RecyclerView recyclerView;
 
-
-
-
-
-
     public InventariableListFragment() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static InventariableListFragment newInstance(int columnCount) {
         InventariableListFragment fragment = new InventariableListFragment();
@@ -89,30 +78,22 @@ public class InventariableListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-       // mListener = null;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(getActivity(), "onResume()", Toast.LENGTH_SHORT).show();
-
-        //TODO IMPORTANTE
         inventariableViewModel.getInventariableList().observe(getActivity(), new Observer<List<InventariableResponse>>() {
             @Override
             public void onChanged(List<InventariableResponse> inventariables) {
                 adapter.setData(inventariables);
             }
         });
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Toast.makeText(getActivity(), "onPause()", Toast.LENGTH_SHORT).show();
     }
-
-
 }
 

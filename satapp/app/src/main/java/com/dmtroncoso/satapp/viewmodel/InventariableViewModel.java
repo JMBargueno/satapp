@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+import androidx.paging.PagedList;
 
 import com.dmtroncoso.satapp.data.InventariableRepository;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class InventariableViewModel extends AndroidViewModel {
 
-    MutableLiveData<List<InventariableResponse>> inventariableList;
+    MutableLiveData<PagedList<InventariableResponse>> inventariableList;
     InventariableRepository inventariableRepository;
     MutableLiveData<String> idInventoriableSeleccionado;
 
@@ -24,8 +25,8 @@ public class InventariableViewModel extends AndroidViewModel {
         this.idInventoriableSeleccionado.setValue(null);
     }
 
-    public MutableLiveData<List<InventariableResponse>> getInventariableList() {
-        inventariableList = inventariableRepository.getAllInventariables();
+    public MutableLiveData<PagedList<InventariableResponse>> getInventariableList() {
+        inventariableList = inventariableRepository.getAllInventariables(5);
         return inventariableList;
     }
 

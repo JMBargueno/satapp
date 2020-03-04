@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.dmtroncoso.satapp.viewmodel.InventariableViewModel;
 
 public class InventariableListActivity extends AppCompatActivity {
-    InventariableViewModel inventariableViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
