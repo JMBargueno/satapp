@@ -22,6 +22,7 @@ import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.NewTicketActivity;
 import com.dmtroncoso.satapp.tickets.TicketActivity;
+import com.dmtroncoso.satapp.viewmodel.UserViewModel;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -34,6 +35,7 @@ import static com.dmtroncoso.satapp.common.Constants.USUARIOS_SIN_VALIDAR;
 public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
+    UserViewModel userViewModel;
 
     Button btnScanner, btnTicket, btnListInventoriable;
     Button btnGoTicket;
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         service = ServiceGenerator.createServiceTicket(SataService.class);
 
-
+        //checkUnvalidatedUsers();
     }
 
     @Override
@@ -127,20 +129,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkUnvalidatedUsers() {
 
+       if (!userViewModel.getListUserNoVal().getValue().isEmpty()){
+           int numUnvalidated = userViewModel.getListUserNoVal().getValue().size();
+
+           AlertDialog.Builder builderFinish = new AlertDialog.Builder(this);
+           builderFinish.setPositiveButton("¡Vale!", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                   finish();
+
+               }
+           });
+
+           builderFinish.setCancelable(true);
+           builderFinish.setMessage(USUARIOS_SIN_VALIDAR+numUnvalidated);
+           builderFinish.show();
+
+       }
+
 
 
         
-        AlertDialog.Builder builderFinish = new AlertDialog.Builder(this);
-        builderFinish.setPositiveButton("¡Vale!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
 
-            }
-        });
-
-        builderFinish.setCancelable(true);
-        builderFinish.setMessage(USUARIOS_SIN_VALIDAR);
-        builderFinish.show();
     }
 }
