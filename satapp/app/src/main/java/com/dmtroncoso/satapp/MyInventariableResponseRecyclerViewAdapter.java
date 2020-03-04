@@ -15,6 +15,8 @@ import com.dmtroncoso.satapp.viewmodel.InventariableViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dmtroncoso.satapp.common.Constants.UBICACION_DESCONOCIDA;
+
 public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Adapter<MyInventariableResponseRecyclerViewAdapter.ViewHolder> {
 
     private List<InventariableResponse> mValues;
@@ -43,7 +45,7 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
             // TODO: hacemos uso del ViewModel
 
             holder.inventariableName.setText(holder.mItem.getNombre());
-            //holder.textViewInventariableListLocation.setText(holder.mItem);
+            holder.textViewInventariableListLocation.setText((holder.mItem.getUbicacion() != null)? holder.mItem.getUbicacion():UBICACION_DESCONOCIDA);
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
