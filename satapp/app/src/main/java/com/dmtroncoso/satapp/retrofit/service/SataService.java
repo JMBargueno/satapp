@@ -1,8 +1,11 @@
 package com.dmtroncoso.satapp.retrofit.service;
 
+<<<<<<< HEAD
 
 
 import com.dmtroncoso.satapp.retrofit.model.Inventariable;
+=======
+>>>>>>> Sulfuro1Sprint
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
@@ -19,7 +22,6 @@ import com.dmtroncoso.satapp.tickets.Ticket;
 import java.util.List;
 
 import okhttp3.MultipartBody;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -27,6 +29,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface SataService {
 
@@ -41,6 +44,14 @@ public interface SataService {
                                 @Part("password") RequestBody password);
 
 
+
+    @GET("/users")
+    Call<List<User>> getAllUsers();
+
+    @GET("/users/img/{idUsuarioSeleccionado}")
+    Call<ResponseBody> getUserAvatar(@Path ("idUsuarioSeleccionado") String id);
+
+
     @GET("/inventariable")
     Call<List<InventariableResponse>> getInventariables();
 
@@ -48,7 +59,7 @@ public interface SataService {
     @Multipart
     @POST("/inventariable")
     Call<ResponseBody> uploadInventariable(@Part MultipartBody.Part imagen,
-                                           @Part("codigo") RequestBody codigo,
+                                           @Part("ubicacion") RequestBody ubicacion,
                                             @Part("tipo") RequestBody tipo,
                                             @Part("nombre") RequestBody nombre,
                                             @Part("descripcion") RequestBody descripcion);

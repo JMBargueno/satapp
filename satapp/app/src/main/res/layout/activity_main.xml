@@ -33,6 +33,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/buttonUsNV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="usersnv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.366" />
+
+    <Button
         android:id="@+id/buttonGoTicket"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
