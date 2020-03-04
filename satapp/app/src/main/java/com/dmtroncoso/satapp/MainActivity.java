@@ -30,14 +30,14 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
-<<<<<<< HEAD
-    Button btnScanner, btnTicket, btnListInventoriable;
-=======
 
-    Button btnScanner, btnTicket, btnGoTicket, btnInv;
+    Button btnScanner, btnTicket, btnListInventoriable;
+
+
+    Button btnGoTicket;
     SataService service;
 
->>>>>>> master
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        btnInv = findViewById(R.id.buttonInv);
+
 
         btnTicket = findViewById(R.id.buttonTicket);
-<<<<<<< HEAD
 
-=======
         btnGoTicket = findViewById(R.id.buttonGoTicket);
 
         btnGoTicket.setOnClickListener(new View.OnClickListener() {
@@ -60,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MyApp.getContext(), TicketActivity.class));
             }
         });
->>>>>>> master
+
         btnTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MyApp.getContext(), NewTicketActivity.class));
             }
         });
-<<<<<<< HEAD
+
         btnListInventoriable = findViewById(R.id.buttonListInventoriable);
         btnListInventoriable.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,20 +73,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MyApp.getContext(), InventariableListActivity.class));
             }
         });
-=======
+
 
 
         service = ServiceGenerator.createServiceTicket(SataService.class);
 
-        btnInv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MyApp.getContext(), NewInvActivity.class));
-            }
-        });
 
 
->>>>>>> master
+
+
     }
 
     @Override
