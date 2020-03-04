@@ -21,8 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dmtroncoso.satapp.CalendarActivity;
-import com.dmtroncoso.satapp.MainActivity;
 import com.dmtroncoso.satapp.QRScannerActivity;
 import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.common.MyApp;

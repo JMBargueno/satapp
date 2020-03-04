@@ -53,12 +53,12 @@ public class LoggingActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (!edtEmail.getText().toString().isEmpty() && !edtPassword.getText().toString().isEmpty()) {
+
+                    SataService service = ServiceGenerator.createService(SataService.class, edtEmail.getText().toString(), edtPassword.getText().toString());
 
                     if (token.isEmpty()) {
                         //Llamada al servicio
-                        service = ServiceGenerator.createService(SataService.class, edtEmail.getText().toString(), edtPassword.getText().toString());
 
                         Call<UserResponse> call = service.login();
                         call.enqueue(new Callback<UserResponse>() {
@@ -74,7 +74,6 @@ public class LoggingActivity extends AppCompatActivity {
 
                                 } else {
                                     Toast.makeText(LoggingActivity.this, "Email y/o contraseña incorrecta", Toast.LENGTH_SHORT).show();
-
                                 }
                             }
 

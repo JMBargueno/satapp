@@ -20,11 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dmtroncoso.satapp.CalendarActivity;
 import com.dmtroncoso.satapp.R;
-import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.data.anotaciones.AnotacionViewModel;
-import com.dmtroncoso.satapp.retrofit.model.anotaciones.Notas;
 import com.dmtroncoso.satapp.tickets.Anotaciones;
 
 import java.util.Calendar;
@@ -160,7 +157,7 @@ public class anotacionesFragment extends Fragment {
                 startActivity(shareIntent);
                 break;
             case R.id.calendarEvent:
-                /*Calendar beginTime = Calendar.getInstance();
+                Calendar beginTime = Calendar.getInstance();
                 beginTime.set(2020, 2, 01, 18, 54);
                 Calendar endTime = Calendar.getInstance();
                 endTime.set(2020, 2, 01, 21, 01);
@@ -178,7 +175,7 @@ public class anotacionesFragment extends Fragment {
                         .putExtra(CalendarContract.Events.ALLOWED_REMINDERS, "METHOD_DEFAULT")
                         .putExtra(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
                         .putExtra(CalendarContract.Reminders.MINUTES,5);
-                startActivity(intent);*/
+                startActivity(intent);
                 break;
         }
 

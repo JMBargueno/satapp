@@ -18,7 +18,6 @@
         <activity android:name=".InventariableListActivity"></activity>
         <activity android:name=".ValidateUserActivity" />
         <activity android:name=".AssignIncidenceActivity" />
-        <activity android:name=".CalendarActivity" />
         <activity android:name=".tickets.NewTicketActivity" />
         <activity android:name=".tickets.TicketActivity"></activity>
         <activity android:name=".anotaciones.AnotacionesActivity" />
