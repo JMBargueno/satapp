@@ -82,5 +82,8 @@ public interface SataService {
     @GET("/users/img/{id}")
     Call<ResponseBody> getImageOfUser(@Path("id") String idImage);
 
+    @GET("/inventariable/{id}")
+    Call<ResponseBody> getInventariableById(@Path("id") String idInv);
+
 }
 
