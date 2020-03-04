@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".InventariableListActivity"></activity>
+        <activity android:name=".inventariables.InventariableListActivity"></activity>
         <activity android:name=".ValidateUserActivity" />
         <activity android:name=".AssignIncidenceActivity" />
         <activity android:name=".CalendarActivity" />

@@ -20,6 +20,9 @@ public class InventariableResponse {
     @SerializedName("descripcion")
     @Expose
     private String descripcion;
+    @SerializedName("ubicacion")
+    @Expose
+    private String ubicacion;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
@@ -29,6 +32,21 @@ public class InventariableResponse {
     @SerializedName("imagen")
     @Expose
     private String imagen;
+
+    public InventariableResponse() {
+    }
+
+    public InventariableResponse(String id, String codigo, String tipo, String nombre, String descripcion, String ubicacion, String createdAt, String updatedAt, String imagen) {
+        this.id = id;
+        this.codigo = codigo;
+        this.tipo = tipo;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.ubicacion = ubicacion;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.imagen = imagen;
+    }
 
     public String getId() {
         return id;
@@ -68,6 +86,14 @@ public class InventariableResponse {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
     public String getCreatedAt() {

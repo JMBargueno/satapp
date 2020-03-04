@@ -1,11 +1,10 @@
-package com.dmtroncoso.satapp;
+package com.dmtroncoso.satapp.inventariables;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 
-import com.dmtroncoso.satapp.viewmodel.InventariableViewModel;
+import com.dmtroncoso.satapp.R;
 
 public class InventariableListActivity extends AppCompatActivity {
 

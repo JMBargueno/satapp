@@ -20,6 +20,9 @@ public class Inventariable {
     @SerializedName("descripcion")
     @Expose
     private String descripcion;
+    @SerializedName("ubicacion")
+    @Expose
+    private String ubicacion;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
@@ -68,6 +71,14 @@ public class Inventariable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
     public String getCreatedAt() {

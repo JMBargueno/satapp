@@ -1,8 +1,10 @@
-package com.dmtroncoso.satapp.viewmodel;
+package com.dmtroncoso.satapp.inventariables;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
@@ -14,7 +16,7 @@ import java.util.List;
 
 public class InventariableViewModel extends AndroidViewModel {
 
-    MutableLiveData<PagedList<InventariableResponse>> inventariableList;
+    MutableLiveData<List<InventariableResponse>> inventariableList;
     InventariableRepository inventariableRepository;
     MutableLiveData<String> idInventoriableSeleccionado;
 
@@ -25,8 +27,8 @@ public class InventariableViewModel extends AndroidViewModel {
         this.idInventoriableSeleccionado.setValue(null);
     }
 
-    public MutableLiveData<PagedList<InventariableResponse>> getInventariableList() {
-        inventariableList = inventariableRepository.getAllInventariables(5);
+    public MutableLiveData<List<InventariableResponse>> getInventariableList(int page, int limit) {
+        inventariableList = inventariableRepository.getAllInventariablesPaginable(page,limit);
         return inventariableList;
     }
 
@@ -36,5 +38,14 @@ public class InventariableViewModel extends AndroidViewModel {
 
     public MutableLiveData<String> getIdInventoriableSeleccionado() {
         return idInventoriableSeleccionado;
+    }
+
+    public void deleteInventariable(String id){
+        inventariableRepository.deleteInventariable(id);
+    }
+
+    public void openDialogInventariableMenu(Context ctx,String id){
+        ModalBottomInventariableFragment dialogInventariable = ModalBottomInventariableFragment.newInstance(id);
+        dialogInventariable.show(((AppCompatActivity)ctx).getSupportFragmentManager(),"ModalBottomInventariableFragment");
     }
 }
