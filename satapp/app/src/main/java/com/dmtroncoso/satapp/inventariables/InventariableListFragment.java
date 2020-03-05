@@ -179,13 +179,15 @@ public class InventariableListFragment extends Fragment {
 
         if(requestCode == SCANNER_INVENT_CODE){
             if(requestCode == Activity.RESULT_OK){
+
                 Call<ResponseBody> call = service.getInventariableById(data.getStringExtra("result"));
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if(response.code() == 200){
-                            //Intent intent = new Intent(context, DETAIL.class);
-                            //startActivity(INTENTDETAIL);
+                            Intent intent = new Intent(context, InventariableDetalleActivity.class);
+                            intent.putExtra("invent",data.getStringExtra("result"));
+                            startActivity(intent);
                             Toast.makeText(context, "Permitido.", Toast.LENGTH_SHORT).show();
                         }else{
 

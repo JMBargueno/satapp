@@ -7,6 +7,7 @@ import androidx.paging.PagedList;
 
 import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
+import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 
@@ -14,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,5 +73,28 @@ public class InventariableRepository {
                 Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public MutableLiveData<ResponseBody> getInventariable(int idInventariable){
+        final MutableLiveData<ResponseBody> data = new MutableLiveData<>();
+        Call<ResponseBody> call = service.getInventariableById(String.valueOf(idInventariable));
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    data.setValue(response.body());
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+        return data;
     }
 }
