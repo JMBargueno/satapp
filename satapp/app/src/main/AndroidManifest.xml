@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme">
 
 
+
         <activity android:name=".InventariableListActivity"></activity>
         <activity android:name=".ValidateUserActivity" />
         <activity android:name=".AssignIncidenceActivity" />
@@ -23,6 +24,7 @@
         <activity android:name=".tickets.TicketActivity" />
         <activity android:name=".anotaciones.AnotacionesActivity" />
         <activity android:name=".CalendarActivity" />
+        <activity android:name=".inventariables.InventariableListActivity"></activity>
         <activity android:name=".tickets.NewTicketActivity" />
         <activity android:name=".NewInvActivity" />
         <activity android:name=".QRScannerActivity" />

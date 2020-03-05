@@ -3,12 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-
-    <item
-        android:id="@+id/calendarEvent"
-        android:icon="@drawable/calendar_white_event"
-        android:title="calendarEvent"
-        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/barCode"
         android:icon="@drawable/ic_white_scan"

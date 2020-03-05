@@ -59,6 +59,7 @@ public class ServiceGenerator {
             AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authToken);
 
             if(!httpClient.interceptors().contains(interceptor)){
+                OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
                 httpClientBuilder.addInterceptor(new Interceptor() {
                     @NotNull
                     @Override
@@ -90,6 +91,7 @@ public class ServiceGenerator {
     }
 
     public static <S> S createServiceRegister(Class<S> serviceClass){
+                OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
                 httpClientBuilder.addInterceptor(new Interceptor() {
                     @NotNull
                     @Override

@@ -33,6 +33,21 @@ public class InventariableResponse {
     @Expose
     private String imagen;
 
+    public InventariableResponse() {
+    }
+
+    public InventariableResponse(String id, String codigo, String tipo, String nombre, String descripcion, String ubicacion, String createdAt, String updatedAt, String imagen) {
+        this.id = id;
+        this.codigo = codigo;
+        this.tipo = tipo;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.ubicacion = ubicacion;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.imagen = imagen;
+    }
+
     public String getId() {
         return id;
     }
