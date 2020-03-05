@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.dmtroncoso.satapp.QRScannerActivity;
 import com.dmtroncoso.satapp.R;
@@ -47,7 +48,6 @@ public class TicketFragment extends Fragment {
     MyTicketRecyclerViewAdapter adapter;
     Context context;
     RecyclerView recyclerView;
-
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
