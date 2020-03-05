@@ -34,6 +34,6 @@ public class InventariableDetalleActivity extends AppCompatActivity {
 
         modelDetallesInventariable = new ViewModelProvider(this).get(InventariableViewModel.class);
 
-        modelDetallesInventariable.getIdInventoriableSeleccionado(idInv).observe(new Observer<ResponseBody>());
+        //modelDetallesInventariable.getIdInventoriableSeleccionado(idInv).observe(new Observer<ResponseBody>());
     }
 }

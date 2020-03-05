@@ -136,7 +136,9 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
             public void onClick(View v) {
                 if (null != mListener) {
                     SharedPreferencesManager.setSomeStringValue("idTicket", holder.mItem.getId());
-                    ctx.startActivity(new Intent(MyApp.getContext(), AnotacionesActivity.class));
+                    Intent intentAnotaciones = new Intent(MyApp.getContext(), AnotacionesActivity.class);
+                    intentAnotaciones.putExtra("intentIdTicket", holder.mItem.getId());
+                    ctx.startActivity(intentAnotaciones);
                     mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
