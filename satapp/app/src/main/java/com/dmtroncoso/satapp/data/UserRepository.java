@@ -1,5 +1,6 @@
 package com.dmtroncoso.satapp.data;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -41,6 +42,7 @@ public class UserRepository {
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if(response.isSuccessful()){
                     data.setValue(response.body());
+                    Log.d("LISTA",response.body().get(0).getName());
 
                 }else{
                     Toast.makeText(MyApp.getContext(), "Error", Toast.LENGTH_SHORT).show();

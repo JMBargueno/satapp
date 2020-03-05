@@ -1,8 +1,12 @@
 package com.dmtroncoso.satapp.tickets;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,10 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.dmtroncoso.satapp.QRScannerActivity;
 import com.dmtroncoso.satapp.R;
+import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.data.TicketViewModel;
 
 import java.util.List;
@@ -29,13 +39,15 @@ public class TicketFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final int SCANNER_CODE = 5;
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     TicketViewModel ticketViewModel;
     List<Ticket> listTickets;
     MyTicketRecyclerViewAdapter adapter;
-
+    Context context;
+    RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,6 +75,8 @@ public class TicketFragment extends Fragment {
         }
 
         ticketViewModel = new ViewModelProvider(getActivity()).get(TicketViewModel.class);
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -72,8 +86,8 @@ public class TicketFragment extends Fragment {
 
         // Set the adapter
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            context = view.getContext();
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -130,5 +144,39 @@ public class TicketFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Ticket item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.main_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.barCode:
+                startActivityForResult(new Intent(MyApp.getContext(), QRScannerActivity.class), SCANNER_CODE);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SCANNER_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                String parts = data.getStringExtra("result");
+                //Toast.makeText(this, parts, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, NewTicketActivity.class);
+                intent.putExtra("idInventario", parts);
+                startActivity(intent);
+            }
+        }
     }
 }

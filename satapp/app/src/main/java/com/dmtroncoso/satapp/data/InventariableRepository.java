@@ -3,12 +3,15 @@ package com.dmtroncoso.satapp.data;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.paging.PagedList;
 
 import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -19,34 +22,54 @@ public class InventariableRepository {
     SataService service;
     MutableLiveData<List<InventariableResponse>> listaInv;
 
-
     public InventariableRepository() {
-        service = ServiceGenerator.createService(SataService.class);
-        listaInv = getAllInventariables();
+        service = ServiceGenerator.createServiceTicket(SataService.class);
+        listaInv = new MutableLiveData<>();
     }
 
-    public MutableLiveData<List<InventariableResponse>> getAllInventariables(){
-        final MutableLiveData data = new MutableLiveData<>();
-        Call<InventariableResponse> call = service.getInventariables();
-
-        call.enqueue(new Callback<InventariableResponse>() {
+    public MutableLiveData<List<InventariableResponse>> getAllInventariablesPaginable(int page, int limit){
+        Call<List<InventariableResponse>> call = service.getInventariablesPagedList(page,limit);
+        call.enqueue(new Callback<List<InventariableResponse>>() {
             @Override
-            public void onResponse(Call<InventariableResponse> call, Response<InventariableResponse> response) {
+            public void onResponse(Call<List<InventariableResponse>> call, Response<List<InventariableResponse>> response) {
                 if(response.isSuccessful()){
-                    data.setValue(response.body());
+                    listaInv.setValue(response.body());
 
                 }else{
-                    Toast.makeText(MyApp.getContext(), "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
-            public void onFailure(Call<InventariableResponse> call, Throwable t) {
-                Toast.makeText(MyApp.getContext(), "Error", Toast.LENGTH_SHORT).show();
-
+            public void onFailure(Call<List<InventariableResponse>> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
+        return listaInv;
+    }
 
-        return data;
+    public void deleteInventariable(final String id){
+        Call<Void> call = service.deleteInventariable(id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    List<InventariableResponse> listaActualizada=new ArrayList<>();
+                    for(int i=0;i<listaInv.getValue().size();i++){
+                        if(listaInv.getValue().get(i).getId()!=id){
+                            listaActualizada.add(listaInv.getValue().get(i));
+                        }
+                    }
+
+                    listaInv.setValue(listaActualizada);
+                    Toast.makeText(MyApp.getContext(), "Equipo eliminado correctamente", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
