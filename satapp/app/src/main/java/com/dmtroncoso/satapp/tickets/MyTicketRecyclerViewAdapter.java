@@ -30,6 +30,8 @@ import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.TicketFragment.OnListFragmentInteractionListener;
 import com.karumi.dexter.Dexter;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -40,6 +42,7 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import okhttp3.Headers;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -112,28 +115,7 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
                 @Override
                 public void onClick(View v) {
                     if(holder.mItem.getFotos().size() > 0 && holder.mItem.getFotos() != null) {
-
-                        new DownloadTask(holder.mItem.getTitulo(), holder.mItem.getDescripcion(), holder.mItem.getId()).execute("https://eloutput.com/app/uploads-eloutput.com/2019/03/sonic-real-imagen-pelicula.jpg");
-                        new DownloadTask(holder.mItem.getTitulo(), holder.mItem.getDescripcion(), holder.mItem.getId()).execute("https://satapp-api.herokuapp.com"+ holder.mItem.getFotos().get(0)+"?access_token=elpabloesunchaquetitasyeltroncosounfatiguitas");
-                        //https://satapp-api.herokuapp.com/"+ holder.mItem.getFotos().get(0)+"?access_token=elpabloesunchaquetitasyeltroncosounfatiguitas
-
-                        /*Call<ResponseBody> call = service.getImageOfTicket(holder.mItem.getId(), 0);
-                        call.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if(response.isSuccessful()){
-                                    final String tokenUser = SharedPreferencesManager.getSomeStringValue("token");
-
-                                }else{
-
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
-                            }
-                        });*/
+                        new DownloadTask(holder.mItem.getTitulo(), holder.mItem.getDescripcion(), holder.mItem.getId()).execute("https://satapp-api.herokuapp.com"+ holder.mItem.getFotos().get(0));
                     }else{
                         Toast.makeText(ctx, "No contiene fotos este ticket", Toast.LENGTH_SHORT).show();
                         Intent sendIntent = new Intent();
@@ -254,11 +236,13 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
      * @throws IOException
      */
     public File downloadFile(String url, Context ctx) throws IOException {
+        final String tokenUser = SharedPreferencesManager.getSomeStringValue("token");
         final OkHttpClient client = new OkHttpClient();
 
         // Montamos la petición
         Request request = new Request.Builder()
                 .url(url)
+                .header("Authorization", "Bearer " + tokenUser)
                 .build();
 
         // Ejecutamos la petición
