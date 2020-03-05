@@ -50,7 +50,9 @@ public class ModalBottomUserFragment extends BottomSheetDialogFragment {
         final MenuItem habilitadoButton = v.findViewById(R.id.action_habilitar);
 
         if(habilitado.equals("true")){
-            habilitadoButton.setVisible(false);
+            habilitadoButton.setTitle("Deshabilitar");
+        }else {
+            habilitadoButton.setTitle("Habilitar");
         }
 
 
@@ -58,7 +60,7 @@ public class ModalBottomUserFragment extends BottomSheetDialogFragment {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int id = menuItem.getItemId();
-                if(id == R.id.action_delete_inventariable){
+                if(id == R.id.action_habilitar){
 
                     getDialog().dismiss();
                     return true;
