@@ -85,12 +85,11 @@ public class InventariableListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_inventariable_list, container, false);
 
         // Set the adapter
-        Context context = view.getContext();
         inventariables = new PagedList<>();
         inventariables.setResults(new ArrayList<>());
 
         recyclerView = (RecyclerView) view;
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(MyApp.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new MyInventariableResponseRecyclerViewAdapter(getActivity(),null, inventariableViewModel);
