@@ -104,6 +104,7 @@ public class NewInvActivity extends AppCompatActivity {
                                         Toast.makeText(NewInvActivity.this, "Equipo registrado", Toast.LENGTH_SHORT).show();
                                         //Intent intent = new Intent(NewInvActivity.this, LoggingActivity.class);
                                         //startActivity(intent);
+                                        onBackPressed();
                                     } else {
                                         Log.e("Upload error", response.errorBody().toString());
                                     }

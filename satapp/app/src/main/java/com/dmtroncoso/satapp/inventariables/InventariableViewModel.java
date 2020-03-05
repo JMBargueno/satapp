@@ -41,7 +41,7 @@ public class InventariableViewModel extends AndroidViewModel {
     }
 
     public void deleteInventariable(String id){
-        inventariableRepository.deleteInventariable(id);
+        inventariableList.setValue(inventariableRepository.deleteInventariable(id));
     }
 
     public void openDialogInventariableMenu(Context ctx,String id){
