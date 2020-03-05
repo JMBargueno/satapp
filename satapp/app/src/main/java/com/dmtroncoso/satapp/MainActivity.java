@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -22,6 +23,7 @@ import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.NewTicketActivity;
 import com.dmtroncoso.satapp.tickets.TicketActivity;
+import com.dmtroncoso.satapp.viewmodel.InventariableViewModel;
 import com.dmtroncoso.satapp.viewmodel.UserViewModel;
 
 import okhttp3.MultipartBody;
@@ -88,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         service = ServiceGenerator.createServiceTicket(SataService.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-        //checkUnvalidatedUsers();
+        checkUnvalidatedUsers();
     }
 
     @Override
@@ -128,26 +131,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkUnvalidatedUsers() {
+    if (userViewModel.getListUserNoVal().getValue()!=null) {
+        if (!userViewModel.getListUserNoVal().getValue().isEmpty()) {
+            int numUnvalidated = userViewModel.getListUserNoVal().getValue().size();
 
-       if (!userViewModel.getListUserNoVal().getValue().isEmpty()){
-           int numUnvalidated = userViewModel.getListUserNoVal().getValue().size();
+            AlertDialog.Builder builderFinish = new AlertDialog.Builder(this);
+            builderFinish.setPositiveButton("¡Vale!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
 
-           AlertDialog.Builder builderFinish = new AlertDialog.Builder(this);
-           builderFinish.setPositiveButton("¡Vale!", new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialog, int which) {
-                   finish();
+                }
+            });
 
-               }
-           });
+            builderFinish.setCancelable(true);
+            builderFinish.setMessage(USUARIOS_SIN_VALIDAR + numUnvalidated);
+            builderFinish.show();
 
-           builderFinish.setCancelable(true);
-           builderFinish.setMessage(USUARIOS_SIN_VALIDAR+numUnvalidated);
-           builderFinish.show();
+        }
 
-       }
-
-
+    }
 
         
 
