@@ -18,6 +18,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -96,6 +97,9 @@ public interface SataService {
 
     @DELETE("/inventariable/{id}")
     Call<Void> deleteInventariable(@Path("id") String id);
+
+    @PUT("/users/{id}/validate")
+    Call<User> validateUser(@Path("id") String id);
 
 
 }
