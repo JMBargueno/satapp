@@ -1,5 +1,6 @@
 package com.dmtroncoso.satapp.data;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -32,13 +33,14 @@ public class UserRepository {
 
     public MutableLiveData<List<User>> getUsersNoVal(){
         final MutableLiveData data = new MutableLiveData<>();
-        Call<List<User>> call = service.getAllUsers();
+        Call<List<User>> call = service.getNonValidate();
 
         call.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if(response.isSuccessful()){
                     data.setValue(response.body());
+                    Log.d("LISTA",response.body().get(0).getName());
 
                 }else{
                     Toast.makeText(MyApp.getContext(), "Error", Toast.LENGTH_SHORT).show();

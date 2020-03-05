@@ -132,8 +132,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkUnvalidatedUsers() {
     if (userViewModel.getListUserNoVal().getValue()!=null) {
-        if (!userViewModel.getListUserNoVal().getValue().isEmpty()) {
+
             int numUnvalidated = userViewModel.getListUserNoVal().getValue().size();
+            Log.d("NUMVALIDATED", String.valueOf(numUnvalidated));
 
             AlertDialog.Builder builderFinish = new AlertDialog.Builder(this);
             builderFinish.setPositiveButton("¡Vale!", new DialogInterface.OnClickListener() {
@@ -154,5 +155,5 @@ public class MainActivity extends AppCompatActivity {
 
         
 
-    }
+
 }
