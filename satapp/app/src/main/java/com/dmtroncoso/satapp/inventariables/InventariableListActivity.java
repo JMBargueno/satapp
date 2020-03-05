@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.dmtroncoso.satapp.NewInvActivity;
 import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.common.MyApp;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
