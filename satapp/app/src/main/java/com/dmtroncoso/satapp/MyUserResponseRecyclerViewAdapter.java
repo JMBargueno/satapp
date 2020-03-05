@@ -39,6 +39,7 @@ public class MyUserResponseRecyclerViewAdapter extends RecyclerView.Adapter<MyUs
         this.mValues = mValues;
         this.userViewModel = userViewModel;
         this.context = context;
+
     }
 
     @Override
@@ -59,7 +60,7 @@ public class MyUserResponseRecyclerViewAdapter extends RecyclerView.Adapter<MyUs
         holder.bottomActionMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                userViewModel.openDialogUserMenu(context,holder.mItem);
             }
         });
 
