@@ -27,8 +27,8 @@ public class InventariableViewModel extends AndroidViewModel {
         this.idInventoriableSeleccionado.setValue(null);
     }
 
-    public MutableLiveData<List<InventariableResponse>> getInventariableList(int page, int limit) {
-        inventariableList = inventariableRepository.getAllInventariablesPaginable(page,limit);
+    public MutableLiveData<List<InventariableResponse>> getInventariableList() {
+        inventariableList = inventariableRepository.getAllInventariables();
         return inventariableList;
     }
 

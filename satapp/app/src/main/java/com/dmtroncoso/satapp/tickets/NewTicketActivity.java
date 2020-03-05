@@ -252,6 +252,7 @@ public class NewTicketActivity extends AppCompatActivity {
                 for(int i=0;i<clipData.getItemCount();i++){
                     ClipData.Item item = clipData.getItemAt(i);
                     fileUris.add(item.getUri());
+                    Log.d("LOG GORDO",item.getUri().getPath());
                 }
                 //Uriselected , obtenemos la primera imagen
                 Glide
