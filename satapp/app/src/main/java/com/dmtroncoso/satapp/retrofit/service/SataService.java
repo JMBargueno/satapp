@@ -105,6 +105,12 @@ public interface SataService {
     @GET("/ticket/user/me")
     Call<List<Ticket>> getTicketsByUser();
 
+    @DELETE("/anotaciones/{id}")
+    Call<ResponseBody> deleteAnotacion(@Path("id") String idAnotacion);
+
+    @DELETE("/ticket/{id}")
+    Call<ResponseBody> deleteTicket(@Path("id") String idTicket);
+
 
 }
 

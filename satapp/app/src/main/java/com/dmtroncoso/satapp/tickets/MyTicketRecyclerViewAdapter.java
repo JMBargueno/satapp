@@ -160,6 +160,10 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
 
     }
 
+    public Ticket getTicket(int position){
+        return mValues.get(position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView txtTitle;

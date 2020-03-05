@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,14 +22,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.dmtroncoso.satapp.QRScannerActivity;
 import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.data.TicketViewModel;
+import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
+import com.dmtroncoso.satapp.retrofit.service.SataService;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A fragment representing a list of Items.
@@ -50,6 +59,7 @@ public class TicketFragment extends Fragment {
     MyTicketRecyclerViewAdapter adapter;
     Context context;
     RecyclerView recyclerView;
+    SataService service;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -79,6 +89,7 @@ public class TicketFragment extends Fragment {
         ticketViewModel = new ViewModelProvider(getActivity()).get(TicketViewModel.class);
 
         setHasOptionsMenu(true);
+        service = ServiceGenerator.createServiceTicket(SataService.class);
     }
 
     @Override
@@ -107,8 +118,35 @@ public class TicketFragment extends Fragment {
                 adapter = new MyTicketRecyclerViewAdapter(listTicketsUser, mListener);
                 recyclerView.setAdapter(adapter);
 
+
                 loadTicketDataByUser();
             }
+            new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    Call<ResponseBody> call = service.deleteTicket(adapter.getTicket(viewHolder.getAdapterPosition()).getId());
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if(response.isSuccessful()){
+                                Toast.makeText(MyApp.getContext(), "Ticket eliminado", Toast.LENGTH_SHORT).show();
+                            }else{
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }).attachToRecyclerView(recyclerView);
         }
 
         return view;
