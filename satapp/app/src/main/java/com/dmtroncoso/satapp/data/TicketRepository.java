@@ -18,12 +18,14 @@ import retrofit2.Response;
 
 public class TicketRepository {
     LiveData<List<Ticket>> allTickets;
+    LiveData<List<Ticket>> ticketsUser;
     SataService sataService;
 
 
     public TicketRepository() {
         sataService = ServiceGenerator.createServiceTicket(SataService.class);
         allTickets = getAllTickets();
+        ticketsUser = getTicketByUser();
     }
 
     public LiveData<List<Ticket>> getAllTickets() {
@@ -46,5 +48,27 @@ public class TicketRepository {
         });
 
         return dataTicket;
+    }
+
+    public LiveData<List<Ticket>> getTicketByUser() {
+        final MutableLiveData<List<Ticket>> dataTicketUser = new MutableLiveData<>();
+
+        Call<List<Ticket>> call = sataService.getTicketsByUser();
+        call.enqueue(new Callback<List<Ticket>>() {
+            @Override
+            public void onResponse(Call<List<Ticket>> call, Response<List<Ticket>> response) {
+                if(response.isSuccessful()){
+                    dataTicketUser.setValue(response.body());
+                }else{
+                    Toast.makeText(MyApp.getContext(), "No se ha podido obtener resultados del api", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Ticket>> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return dataTicketUser;
     }
 }

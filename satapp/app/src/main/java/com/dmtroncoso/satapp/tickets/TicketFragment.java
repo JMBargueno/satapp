@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import com.dmtroncoso.satapp.QRScannerActivity;
 import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.common.MyApp;
+import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.data.TicketViewModel;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class TicketFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     TicketViewModel ticketViewModel;
     List<Ticket> listTickets;
+    List<Ticket> listTicketsUser;
     MyTicketRecyclerViewAdapter adapter;
     Context context;
     RecyclerView recyclerView;
@@ -94,10 +96,19 @@ public class TicketFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            adapter = new MyTicketRecyclerViewAdapter(listTickets, mListener);
-            recyclerView.setAdapter(adapter);
+            String rolUser = SharedPreferencesManager.getSomeStringValue("loggedRole");
 
-            loadTicketData();
+            if(rolUser.equalsIgnoreCase("admin")) {
+                adapter = new MyTicketRecyclerViewAdapter(listTickets, mListener);
+                recyclerView.setAdapter(adapter);
+
+                loadTicketData();
+            }else{
+                adapter = new MyTicketRecyclerViewAdapter(listTicketsUser, mListener);
+                recyclerView.setAdapter(adapter);
+
+                loadTicketDataByUser();
+            }
         }
 
         return view;
@@ -109,6 +120,16 @@ public class TicketFragment extends Fragment {
             public void onChanged(List<Ticket> tickets) {
                 listTickets = tickets;
                 adapter.setData(tickets);
+            }
+        });
+    }
+
+    public void loadTicketDataByUser(){
+        ticketViewModel.getTicketsUser().observe(getActivity(), new Observer<List<Ticket>>() {
+            @Override
+            public void onChanged(List<Ticket> tickets) {
+                listTicketsUser = tickets;
+                adapter.setData(listTicketsUser);
             }
         });
     }

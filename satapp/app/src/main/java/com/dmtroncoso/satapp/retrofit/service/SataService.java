@@ -102,6 +102,9 @@ public interface SataService {
     @POST("/anotacion")
     Call<ResponseBody> createAnotacion(@Body Anotacion anotacion);
 
+    @GET("/ticket/user/me")
+    Call<List<Ticket>> getTicketsByUser();
+
 
 }
 

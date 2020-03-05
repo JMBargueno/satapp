@@ -13,15 +13,20 @@ import java.util.List;
 public class TicketViewModel extends AndroidViewModel {
     TicketRepository ticketRepository;
     LiveData<List<Ticket>> tickets;
+    LiveData<List<Ticket>> ticketsUser;
 
     public TicketViewModel(@NonNull Application application) {
         super(application);
 
         ticketRepository = new TicketRepository();
         tickets = ticketRepository.getAllTickets();
+        ticketsUser = ticketRepository.getTicketByUser();
     }
 
     public LiveData<List<Ticket>> getTickets(){
         return tickets;
+    }
+    public LiveData<List<Ticket>> getTicketsUser(){
+        return ticketsUser;
     }
 }
