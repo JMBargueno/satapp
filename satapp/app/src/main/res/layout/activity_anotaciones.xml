@@ -21,8 +21,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        app:fabSize="normal"
+        android:adjustViewBounds="false"
+        android:clickable="false"
+        android:src="@drawable/ic_add_white_24dp"
         app:backgroundTint="#009EFD"
         app:elevation="6dp"
-        android:src="@drawable/ic_add_white_24dp"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+        app:fabSize="normal"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
