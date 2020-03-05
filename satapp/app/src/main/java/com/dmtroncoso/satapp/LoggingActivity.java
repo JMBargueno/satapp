@@ -29,6 +29,7 @@ public class LoggingActivity extends AppCompatActivity {
     EditText edtEmail, edtPassword;
     TextView txtRegistrarse;
     String token;
+    String loggedRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +70,10 @@ public class LoggingActivity extends AppCompatActivity {
                                 if (response.isSuccessful()) {
                                     Intent intentMainActivity = new Intent(LoggingActivity.this, MainActivity.class);
                                     startActivity(intentMainActivity);
-
+                                    loggedRole = response.body().getUser().getRole();
                                     token = response.body().getToken();
                                     SharedPreferencesManager.setSomeStringValue("token", token);
+                                    SharedPreferencesManager.setSomeStringValue("loggedRole", loggedRole);
                                     SharedPreferencesManager.setSomeStringValue("pictureUser", response.body().getUser().getPicture());
 
                                 } else {
