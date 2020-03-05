@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="com.dmtroncoso.satapp.UserNoValListFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".UserListFragment"
-    tools:listitem="@layout/fragment_user_no_val_list" />
+    android:layout_height="wrap_content"
+    android:layout_marginTop="0dp">
+
+    <Button
+        android:id="@+id/boton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:drawableLeft="@drawable/tick2"
+        android:text="Usuarios"
+        app:layout_constraintBottom_toTopOf="@+id/fragment3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/boton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="8dp"
+        android:drawableLeft="@drawable/wrong2"
+        android:text="Sin validar"
+        app:layout_constraintBottom_toTopOf="@+id/fragment3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/boton1"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="8dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listUser"
+            android:name="com.dmtroncoso.satapp.UserNoValListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".UserListFragment"
+            tools:listitem="@layout/fragment_user_no_val_list">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="57dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

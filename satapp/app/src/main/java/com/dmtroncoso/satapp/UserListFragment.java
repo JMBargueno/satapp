@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
 
 
+import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.viewmodel.UserViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.ResponseBody;
 
 
 public class UserListFragment extends Fragment {
@@ -35,7 +35,12 @@ public class UserListFragment extends Fragment {
     RecyclerView recyclerView;
     Context context;
     String userId;
-    boolean opciones = true;
+    Button botonAll,botonNon;
+    View view;
+    private List listAlluser, listNonValUsers;
+
+
+
 
     public UserListFragment() {
     }
@@ -59,53 +64,85 @@ public class UserListFragment extends Fragment {
         }
 
         userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_no_val_list_list, container, false);
+        view = inflater.inflate(R.layout.fragment_user_no_val_list_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            context = view.getContext();
-            recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+
+        botonAll = view.findViewById(R.id.boton1);
+        botonNon = view.findViewById(R.id.boton2);
+        context = view.getContext();
+        recyclerView =  view.findViewById(R.id.listUser);
+
+        loadAllUsers();
+
+
+
+        botonNon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadNoValUsers();
             }
+        });
 
-             myUserResponseRecyclerViewAdapter= new MyUserResponseRecyclerViewAdapter(null,userViewModel,getActivity());
-            recyclerView.setAdapter(myUserResponseRecyclerViewAdapter);
-        }
+        botonAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadAllUsers();
+            }
+        });
 
 
 
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Toast.makeText(getActivity(), "onResume()", Toast.LENGTH_SHORT).show();
 
-        //TODO IMPORTANTE
 
-        if(opciones = false){
-        userViewModel.getListUserNoVal().observe(getActivity(), new Observer<List<User>>() {
-            @Override
-            public void onChanged(List<User> users) {
-                myUserResponseRecyclerViewAdapter.setData(users);
+
+    public void loadAllUsers(){
+
+        listAlluser = new ArrayList<>();
+            if (mColumnCount <= 1) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(MyApp.getContext()));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-        });}else if(opciones = true){
+
+            myUserResponseRecyclerViewAdapter= new MyUserResponseRecyclerViewAdapter(listAlluser,userViewModel,getActivity());
+            recyclerView.setAdapter(myUserResponseRecyclerViewAdapter);
+
         userViewModel.getListAllusers().observe(getActivity(), new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> allusers) {
-                myUserResponseRecyclerViewAdapter.setData(allusers);
+                listAlluser.addAll(allusers);
+                myUserResponseRecyclerViewAdapter.notifyDataSetChanged();
             }
-        });}
+        });
 
+    }
+
+    public void loadNoValUsers(){
+        listNonValUsers = new ArrayList<>();
+        if (mColumnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(MyApp.getContext()));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+        }
+
+        myUserResponseRecyclerViewAdapter = new MyUserResponseRecyclerViewAdapter(listNonValUsers, userViewModel, context);
+        recyclerView.setAdapter(myUserResponseRecyclerViewAdapter);
+        userViewModel.getListUserNoVal().observe(getActivity(), new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+                listNonValUsers.addAll(users);
+                myUserResponseRecyclerViewAdapter.notifyDataSetChanged();
+            }
+        });
 
     }
 
