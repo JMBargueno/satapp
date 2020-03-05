@@ -34,7 +34,7 @@
         <activity android:name=".anotaciones.AnotacionesActivity" />
         <activity android:name=".inventariables.InventariableListActivity" />
         <activity android:name=".tickets.NewTicketActivity" />
-        <activity android:name=".NewInvActivity" />
+        <activity android:name=".inventariables.NewInvActivity" />
         <activity android:name=".QRScannerActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />

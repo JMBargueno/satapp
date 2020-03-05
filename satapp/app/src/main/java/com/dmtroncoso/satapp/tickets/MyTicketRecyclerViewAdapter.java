@@ -30,6 +30,8 @@ import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.TicketFragment.OnListFragmentInteractionListener;
 import com.karumi.dexter.Dexter;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -40,6 +42,7 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import okhttp3.Headers;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
@@ -107,11 +110,12 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
 
             }
 
+            //Share option in an card
             holder.imageShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(holder.mItem.getFotos().size() > 0 && holder.mItem.getFotos() != null) {
-                        new DownloadTask(holder.mItem.getTitulo(), holder.mItem.getDescripcion()).execute("https://rutacultural.com/wp-content/uploads/2017/06/iglesia-santa-maria-de-los-reales-alcazares-ubeda.jpg");
+                        new DownloadTask(holder.mItem.getTitulo(), holder.mItem.getDescripcion(), holder.mItem.getId()).execute("https://satapp-api.herokuapp.com"+ holder.mItem.getFotos().get(0));
                     }else{
                         Toast.makeText(ctx, "No contiene fotos este ticket", Toast.LENGTH_SHORT).show();
                         Intent sendIntent = new Intent();
@@ -179,15 +183,18 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
 
         String title;
         String description;
+        String idTicket;
 
-        public DownloadTask(String title, String description) {
+        public DownloadTask(String title, String description, String idTicket) {
             this.title = title;
             this.description = description;
+            this.idTicket = idTicket;
         }
 
         @Override
         protected File doInBackground(String... strings) {
             String url = strings[0];
+
             File result = null;
             try {
                 result = downloadFile(url, ctx);
@@ -208,7 +215,7 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "Título : " + title + " / " +"Descripción : " + description);
+            shareIntent.putExtra(Intent.EXTRA_TEXT,"Título : "+ title + " / "+ "Descripción : "+ description);
             shareIntent.putExtra(Intent.EXTRA_STREAM, myPhotoFileUri);
             // Esta parte sirve para obtener, a partir de la extensión del fichero, el tipo mime
             String type = null;
@@ -229,11 +236,13 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
      * @throws IOException
      */
     public File downloadFile(String url, Context ctx) throws IOException {
+        final String tokenUser = SharedPreferencesManager.getSomeStringValue("token");
         final OkHttpClient client = new OkHttpClient();
 
         // Montamos la petición
         Request request = new Request.Builder()
                 .url(url)
+                .header("Authorization", "Bearer " + tokenUser)
                 .build();
 
         // Ejecutamos la petición

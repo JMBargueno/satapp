@@ -49,20 +49,15 @@ public class InventariableRepository {
         return listaInv;
     }
 
-    public void deleteInventariable(final String id){
+    public List<InventariableResponse> deleteInventariable(final String id){
+        List<InventariableResponse> listInventariable = new ArrayList<>();
         Call<Void> call = service.deleteInventariable(id);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()){
-                    List<InventariableResponse> listaActualizada=new ArrayList<>();
-                    for(int i=0;i<listaInv.getValue().size();i++){
-                        if(listaInv.getValue().get(i).getId()!=id){
-                            listaActualizada.add(listaInv.getValue().get(i));
-                        }
-                    }
-
-                    listaInv.setValue(listaActualizada);
+                    List<InventariableResponse> lista = getAllInventariablesPaginable(1, 10).getValue();
+                    listInventariable.addAll(lista);
                     Toast.makeText(MyApp.getContext(), "Equipo eliminado correctamente", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
@@ -73,6 +68,8 @@ public class InventariableRepository {
                 Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
+
+        return listInventariable;
     }
 
     public MutableLiveData<ResponseBody> getInventariable(int idInventariable){
