@@ -138,18 +138,16 @@ public class InventariableListFragment extends Fragment {
             @Override
             public void onChanged(List<InventariableResponse> data) {
                 if (data != null) {
+                    inventariables.getResults().clear();
                     inventariables.getResults().addAll(data);
-
                     inventariables.getResults().sort((InventariableResponse o1, InventariableResponse o2) -> {
                        return o1.getNombre().compareTo(o2.getNombre());
                     });
                 } else {
                     Toast.makeText(getContext(), "No hay más equipos que cargar", Toast.LENGTH_LONG).show();
                 }
-
                 adapter.setData(inventariables.getResults().stream().distinct().collect(Collectors.toList()));
                 recyclerView.setVisibility(View.VISIBLE);
-
                 isLoading = false;
                 isLastPage = currentPage == inventariables.getResults().size();
             }
