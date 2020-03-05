@@ -57,9 +57,9 @@ public interface SataService {
     @POST("/inventariable")
     Call<ResponseBody> uploadInventariable(@Part MultipartBody.Part imagen,
                                            @Part("ubicacion") RequestBody ubicacion,
-                                            @Part("tipo") RequestBody tipo,
-                                            @Part("nombre") RequestBody nombre,
-                                            @Part("descripcion") RequestBody descripcion);
+                                           @Part("tipo") RequestBody tipo,
+                                           @Part("nombre") RequestBody nombre,
+                                           @Part("descripcion") RequestBody descripcion);
 
 
     @Multipart

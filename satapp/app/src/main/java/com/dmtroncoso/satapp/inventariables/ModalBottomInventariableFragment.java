@@ -24,7 +24,7 @@ public class ModalBottomInventariableFragment extends BottomSheetDialogFragment 
     public static ModalBottomInventariableFragment newInstance(String id) {
         ModalBottomInventariableFragment fragment= new ModalBottomInventariableFragment();
         Bundle args = new Bundle();
-        args.putString("inventariable_id",id);
+        args.putString("inventariable_id", id);
         fragment.setArguments(args);
         return fragment;
     }

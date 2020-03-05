@@ -55,7 +55,15 @@ public class MyUserResponseRecyclerViewAdapter extends RecyclerView.Adapter<MyUs
         holder.email.setText(holder.mItem.getEmail());
         holder.role.setText(holder.mItem.getRole());
 
-            if (holder.mItem.getPicture() != null) {
+
+        holder.bottomActionMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        if (holder.mItem.getPicture() != null) {
                 userViewModel.getImgUsr(holder.mItem.getId()).observeForever(new Observer<ResponseBody>() {
                     @Override
                     public void onChanged(ResponseBody responseBody) {
@@ -99,6 +107,8 @@ public class MyUserResponseRecyclerViewAdapter extends RecyclerView.Adapter<MyUs
         public final TextView name;
         public final TextView email;
         public final TextView role;
+        public final ImageView bottomActionMenu;
+
         public User mItem;
 
         public ViewHolder(View view) {
@@ -108,6 +118,7 @@ public class MyUserResponseRecyclerViewAdapter extends RecyclerView.Adapter<MyUs
             email = (TextView) view.findViewById(R.id.email);
             role = (TextView) view.findViewById(R.id.rol);
             fotoPerfil = (ImageView) view.findViewById(R.id.avatar);
+            bottomActionMenu = (ImageView) view.findViewById(R.id.imageViewBottomActionMenu);
         }
 
     }
