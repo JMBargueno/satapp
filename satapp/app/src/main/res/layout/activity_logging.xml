@@ -66,14 +66,23 @@
 
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/buttonLogin"
+    <com.ebanx.swipebtn.SwipeButton
+        android:id="@+id/swipe_btn"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Iniciar sesion"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/custom_button"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        app:button_background="@drawable/shape_button"
+        app:button_bottom_padding="20dp"
+        app:button_right_padding="20dp"
+        app:button_image_disabled="@drawable/ic_account_circle_black_24dp"
+        app:button_image_enabled="@drawable/ic_account_circle_black_24dp"
+        app:button_left_padding="20dp"
+        app:button_top_padding="20dp"
+        app:inner_text="DESLIZA PARA INICIAR SESION"
+        app:inner_text_background="@drawable/shape_rounded"
+        app:inner_text_bottom_padding="18dp"
+        app:inner_text_size="10dp"
+        app:inner_text_top_padding="18dp"
         app:layout_constraintEnd_toEndOf="@+id/cardView2"
         app:layout_constraintStart_toStartOf="@+id/cardView2"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
@@ -86,8 +95,8 @@
         android:layout_marginTop="16dp"
         android:text="¿Aún no eres usuario?"
         android:textColor="#FFFF"
-        app:layout_constraintStart_toStartOf="@+id/buttonLogin"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+        app:layout_constraintStart_toStartOf="@+id/swipe_btn"
+        app:layout_constraintTop_toBottomOf="@+id/swipe_btn" />
 
     <TextView
         android:id="@+id/textViewRegistrarse"
