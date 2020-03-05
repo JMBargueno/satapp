@@ -53,7 +53,6 @@ public class UserRepository {
 
             }
         });
-
         return data;
     }
 

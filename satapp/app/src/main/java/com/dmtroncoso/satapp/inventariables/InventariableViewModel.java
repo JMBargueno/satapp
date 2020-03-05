@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.paging.PagedList;
+
 
 import com.dmtroncoso.satapp.data.InventariableRepository;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
