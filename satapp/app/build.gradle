@@ -61,5 +61,9 @@ dependencies {
     implementation 'com.ebanx:swipe-button:0.4.0'
     //iText pdf
     //implementation 'com.itextpdf:itext7-core:7.0.2'
+    implementation 'com.itextpdf:itext7-core:7.1.8'
+    implementation 'com.itextpdf:io:7.0.2'
+    implementation 'com.itextpdf:kernel:7.0.2'
+    implementation 'com.itextpdf:layout:7.0.2'
 
 }
