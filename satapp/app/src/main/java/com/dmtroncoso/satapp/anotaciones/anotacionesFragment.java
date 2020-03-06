@@ -1,6 +1,8 @@
 package com.dmtroncoso.satapp.anotaciones;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -56,6 +58,7 @@ public class anotacionesFragment extends Fragment {
     SataService service;
     Context context;
     RecyclerView recyclerView;
+    int anotacionPosition;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -121,28 +124,54 @@ public class anotacionesFragment extends Fragment {
 
                 @Override
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                    Call<ResponseBody> call = service.deleteAnotacion(adapter.getAnotaciones(viewHolder.getAdapterPosition()).getId());
-                    call.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            if(response.isSuccessful()){
-                                Toast.makeText(MyApp.getContext(), "Anotación eliminada", Toast.LENGTH_SHORT).show();
-                            }else{
-
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    anotacionPosition = viewHolder.getAdapterPosition();
+                    showAlertDialog();
                 }
             }).attachToRecyclerView(recyclerView);
 
             loadAnotaciones();
         }
         return view;
+    }
+
+    private void showAlertDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setTitle("Eliminar");
+        builder.setMessage("¿Deseas eliminar esta anotación?");
+
+        builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Call<ResponseBody> call = service.deleteAnotacion(adapter.getAnotaciones(anotacionPosition).getId());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(MyApp.getContext(), "Anotación eliminada", Toast.LENGTH_SHORT).show();
+                        }else{
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+
     }
 
     public void loadAnotaciones(){

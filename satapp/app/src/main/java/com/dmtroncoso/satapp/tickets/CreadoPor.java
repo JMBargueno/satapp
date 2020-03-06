@@ -3,7 +3,7 @@ package com.dmtroncoso.satapp.tickets;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class CreadoPor {
+public class CreadoPor {
     @SerializedName("id")
     @Expose
     private String id;
@@ -19,12 +19,23 @@ class CreadoPor {
     @SerializedName("picture")
     @Expose
     private String picture;
+    @SerializedName("validated")
+    @Expose
+    private Boolean validated;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
     @SerializedName("updatedAt")
     @Expose
     private String updatedAt;
+
+    public Boolean getValidated() {
+        return validated;
+    }
+
+    public void setValidated(Boolean validated) {
+        this.validated = validated;
+    }
 
     public String getId() {
         return id;

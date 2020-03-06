@@ -6,6 +6,7 @@ import androidx.fragment.app.DialogFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dmtroncoso.satapp.R;
@@ -13,6 +14,8 @@ import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.model.anotaciones.Notas;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.Anotaciones;
+import com.dmtroncoso.satapp.tickets.CreadoPor;
+import com.dmtroncoso.satapp.tickets.Ticket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import okhttp3.ResponseBody;
@@ -24,6 +27,7 @@ public class AnotacionesActivity extends AppCompatActivity implements anotacione
     FloatingActionButton fbtnAdd;
     SataService service;
     Anotacion anotacion;
+    TextView txtTitulo, txtDesc, txtAsignado, dateCreate, dateUpdate, txtNameUser, txtEmailUser, txtRoleUser, txtValidatedUser, txtCreateUser, txtUpdateUser;
 
 
     @Override
@@ -31,8 +35,50 @@ public class AnotacionesActivity extends AppCompatActivity implements anotacione
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anotaciones);
         fbtnAdd = findViewById(R.id.floatAddAnot);
+        txtTitulo = findViewById(R.id.textViewTituloTDetalle);
+        txtDesc = findViewById(R.id.textViewDescripcionTDetalle);
+        txtAsignado = findViewById(R.id.textViewAsignadoTDetalle);
+        dateCreate = findViewById(R.id.textViewCreadoTDetalle);
+        dateUpdate = findViewById(R.id.textViewUpdateTDetalle);
+        txtNameUser = findViewById(R.id.textViewNameTDetalle);
+        txtEmailUser = findViewById(R.id.textViewEmailTDetalle);
+        txtRoleUser = findViewById(R.id.textViewRoleTDetalle);
+        txtValidatedUser = findViewById(R.id.textViewValidatedTDetalle);
+        txtCreateUser = findViewById(R.id.textViewCreateUserTDetalle);
+        txtUpdateUser = findViewById(R.id.textViewUpdateUserTDetalle);
 
         service = ServiceGenerator.createServiceAnotacion(SataService.class);
+
+        Call<Ticket> call = service.getTicketById(getIntent().getExtras().get("intentIdTicket").toString());
+        call.enqueue(new Callback<Ticket>() {
+            @Override
+            public void onResponse(Call<Ticket> call, Response<Ticket> response) {
+                if(response.isSuccessful()){
+                    Ticket myTicket = response.body();
+                    txtTitulo.setText(myTicket.getTitulo());
+                    txtDesc.setText(myTicket.getDescripcion());
+                    txtAsignado.setText(myTicket.getEstado());
+                    dateCreate.setText(myTicket.getCreatedAt());
+                    dateUpdate.setText(myTicket.getUpdatedAt());
+
+                    //User
+                    txtNameUser.setText(myTicket.getCreadoPor().getName());
+                    txtEmailUser.setText(myTicket.getCreadoPor().getEmail());
+                    txtRoleUser.setText("Rol : " + myTicket.getCreadoPor().getRole());
+                    txtValidatedUser.setText("Validado : " + myTicket.getCreadoPor().getValidated().toString());
+                    txtCreateUser.setText(myTicket.getCreadoPor().getCreatedAt());
+                    txtUpdateUser.setText(myTicket.getCreadoPor().getUpdatedAt());
+
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Ticket> call, Throwable t) {
+
+            }
+        });
 
         fbtnAdd.setOnClickListener(new View.OnClickListener() {
             @Override

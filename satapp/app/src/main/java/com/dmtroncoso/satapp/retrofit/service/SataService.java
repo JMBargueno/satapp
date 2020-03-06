@@ -84,6 +84,9 @@ public interface SataService {
     @GET("/ticket/{id}")
     Call<Ticket> getTicketById(@Path("id") String id);
 
+    @GET("/ticket/{id}")
+    Call<ResponseBody> getTicketByIdResponseBody(@Path("id") String id);
+
     @GET("/ticket/img/{id}/{index}")
     Call<ResponseBody> getImageOfTicket(@Path("id") String idImage, @Path("index") int index);
 
