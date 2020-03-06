@@ -1,6 +1,7 @@
 package com.dmtroncoso.satapp.retrofit.service;
 
 
+import com.dmtroncoso.satapp.anotaciones.Anotacion;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
@@ -14,6 +15,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -83,6 +85,9 @@ public interface SataService {
     @GET("/ticket/{id}")
     Call<Ticket> getTicketById(@Path("id") String id);
 
+    @GET("/ticket/{id}")
+    Call<ResponseBody> getTicketByIdResponseBody(@Path("id") String id);
+
     @GET("/ticket/img/{id}/{index}")
     Call<ResponseBody> getImageOfTicket(@Path("id") String idImage, @Path("index") int index);
 
@@ -100,6 +105,19 @@ public interface SataService {
 
     @PUT("/users/{id}/validate")
     Call<User> validateUser(@Path("id") String id);
+
+    @POST("/anotacion")
+    Call<ResponseBody> createAnotacion(@Body Anotacion anotacion);
+
+    @GET("/ticket/user/me")
+    Call<List<Ticket>> getTicketsByUser();
+
+    @DELETE("/anotaciones/{id}")
+    Call<ResponseBody> deleteAnotacion(@Path("id") String idAnotacion);
+
+    @DELETE("/ticket/{id}")
+    Call<ResponseBody> deleteTicket(@Path("id") String idTicket);
+
 
 
 }

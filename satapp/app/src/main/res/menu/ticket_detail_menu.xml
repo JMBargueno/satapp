@@ -8,11 +8,6 @@
         android:title="Calendar"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/share"
-        android:icon="@drawable/ic_share_share_24dp"
-        android:title="Item"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/logoutDetail"
         android:title="Log out" />
 </menu>

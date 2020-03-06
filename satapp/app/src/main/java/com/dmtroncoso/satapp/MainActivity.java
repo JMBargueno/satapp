@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                     builderFinish.setPositiveButton("¡Vale!", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            
+
 
                         }
                     });

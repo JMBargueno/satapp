@@ -17,6 +17,7 @@ import android.widget.Button;
 
 
 import com.dmtroncoso.satapp.common.MyApp;
+import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.viewmodel.UserViewModel;
 
@@ -37,7 +38,7 @@ public class UserListFragment extends Fragment {
     String userId;
     Button botonAll,botonNon;
     View view;
-    private List listAlluser, listNonValUsers;
+    private List listAlluser, listNonValUsers, listNoAdmin;
 
 
 
@@ -107,22 +108,30 @@ public class UserListFragment extends Fragment {
     public void loadAllUsers(){
 
         listAlluser = new ArrayList<>();
+        listNoAdmin = new ArrayList();
+        listNoAdmin.add(new User(null, "No eres administrador", null, null));
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(MyApp.getContext()));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            myUserResponseRecyclerViewAdapter= new MyUserResponseRecyclerViewAdapter(listAlluser,userViewModel,getActivity());
-            recyclerView.setAdapter(myUserResponseRecyclerViewAdapter);
+        String rolUser = SharedPreferencesManager.getSomeStringValue("loggedRole");
+            if(rolUser.equalsIgnoreCase("admin")) {
+                myUserResponseRecyclerViewAdapter = new MyUserResponseRecyclerViewAdapter(listAlluser, userViewModel, getActivity());
+                recyclerView.setAdapter(myUserResponseRecyclerViewAdapter);
 
-        userViewModel.getListAllusers().observe(getActivity(), new Observer<List<User>>() {
-            @Override
-            public void onChanged(List<User> allusers) {
-                listAlluser.addAll(allusers);
-                myUserResponseRecyclerViewAdapter.notifyDataSetChanged();
+                userViewModel.getListAllusers().observe(getActivity(), new Observer<List<User>>() {
+                    @Override
+                    public void onChanged(List<User> allusers) {
+                        listAlluser.addAll(allusers);
+                        myUserResponseRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                });
+            }else{
+                myUserResponseRecyclerViewAdapter = new MyUserResponseRecyclerViewAdapter(listNoAdmin, null, getActivity());
+                recyclerView.setAdapter(myUserResponseRecyclerViewAdapter);
             }
-        });
 
     }
 

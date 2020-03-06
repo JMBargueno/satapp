@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".common.MyApp"
@@ -15,6 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".PdfActivity"></activity>
+        <activity android:name=".inventariables.InventariableDetalleActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -23,15 +26,15 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <activity android:name=".ValidateUserActivity" />
         <activity android:name=".AssignIncidenceActivity" />
-        <activity android:name=".ListUserActivity"></activity>
+        <activity android:name=".ListUserActivity" />
         <activity android:name=".tickets.TicketActivity" />
         <activity android:name=".anotaciones.AnotacionesActivity" />
-        <activity android:name=".inventariables.InventariableListActivity"></activity>
+        <activity android:name=".inventariables.InventariableListActivity" />
         <activity android:name=".tickets.NewTicketActivity" />
         <activity android:name=".inventariables.NewInvActivity" />
         <activity android:name=".QRScannerActivity" />

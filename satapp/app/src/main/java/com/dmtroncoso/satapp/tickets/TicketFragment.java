@@ -1,7 +1,9 @@
 package com.dmtroncoso.satapp.tickets;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,13 +24,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.dmtroncoso.satapp.QRScannerActivity;
 import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.common.MyApp;
+import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.data.TicketViewModel;
+import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
+import com.dmtroncoso.satapp.retrofit.service.SataService;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A fragment representing a list of Items.
@@ -45,9 +57,12 @@ public class TicketFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     TicketViewModel ticketViewModel;
     List<Ticket> listTickets;
+    List<Ticket> listTicketsUser;
     MyTicketRecyclerViewAdapter adapter;
     Context context;
     RecyclerView recyclerView;
+    SataService service;
+    int ticketPosition;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -77,6 +92,7 @@ public class TicketFragment extends Fragment {
         ticketViewModel = new ViewModelProvider(getActivity()).get(TicketViewModel.class);
 
         setHasOptionsMenu(true);
+        service = ServiceGenerator.createServiceTicket(SataService.class);
     }
 
     @Override
@@ -94,13 +110,115 @@ public class TicketFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            adapter = new MyTicketRecyclerViewAdapter(listTickets, mListener);
-            recyclerView.setAdapter(adapter);
+            String rolUser = SharedPreferencesManager.getSomeStringValue("loggedRole");
 
-            loadTicketData();
+            if(rolUser.equalsIgnoreCase("admin")) {
+                adapter = new MyTicketRecyclerViewAdapter(listTickets, mListener);
+                recyclerView.setAdapter(adapter);
+
+                loadTicketData();
+            }else{
+                adapter = new MyTicketRecyclerViewAdapter(listTicketsUser, mListener);
+                recyclerView.setAdapter(adapter);
+
+
+                loadTicketDataByUser();
+            }
+            new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    ticketPosition = viewHolder.getAdapterPosition();
+                    showAlertDialog();
+                }
+            }).attachToRecyclerView(recyclerView);
         }
 
         return view;
+    }
+
+    private void showAlertDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setTitle("Eliminar");
+        builder.setMessage("¿Deseas eliminar este ticket?");
+
+        builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Call<ResponseBody> call = service.deleteTicket(adapter.getTicket(ticketPosition).getId());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(MyApp.getContext(), "Ticket eliminado", Toast.LENGTH_SHORT).show();
+                        }else{
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+
+    }
+
+    private void showAlertDialogQR(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setTitle("QR");
+        builder.setMessage("¿Qué deseas hacer con este ?");
+
+        builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Call<ResponseBody> call = service.deleteTicket(adapter.getTicket(ticketPosition).getId());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(MyApp.getContext(), "Ticket eliminado", Toast.LENGTH_SHORT).show();
+                        }else{
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+
     }
 
     public void loadTicketData(){
@@ -109,6 +227,16 @@ public class TicketFragment extends Fragment {
             public void onChanged(List<Ticket> tickets) {
                 listTickets = tickets;
                 adapter.setData(tickets);
+            }
+        });
+    }
+
+    public void loadTicketDataByUser(){
+        ticketViewModel.getTicketsUser().observe(getActivity(), new Observer<List<Ticket>>() {
+            @Override
+            public void onChanged(List<Ticket> tickets) {
+                listTicketsUser = tickets;
+                adapter.setData(listTicketsUser);
             }
         });
     }
