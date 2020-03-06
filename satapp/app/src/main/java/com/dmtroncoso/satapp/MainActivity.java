@@ -36,8 +36,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
-    CardView cvTicket, cvPc, cvUser;
-    ImageView buttonProfile;
     CardView cvTicket, cvPc, cvUser, cvQR;
     Button buttonProfile;
 
@@ -55,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         cvTicket = findViewById(R.id.cardViewTicket);
         cvPc = findViewById(R.id.cardViewPc);
         cvUser = findViewById(R.id.cardViewUser);
-        buttonProfile = findViewById(R.id.profile);
         cvQR = findViewById(R.id.cardViewQR);
         usuariosPorValidar = findViewById(R.id.textViewUsuariosPorValidar);
 
