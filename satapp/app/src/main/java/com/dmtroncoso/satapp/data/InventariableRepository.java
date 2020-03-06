@@ -9,6 +9,7 @@ import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
+import com.dmtroncoso.satapp.retrofit.model.RequestEditInventariable;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 
 import java.io.File;
@@ -115,5 +116,24 @@ public class InventariableRepository {
         });
 
         return inventariable;
+    }
+
+    public void updateInventariable(String idInventariable, RequestEditInventariable req){
+        Call<InventariableResponse> call = service.editInventariable(idInventariable, req);
+        call.enqueue(new Callback<InventariableResponse>() {
+            @Override
+            public void onResponse(Call<InventariableResponse> call, Response<InventariableResponse> response) {
+                if(response.isSuccessful()){
+                    inventariable.setValue(response.body());
+                    Toast.makeText(MyApp.getContext(), "Equipo editado correctamente", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<InventariableResponse> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Error en la conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

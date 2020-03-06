@@ -1,7 +1,6 @@
 package com.dmtroncoso.satapp.inventariables;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -9,8 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dmtroncoso.satapp.R;
-
-import okhttp3.ResponseBody;
 
 public class InventariableDetalleActivity extends AppCompatActivity {
 
@@ -24,10 +21,10 @@ public class InventariableDetalleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inventariable_detalle);
 
         imgInv = findViewById(R.id.fotoDet);
-        nombre = findViewById(R.id.nombreInv);
-        tipo = findViewById(R.id.tipoInv);
+        nombre = findViewById(R.id.nombreInvEdit);
+        tipo = findViewById(R.id.tipoInvEdit);
         descripcion = findViewById(R.id.descInv);
-        ubicacion = findViewById(R.id.ubicacionInv);
+        ubicacion = findViewById(R.id.ubicacionInvEdit);
 
         Bundle extras = getIntent().getExtras();
         idInv = extras.getInt("invent");

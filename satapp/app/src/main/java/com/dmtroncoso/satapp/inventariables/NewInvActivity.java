@@ -51,7 +51,7 @@ public class NewInvActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_inv);
 
         textViewCrearInv = findViewById(R.id.textView);
-        btnAdd = findViewById(R.id.buttonAdd);
+        btnAdd = findViewById(R.id.buttonInv);
         edtName = findViewById(R.id.nombreInv);
         editType = findViewById(R.id.tipoInv);
         editDesc = findViewById(R.id.descripcionInv);

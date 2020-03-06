@@ -4,6 +4,7 @@ package com.dmtroncoso.satapp.retrofit.service;
 import com.dmtroncoso.satapp.anotaciones.Anotacion;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 
+import com.dmtroncoso.satapp.retrofit.model.RequestEditInventariable;
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.model.UserResponse;
@@ -117,7 +118,7 @@ public interface SataService {
 
     @PUT("/inventariable/{id}")
     Call<InventariableResponse> editInventariable(@Path("id") String idInv,
-                                         @Body InventariableResponse inventariableResponse);
+                                         @Body RequestEditInventariable requestEditInventariable);
 
 
 }

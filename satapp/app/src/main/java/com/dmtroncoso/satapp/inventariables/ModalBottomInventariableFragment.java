@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.common.MyApp;
+import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 
@@ -22,6 +23,7 @@ public class ModalBottomInventariableFragment extends BottomSheetDialogFragment 
 
     private InventariableViewModel inventariableViewModel;
     private String idInventariableAction;
+    private SharedPreferencesManager sharedPreferencesManager;
 
     public static ModalBottomInventariableFragment newInstance(String id) {
         ModalBottomInventariableFragment fragment= new ModalBottomInventariableFragment();
@@ -55,8 +57,8 @@ public class ModalBottomInventariableFragment extends BottomSheetDialogFragment 
                     return true;
                 }else if(id==R.id.action_edit_inventariable){
                     inventariableViewModel.getInventariableById(idInventariableAction);
+                    sharedPreferencesManager.setSomeStringValue("idInventariable",idInventariableAction);
                     Intent i = new Intent(MyApp.getContext(),InventariableDetalleFromMenuActivity.class);
-                    i.putExtra("id",idInventariableAction);
                     startActivity(i);
                     getDialog().dismiss();
                     return true;

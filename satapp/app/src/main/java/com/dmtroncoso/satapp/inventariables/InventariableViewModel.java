@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.dmtroncoso.satapp.data.InventariableRepository;
 import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
+import com.dmtroncoso.satapp.retrofit.model.RequestEditInventariable;
 
 import java.util.List;
 
@@ -43,16 +44,17 @@ public class InventariableViewModel extends AndroidViewModel {
     }
 
     public void deleteInventariable(String id){
-        inventariableList.setValue(inventariableRepository.deleteInventariable(id));
+        inventariableList.setValue(inventariableRepository.deleteInvcd..
+                cdentariable(id));
     }
 
     public MutableLiveData<InventariableResponse> getInventariableById(String id){
         inventariable = inventariableRepository.getInventariableById(id);
         return inventariable;
     }
-//    public InventariableResponse editInventariable(String id){
-//        inventariableList.setValue(inventariableRepository.editInventariable(id));
-//    }
+    public void updateInventariable(String id, RequestEditInventariable req){
+        inventariableRepository.updateInventariable(id, req);
+    }
 
     public void openDialogInventariableMenu(Context ctx,String id){
         ModalBottomInventariableFragment dialogInventariable = ModalBottomInventariableFragment.newInstance(id);
