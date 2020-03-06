@@ -9,6 +9,7 @@ import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
+import com.dmtroncoso.satapp.retrofit.model.RequestEditInventariable;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 
 import java.io.File;
@@ -23,10 +24,12 @@ import retrofit2.Response;
 public class InventariableRepository {
     SataService service;
     MutableLiveData<List<InventariableResponse>> listaInv;
+    MutableLiveData<InventariableResponse> inventariable;
 
     public InventariableRepository() {
         service = ServiceGenerator.createServiceTicket(SataService.class);
         listaInv = new MutableLiveData<>();
+        inventariable = new MutableLiveData<>();
     }
 
     public MutableLiveData<List<InventariableResponse>> getAllInventariables(){
@@ -94,16 +97,59 @@ public class InventariableRepository {
         return data;
     }
 
-    public MutableLiveData<Inventariable> getOneInventariable(String idInventariable){
+
+
+    public MutableLiveData<InventariableResponse> getInventariableById(String idInventariable) {
+
+        Call<InventariableResponse> call = service.getInventariable(idInventariable);
+        call.enqueue(new Callback<InventariableResponse>() {
+            @Override
+            public void onResponse(Call<InventariableResponse> call, Response<InventariableResponse> response) {
+                if(response.isSuccessful()){
+                    inventariable.setValue(response.body());
+                }else{
+                    Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<InventariableResponse> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Error en la conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return inventariable;
+    }
+
+    public void updateInventariable(String idInventariable, RequestEditInventariable req) {
+        Call<InventariableResponse> call = service.editInventariable(idInventariable, req);
+        call.enqueue(new Callback<InventariableResponse>() {
+            @Override
+            public void onResponse(Call<InventariableResponse> call, Response<InventariableResponse> response) {
+                if (response.isSuccessful()) {
+                    inventariable.setValue(response.body());
+                    Toast.makeText(MyApp.getContext(), "Equipo editado correctamente", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InventariableResponse> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Error en la conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public MutableLiveData<Inventariable> getOneInventariable(int idInventariable){
         final MutableLiveData<Inventariable> data = new MutableLiveData<>();
-        Call<Inventariable> call = service.getInventariableId(idInventariable);
+        Call<Inventariable> call = service.getInventariableId(String.valueOf(idInventariable));
 
         call.enqueue(new Callback<Inventariable>() {
             @Override
             public void onResponse(Call<Inventariable> call, Response<Inventariable> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     data.setValue(response.body());
-                }else{
+                } else {
 
                 }
             }
@@ -117,4 +163,5 @@ public class InventariableRepository {
         return data;
 
     }
+
 }

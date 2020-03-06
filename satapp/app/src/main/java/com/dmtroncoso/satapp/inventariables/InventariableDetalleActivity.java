@@ -22,6 +22,7 @@ import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.model.Inventariable;
+
 import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 
@@ -30,14 +31,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 public class InventariableDetalleActivity extends AppCompatActivity {
 
     String idInv;
     ImageView imgInv;
-    TextView nombre,tipo,descripcion,ubicacion;
+    TextView nombre, tipo, descripcion, ubicacion;
     InventariableViewModel inventariableViewModel;
     SataService service = ServiceGenerator.createServiceTicket(SataService.class);
     SharedPreferencesManager sharedPreferencesManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +58,8 @@ public class InventariableDetalleActivity extends AppCompatActivity {
         getOneInventariable(idInv);
 
 
-
         //modelDetallesInventariable = new ViewModelProvider(this).get(InventariableDetalleViewModel.class);
+
 
         /*modelDetallesInventariable.getInventariable2(idInv).observe(InventariableDetalleActivity.this,new Observer<Inventariable>() {
             @Override
@@ -80,21 +83,21 @@ public class InventariableDetalleActivity extends AppCompatActivity {
 
     }
 
-    public MutableLiveData<Inventariable> getOneInventariable(String idInv){
+    public MutableLiveData<Inventariable> getOneInventariable(String idInv) {
         final MutableLiveData<Inventariable> data = new MutableLiveData<>();
         Call<Inventariable> call = service.getInventariableId(idInv);
 
         call.enqueue(new Callback<Inventariable>() {
             @Override
             public void onResponse(Call<Inventariable> call, Response<Inventariable> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     nombre.setText(response.body().getNombre());
                     tipo.setText(response.body().getTipo());
                     descripcion.setText(response.body().getDescripcion());
                     ubicacion.setText(response.body().getUbicacion());
-                    if(response.body().getImagen()!=null) {
+                    if (response.body().getImagen() != null) {
                         GlideUrl glideUrl = new GlideUrl(Constantes.URL_BASE + response.body().getImagen()
-                                ,new LazyHeaders.Builder()
+                                , new LazyHeaders.Builder()
                                 .addHeader("Authorization", "Bearer " + sharedPreferencesManager.getSomeStringValue("token"))
                                 .build());
                         Glide
@@ -103,7 +106,7 @@ public class InventariableDetalleActivity extends AppCompatActivity {
                                 .into(imgInv);
                     }
 
-                }else{
+                } else {
                     Toast.makeText(MyApp.getContext(), "Ha surgido un problema", Toast.LENGTH_SHORT).show();
 
                 }
@@ -113,9 +116,10 @@ public class InventariableDetalleActivity extends AppCompatActivity {
             public void onFailure(Call<Inventariable> call, Throwable t) {
 
             }
+
+
         });
 
         return data;
-
     }
 }

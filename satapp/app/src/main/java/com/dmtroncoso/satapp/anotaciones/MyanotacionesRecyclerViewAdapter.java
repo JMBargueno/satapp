@@ -1,6 +1,5 @@
 package com.dmtroncoso.satapp.anotaciones;
 
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -16,11 +15,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.dmtroncoso.satapp.R;
-import com.dmtroncoso.satapp.anotaciones.anotacionesFragment.OnListFragmentInteractionListener;
-import com.dmtroncoso.satapp.common.MyApp;
-import com.dmtroncoso.satapp.data.anotaciones.AnotacionViewModel;
+import com.dmtroncoso.satapp.anotaciones.AnotacionesFragment.OnListFragmentInteractionListener;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
-import com.dmtroncoso.satapp.retrofit.model.anotaciones.Notas;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.Anotaciones;
 

@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.dmtroncoso.satapp.common.Constants;
 import com.dmtroncoso.satapp.common.MyApp;
@@ -35,11 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
     CardView cvTicket, cvPc, cvUser;
-    Button buttonProfile;
+    ImageView buttonProfile;
 
     SataService service;
     UserViewModel userViewModel;
     String loggedRole;
+    TextView usuariosPorValidar;
 
 
     @Override
@@ -50,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
         cvTicket = findViewById(R.id.cardViewTicket);
         cvPc = findViewById(R.id.cardViewPc);
         cvUser = findViewById(R.id.cardViewUser);
-        buttonProfile = findViewById(R.id.button);
+        buttonProfile = findViewById(R.id.profile);
+        usuariosPorValidar = findViewById(R.id.textViewUsuariosPorValidar);
 
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
 
 
             @Override
-            public void onChanged(List<User> users) {
+            public void onChanged(List<User> usersUnvalidated) {
 
-                if (!users.isEmpty()) {
-                    int unvalidatedUsers = users.size();
+                if (!usersUnvalidated.isEmpty()) {
+                    usuariosPorValidar.setVisibility(View.VISIBLE);
 
-                    AlertDialog.Builder builderFinish = new AlertDialog.Builder(MainActivity.this);
+                    /*AlertDialog.Builder builderFinish = new AlertDialog.Builder(MainActivity.this);
                     builderFinish.setPositiveButton("¡Vale!", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -115,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     builderFinish.setCancelable(true);
-                    builderFinish.setMessage(Constants.USUARIOS_SIN_VALIDAR+unvalidatedUsers);
-                    builderFinish.show();
+                    builderFinish.setMessage(Constants.USUARIOS_SIN_VALIDAR);
+                    builderFinish.show();*/
                 }
             }
         });

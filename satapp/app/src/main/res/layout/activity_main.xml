@@ -9,10 +9,16 @@
     android:background="@drawable/custom_bg"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/profile"
+        android:layout_width="118dp"
+        android:layout_height="84dp"
+        app:srcCompat="@drawable/ic_account_circle_black_24dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="25dp"
         android:clipToPadding="false"
         android:gravity="center"
@@ -145,6 +151,15 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="Nuestros clientes" />
+
+                <TextView
+                    android:id="@+id/textViewUsuariosPorValidar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/usuarios_por_validar"
+                    android:textColor="#CD2D2D"
+                    android:visibility="invisible" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -190,12 +205,6 @@
 
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 
 
 </LinearLayout>
