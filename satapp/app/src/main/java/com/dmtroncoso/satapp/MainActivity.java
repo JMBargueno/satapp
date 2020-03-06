@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     static final int SCANNER_CODE = 5;
     CardView cvTicket, cvPc, cvUser;
     ImageView buttonProfile;
+    CardView cvTicket, cvPc, cvUser, cvQR;
+    Button buttonProfile;
 
     SataService service;
     UserViewModel userViewModel;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         cvPc = findViewById(R.id.cardViewPc);
         cvUser = findViewById(R.id.cardViewUser);
         buttonProfile = findViewById(R.id.profile);
+        cvQR = findViewById(R.id.cardViewQR);
         usuariosPorValidar = findViewById(R.id.textViewUsuariosPorValidar);
 
         buttonProfile.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +84,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MyApp.getContext(), ListUserActivity.class));
+            }
+        });
+
+        cvQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PdfActivity.class);
+                startActivity(intent);
             }
         });
 
