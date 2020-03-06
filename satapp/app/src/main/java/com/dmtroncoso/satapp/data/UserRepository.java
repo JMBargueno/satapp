@@ -137,7 +137,7 @@ public class UserRepository {
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.isSuccessful()){
                     data.setValue(response.body());
-                    Toast.makeText(MyApp.getContext(), "Aqúi entra", Toast.LENGTH_SHORT).show();
+
                 }
             }
 

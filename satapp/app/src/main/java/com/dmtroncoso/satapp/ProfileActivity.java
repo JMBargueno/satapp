@@ -20,7 +20,7 @@ import okhttp3.ResponseBody;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    ImageView fotoPerfil;
+    ImageView fotoPerfil,fotoRol;
     TextView nombre,rol,createdAt,email;
     UserViewModel userViewModel;
 
@@ -34,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
         rol = findViewById(R.id.rolLogged);
         createdAt = findViewById(R.id.createdAt);
         email = findViewById(R.id.emailLogged);
+        fotoRol = findViewById(R.id.fotoRol);
 
         userViewModel = new ViewModelProvider(ProfileActivity.this).get(UserViewModel.class);
         loadLoggedUser();
@@ -75,6 +76,15 @@ public class ProfileActivity extends AppCompatActivity {
                     });
 
                 }
+
+                if(user.getRole().equals("user")){
+                    Glide.with(MyApp.getContext()).load(R.drawable.ic_user_detal).into(fotoRol);
+                }else if (user.getRole().equals("tecnico")){
+                    Glide.with(MyApp.getContext()).load(R.drawable.ic_customer_support).into(fotoRol);
+                }else if(user.getRole().equals("admin")){
+                    Glide.with(MyApp.getContext()).load(R.drawable.ic_support).into(fotoRol);
+                }
+
 
             }
 

@@ -52,6 +52,7 @@
             android:name="com.dmtroncoso.satapp.UserNoValListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="12dp"
             app:layoutManager="LinearLayoutManager"
             tools:context=".UserListFragment"
             tools:listitem="@layout/fragment_user_no_val_list">

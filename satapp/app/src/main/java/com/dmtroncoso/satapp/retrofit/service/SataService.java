@@ -1,7 +1,6 @@
 package com.dmtroncoso.satapp.retrofit.service;
 
 
-import com.dmtroncoso.satapp.anotaciones.Anotacion;
 import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 
@@ -105,8 +104,7 @@ public interface SataService {
     @DELETE("/inventariable/{id}")
     Call<Void> deleteInventariable(@Path("id") String id);
 
-    @POST("/anotacion")
-    Call<ResponseBody> createAnotacion(@Body Anotacion anotacion);
+
 
     @Multipart
     @PUT("/users/{id}/img")
