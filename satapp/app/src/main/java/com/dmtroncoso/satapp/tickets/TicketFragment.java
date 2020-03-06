@@ -181,6 +181,46 @@ public class TicketFragment extends Fragment {
 
     }
 
+    private void showAlertDialogQR(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(false);
+        builder.setTitle("QR");
+        builder.setMessage("¿Qué deseas hacer con este ?");
+
+        builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Call<ResponseBody> call = service.deleteTicket(adapter.getTicket(ticketPosition).getId());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(MyApp.getContext(), "Ticket eliminado", Toast.LENGTH_SHORT).show();
+                        }else{
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+
+    }
+
     public void loadTicketData(){
         ticketViewModel.getTickets().observe(getActivity(), new Observer<List<Ticket>>() {
             @Override

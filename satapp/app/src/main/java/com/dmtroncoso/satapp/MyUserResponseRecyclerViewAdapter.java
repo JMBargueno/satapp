@@ -60,7 +60,7 @@ public class MyUserResponseRecyclerViewAdapter extends RecyclerView.Adapter<MyUs
                     @Override
                     public void onChanged(ResponseBody responseBody) {
                         Bitmap bmp = BitmapFactory.decodeStream(responseBody.byteStream());
-                        Glide.with(context)
+                        Glide.with(MyApp.getContext())
                                 .load(bmp)
                                 .circleCrop()
                                 .into(holder.fotoPerfil);

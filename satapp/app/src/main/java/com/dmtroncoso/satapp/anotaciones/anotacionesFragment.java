@@ -226,15 +226,6 @@ public class anotacionesFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.share:
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "Test ticket value");
-                sendIntent.setType("text/plain");
-
-                Intent shareIntent = Intent.createChooser(sendIntent, null);
-                startActivity(shareIntent);
-                break;
             case R.id.calendarEvent:
                 Calendar beginTime = Calendar.getInstance();
                 beginTime.set(2020, 2, 01, 18, 54);
