@@ -284,31 +284,32 @@ public class TicketFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String parts = data.getStringExtra("result");
-        if (requestCode == SCANNER_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Call<ResponseBody> call = service.getInventariableById(parts);
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()){
-                            Intent intent = new Intent(context, NewTicketActivity.class);
-                            intent.putExtra("idInventario", parts);
-                            startActivity(intent);
-                        }else{
-                            Intent intent = new Intent(context, AnotacionesActivity.class);
-                            intent.putExtra("intentIdTicket", parts);
-                            startActivity(intent);
+
+            if (requestCode == SCANNER_CODE) {
+                if (resultCode == Activity.RESULT_OK) {
+                    String parts = data.getStringExtra("result");
+                    Call<ResponseBody> call = service.getInventariableById(parts);
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                Intent intent = new Intent(context, NewTicketActivity.class);
+                                intent.putExtra("idInventario", parts);
+                                startActivity(intent);
+                            } else {
+                                Intent intent = new Intent(context, AnotacionesActivity.class);
+                                intent.putExtra("intentIdTicket", parts);
+                                startActivity(intent);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
+                }
             }
-        }
     }
 }
