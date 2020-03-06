@@ -145,6 +145,15 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="Nuestros clientes" />
+
+                <TextView
+                    android:id="@+id/textViewUsuariosPorValidar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/usuarios_por_validar"
+                    android:textColor="#CD2D2D"
+                    android:visibility="invisible" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

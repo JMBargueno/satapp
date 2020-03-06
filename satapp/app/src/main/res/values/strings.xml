@@ -13,4 +13,5 @@
     <string name="asignar_a">Asignar ticket a</string>
     <string name="email_to_asign">Email del usuario designado</string>
     <string name="boton_asignar_incidencia">Asignar</string>
+    <string name="usuarios_por_validar">¡Usuarios por validar!</string>
 </resources>

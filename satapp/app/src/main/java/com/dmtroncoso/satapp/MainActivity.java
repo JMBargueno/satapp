@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.dmtroncoso.satapp.common.Constants;
 import com.dmtroncoso.satapp.common.MyApp;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     SataService service;
     UserViewModel userViewModel;
     String loggedRole;
+    TextView usuariosPorValidar;
 
 
     @Override
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         cvPc = findViewById(R.id.cardViewPc);
         cvUser = findViewById(R.id.cardViewUser);
         buttonProfile = findViewById(R.id.button);
+        usuariosPorValidar = findViewById(R.id.textViewUsuariosPorValidar);
 
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<User> usersUnvalidated) {
 
                 if (!usersUnvalidated.isEmpty()) {
+                    usuariosPorValidar.setVisibility(View.VISIBLE);
 
-
-                    AlertDialog.Builder builderFinish = new AlertDialog.Builder(MainActivity.this);
+                    /*AlertDialog.Builder builderFinish = new AlertDialog.Builder(MainActivity.this);
                     builderFinish.setPositiveButton("¡Vale!", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                     builderFinish.setCancelable(true);
                     builderFinish.setMessage(Constants.USUARIOS_SIN_VALIDAR);
-                    builderFinish.show();
+                    builderFinish.show();*/
                 }
             }
         });
