@@ -6,8 +6,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dmtroncoso.satapp.R;
+import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.inventariables.InventariableViewModel;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.model.User;
@@ -86,11 +88,12 @@ public class ModalBottomUserFragment extends BottomSheetDialogFragment {
                         callValidate.enqueue(new Callback<User>() {
                             @Override
                             public void onResponse(Call<User> call, Response<User> response) {
-
+                                Toast.makeText(MyApp.getContext(), "Usuario validado.", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onFailure(Call<User> call, Throwable t) {
+                                Toast.makeText(MyApp.getContext(), "Error en la validación de usuario.", Toast.LENGTH_SHORT).show();
 
                             }
                         });
