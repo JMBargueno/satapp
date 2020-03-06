@@ -34,7 +34,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
-    CardView cvTicket, cvPc, cvUser;
+    CardView cvTicket, cvPc, cvUser, cvQR;
     Button buttonProfile;
 
     SataService service;
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         cvTicket = findViewById(R.id.cardViewTicket);
         cvPc = findViewById(R.id.cardViewPc);
         cvUser = findViewById(R.id.cardViewUser);
+        cvQR = findViewById(R.id.cardViewQR);
         buttonProfile = findViewById(R.id.button);
 
         buttonProfile.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +78,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MyApp.getContext(), ListUserActivity.class));
+            }
+        });
+
+        cvQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PdfActivity.class);
+                startActivity(intent);
             }
         });
 
