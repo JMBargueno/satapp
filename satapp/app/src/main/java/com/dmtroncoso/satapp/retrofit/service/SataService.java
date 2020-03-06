@@ -4,9 +4,11 @@ package com.dmtroncoso.satapp.retrofit.service;
 import com.dmtroncoso.satapp.anotaciones.Anotacion;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 
+import com.dmtroncoso.satapp.retrofit.model.RequestAsignarTecnico;
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.model.UserResponse;
+import com.dmtroncoso.satapp.tickets.Ticket;
 import com.dmtroncoso.satapp.tickets.Ticket;
 
 import java.util.List;
@@ -117,6 +119,9 @@ public interface SataService {
 
     @DELETE("/ticket/{id}")
     Call<ResponseBody> deleteTicket(@Path("id") String idTicket);
+
+    @PUT("/ticket/{id_ticket}/asignar")
+    Call<Ticket> asignarTicket(@Path("id_ticket") String id_ticket, @Body RequestAsignarTecnico requesAsignarTecnico);
 
 
 
