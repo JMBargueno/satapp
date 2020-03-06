@@ -76,8 +76,13 @@ public class MyUserResponseRecyclerViewAdapter extends RecyclerView.Adapter<MyUs
                     }
                 });
 
+        }else{
+            Glide.with(MyApp.getContext())
+                    .load(R.drawable.ic_user)
+                    .circleCrop()
+                    .into(holder.fotoPerfil);
+
         }
-        Glide .with(MyApp.getContext()).load(holder.mItem.getAvatar()).apply(RequestOptions.bitmapTransform(new CropCircleTransformation())).into(holder.fotoPerfil);
 
 
 

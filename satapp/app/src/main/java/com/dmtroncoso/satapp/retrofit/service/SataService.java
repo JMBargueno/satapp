@@ -125,7 +125,6 @@ public interface SataService {
 
 
 
-
     @Multipart
     @PUT("/users/{id}/img")
     Call<User> updateAvatar(@Part MultipartBody.Part avatar,
@@ -145,6 +144,9 @@ public interface SataService {
 
     @GET("/users/me")
     Call<User> getLoggedUser();
+
+    @PUT("/users/{id}/tecnico")
+    Call<User> changeRol(@Path("id") String id);
 
 
 

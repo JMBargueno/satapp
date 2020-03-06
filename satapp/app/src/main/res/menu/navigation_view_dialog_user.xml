@@ -11,6 +11,10 @@
             android:id="@+id/action_habilitar"
 
             android:title="Habilitar"/>
+        <item
+            android:id="@+id/action_changeRol"
+
+            android:title="Promocionar rol"/>
 
     </group>
 

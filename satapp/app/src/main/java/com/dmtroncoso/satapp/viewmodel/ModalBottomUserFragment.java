@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dmtroncoso.satapp.R;
+import com.dmtroncoso.satapp.UserListFragment;
 import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.inventariables.InventariableViewModel;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
@@ -31,6 +32,7 @@ public class ModalBottomUserFragment extends BottomSheetDialogFragment {
     private String idUser;
     private String habilitado;
     MenuItem habilitadoButton;
+    MenuItem promocionarRol;
 
     public static ModalBottomUserFragment newInstance(User user) {
         ModalBottomUserFragment fragment = new ModalBottomUserFragment();
@@ -76,6 +78,30 @@ public class ModalBottomUserFragment extends BottomSheetDialogFragment {
 
                 }
 
+                if (id == R.id.action_changeRol) {
+                    Call<User> call = service.changeRol(idUser);
+                    call.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            if(response.isSuccessful()) {
+                                if(response.body().getRole().equals("tecnico")){
+                                    Toast.makeText(MyApp.getContext(), "Este usuario ya es técnico", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(MyApp.getContext(), "Usuario promocionado a técnico", Toast.LENGTH_SHORT).show();
+                                }
+                            }else{
+                                Toast.makeText(MyApp.getContext(), "Que va cabesa", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            Toast.makeText(MyApp.getContext(), "Error al cambiar el rol del usuario", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
                 if (id == R.id.action_habilitar) {
                     if (habilitado.equals("true")) {
                         //Aqui hay que deshabilitar
@@ -104,6 +130,8 @@ public class ModalBottomUserFragment extends BottomSheetDialogFragment {
                     return true;
                 }
                 return false;
+
+
             }
         });
 
