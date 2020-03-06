@@ -190,7 +190,7 @@
 
     <fragment
         android:id="@+id/fragment4"
-        android:name="com.dmtroncoso.satapp.anotaciones.anotacionesFragment"
+        android:name="com.dmtroncoso.satapp.anotaciones.AnotacionesFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"

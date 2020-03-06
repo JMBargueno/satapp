@@ -66,7 +66,9 @@ public class AssignIncidenceActivity extends AppCompatActivity {
 
                         boolean usuario_encontrado = false;
                         for (User user : users) {
-                            if (emailAsignado.getText().toString().equals(user.getEmail())) {
+                            String emailAsignadoString = emailAsignado.getText().toString();
+                            String emailDeUsuarioIterado = user.getEmail();
+                            if (emailAsignadoString.equals(emailDeUsuarioIterado)) {
                                 usuario_encontrado = true;
                                 id_usuario_asignado = user.getId();
 
@@ -81,6 +83,7 @@ public class AssignIncidenceActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(Call<Ticket> call, Response<Ticket> response) {
                                     Toast.makeText(MyApp.getContext(), "Ticket asignado.", Toast.LENGTH_SHORT).show();
+                                    finish();
                                 }
 
                                 @Override
