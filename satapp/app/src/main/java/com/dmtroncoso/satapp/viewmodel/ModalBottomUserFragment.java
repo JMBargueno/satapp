@@ -18,6 +18,7 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,9 +28,10 @@ public class ModalBottomUserFragment extends BottomSheetDialogFragment {
     private UserViewModel userViewModel;
     private String idUser;
     private String habilitado;
+    MenuItem habilitadoButton;
 
     public static ModalBottomUserFragment newInstance(User user) {
-        ModalBottomUserFragment fragment= new ModalBottomUserFragment();
+        ModalBottomUserFragment fragment = new ModalBottomUserFragment();
         Bundle args = new Bundle();
         args.putString("user_id", user.getId());
         args.putString("habilitado", user.getValidated().toString());
@@ -40,7 +42,7 @@ public class ModalBottomUserFragment extends BottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments()!=null){
+        if (getArguments() != null) {
             idUser = getArguments().getString("user_id");
             habilitado = getArguments().getString("habilitado");
             service = ServiceGenerator.createServiceTicket(SataService.class);
@@ -53,12 +55,13 @@ public class ModalBottomUserFragment extends BottomSheetDialogFragment {
         View v = inflater.inflate(R.layout.modal_bottom_user_fragment, container, false);
 
         final NavigationView nav = v.findViewById(R.id.navigation_view_bottom_user);
-        final MenuItem habilitadoButton = v.findViewById(R.id.action_habilitar);
+        //habilitadoButton = v.findViewById(R.id.action_habilitar);
+        final MenuItem verDetalle = v.findViewById(R.id.action_detalle);
 
-        if(habilitado.equals("true")){
-            habilitadoButton.setTitle("Deshabilitar");
-        }else {
-            habilitadoButton.setTitle("Habilitar");
+        if (habilitado.equals("true")) {
+            nav.getMenu().findItem(R.id.action_habilitar).setVisible(false);
+        } else {
+            nav.getMenu().findItem(R.id.action_habilitar).setVisible(true);
         }
 
 
@@ -66,13 +69,17 @@ public class ModalBottomUserFragment extends BottomSheetDialogFragment {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int id = menuItem.getItemId();
-                if(id == R.id.action_habilitar){
-                    if(habilitado.equals("true")){
+
+                if (id == R.id.action_detalle) {
+
+                }
+
+                if (id == R.id.action_habilitar) {
+                    if (habilitado.equals("true")) {
                         //Aqui hay que deshabilitar
-                       // Call<User> callRegister = service.register(body, name, email, password);
 
 
-                    }else {
+                    } else {
                         //Aqui hay que habilitar
                         Call<User> callValidate = service.validateUser(idUser);
 

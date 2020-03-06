@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.File;
 
 public class User {
-
     @SerializedName("id")
     @Expose
     private String id;

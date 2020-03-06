@@ -2,10 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/action_detalle"
+
+            android:title="Ver detalles"/>
         <item
             android:id="@+id/action_habilitar"
 
             android:title="Habilitar"/>
+
     </group>
 
 </menu>
