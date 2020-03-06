@@ -39,6 +39,11 @@ public class LoggingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logging);
 
+        if(SharedPreferencesManager.getSomeStringValue("token") != null){
+            Intent intentMainActivity = new Intent(LoggingActivity.this, MainActivity.class);
+            startActivity(intentMainActivity);
+        }
+
         edtEmail = findViewById(R.id.editTextEmail);
         edtPassword = findViewById(R.id.editTextPassword);
 
@@ -91,8 +96,6 @@ public class LoggingActivity extends AppCompatActivity {
                 }
             }
         });
-
-        token = null;
 
         txtRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override

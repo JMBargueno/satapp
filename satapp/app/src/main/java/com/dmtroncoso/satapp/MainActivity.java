@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     static final int SCANNER_CODE = 5;
     CardView cvTicket, cvPc, cvUser;
+    Button buttonProfile;
 
     SataService service;
     UserViewModel userViewModel;
@@ -49,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
         cvTicket = findViewById(R.id.cardViewTicket);
         cvPc = findViewById(R.id.cardViewPc);
         cvUser = findViewById(R.id.cardViewUser);
+        buttonProfile = findViewById(R.id.button);
+
+        buttonProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyApp.getContext(),ProfileActivity.class));
+            }
+        });
 
         cvTicket.setOnClickListener(new View.OnClickListener() {
             @Override

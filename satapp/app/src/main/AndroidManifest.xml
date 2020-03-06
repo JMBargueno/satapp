@@ -44,6 +44,7 @@
         <activity android:name=".QRScannerActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".LoggingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

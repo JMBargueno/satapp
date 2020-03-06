@@ -1,12 +1,15 @@
 package com.dmtroncoso.satapp.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.dmtroncoso.satapp.data.UserRepository;
+import com.dmtroncoso.satapp.inventariables.ModalBottomInventariableFragment;
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.model.UserResponse;
 
@@ -47,6 +50,18 @@ public class UserViewModel extends AndroidViewModel {
         return listAllusers;
     }
 
+    public void updateAvatar(){
+
+    }
+
+    public MutableLiveData<User> getLoggedUser(){
+        return userRepository.getUserLogged();
+    }
+
+    public MutableLiveData<User> updateUser(String id , String name){
+        return userRepository.changeUser(id,name);
+    }
+
 
     public void setIdUserSeleccionado(String idUserSeleccionado) {
         this.idUserSeleccionado.setValue(idUserSeleccionado);
@@ -54,5 +69,11 @@ public class UserViewModel extends AndroidViewModel {
 
     public MutableLiveData<String> getIdUserSeleccionado() {
         return idUserSeleccionado;
+    }
+
+    public void openDialogUserMenu(Context ctx, User user){
+
+        ModalBottomUserFragment dialogUser = ModalBottomUserFragment.newInstance(user);
+        dialogUser.show(((AppCompatActivity)ctx).getSupportFragmentManager(),"ModalBottomUserFragment");
     }
 }

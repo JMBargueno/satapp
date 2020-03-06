@@ -91,7 +91,7 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
                                 Bitmap bmp = BitmapFactory.decodeStream(response.body().byteStream());
 
                                 Glide
-                                        .with(ctx)
+                                        .with(MyApp.getContext())
                                         .load(bmp)
                                         .apply(RequestOptions.bitmapTransform(new CropCircleTransformation()))
                                         .into(holder.imageViewTicket);
@@ -161,6 +161,7 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
     }
 
     public Ticket getTicket(int position){
+        notifyDataSetChanged();
         return mValues.get(position);
     }
 

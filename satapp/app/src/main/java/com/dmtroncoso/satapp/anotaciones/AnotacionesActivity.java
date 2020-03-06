@@ -5,16 +5,13 @@ import androidx.fragment.app.DialogFragment;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
-import com.dmtroncoso.satapp.retrofit.model.anotaciones.Notas;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.Anotaciones;
-import com.dmtroncoso.satapp.tickets.CreadoPor;
 import com.dmtroncoso.satapp.tickets.Ticket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AnotacionesActivity extends AppCompatActivity implements anotacionesFragment.OnListFragmentInteractionListener, CustomDialogListener {
+public class AnotacionesActivity extends AppCompatActivity implements AnotacionesFragment.OnListFragmentInteractionListener, CustomDialogListener {
     FloatingActionButton fbtnAdd;
     SataService service;
     Anotacion anotacion;

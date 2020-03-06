@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.File;
 
 public class User {
-
     @SerializedName("id")
     @Expose
     private String id;
@@ -22,6 +21,9 @@ public class User {
     @SerializedName("picture")
     @Expose
     private String picture;
+    @SerializedName("validated")
+    @Expose
+    private Boolean validated;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
@@ -94,6 +96,14 @@ public class User {
 
     public void setPicture(String picture) {
         this.picture = picture;
+    }
+
+    public Boolean getValidated() {
+        return validated;
+    }
+
+    public void setValidated(Boolean validated) {
+        this.validated = validated;
     }
 
     public String getCreatedAt() {

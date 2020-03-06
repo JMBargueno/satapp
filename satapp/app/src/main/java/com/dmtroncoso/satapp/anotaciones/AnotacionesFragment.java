@@ -24,12 +24,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.dmtroncoso.satapp.AssignIncidenceActivity;
+import com.dmtroncoso.satapp.ProfileActivity;
 import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.common.MyApp;
+import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.data.anotaciones.AnotacionViewModel;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.Anotaciones;
+import com.dmtroncoso.satapp.tickets.Ticket;
 
 import java.util.Calendar;
 import java.util.List;
@@ -45,7 +49,7 @@ import retrofit2.Response;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class anotacionesFragment extends Fragment {
+public class AnotacionesFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -64,13 +68,13 @@ public class anotacionesFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public anotacionesFragment() {
+    public AnotacionesFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static anotacionesFragment newInstance(int columnCount) {
-        anotacionesFragment fragment = new anotacionesFragment();
+    public static AnotacionesFragment newInstance(int columnCount) {
+        AnotacionesFragment fragment = new AnotacionesFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -91,6 +95,7 @@ public class anotacionesFragment extends Fragment {
         service = ServiceGenerator.createServiceAnotacion(SataService.class);
 
     }
+
     private void setUpRecyclerView() {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -134,7 +139,7 @@ public class anotacionesFragment extends Fragment {
         return view;
     }
 
-    private void showAlertDialog(){
+    private void showAlertDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(false);
         builder.setTitle("Eliminar");
@@ -147,9 +152,9 @@ public class anotacionesFragment extends Fragment {
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             Toast.makeText(MyApp.getContext(), "Anotación eliminada", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
 
                         }
                     }
@@ -166,6 +171,7 @@ public class anotacionesFragment extends Fragment {
         builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                adapter.getAnotaciones(anotacionPosition).getId();
                 dialog.dismiss();
             }
         });
@@ -174,7 +180,7 @@ public class anotacionesFragment extends Fragment {
 
     }
 
-    public void loadAnotaciones(){
+    public void loadAnotaciones() {
         anotacionViewModel.getAnotaciones().observe(getActivity(), new Observer<List<Anotaciones>>() {
             @Override
             public void onChanged(List<Anotaciones> anotaciones) {
@@ -225,37 +231,66 @@ public class anotacionesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.share:
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "Test ticket value");
-                sendIntent.setType("text/plain");
+        switch (item.getItemId()) {
 
-                Intent shareIntent = Intent.createChooser(sendIntent, null);
-                startActivity(shareIntent);
-                break;
             case R.id.calendarEvent:
-                Calendar beginTime = Calendar.getInstance();
-                beginTime.set(2020, 2, 01, 18, 54);
-                Calendar endTime = Calendar.getInstance();
-                endTime.set(2020, 2, 01, 21, 01);
-                Intent intent = new Intent(Intent.ACTION_INSERT)
-                        .setData(CalendarContract.Events.CONTENT_URI)
-                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                        .putExtra(CalendarContract.Events.TITLE, "Test")
-                        .putExtra(CalendarContract.Events.DESCRIPTION, "Test class")
-                        .putExtra(CalendarContract.Events.EVENT_LOCATION, "The Test")
-                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                        .putExtra(Intent.EXTRA_EMAIL, "myrows.contactme@gmail.com, jallamasalvarez@gmail.com, jmbarguenolopez@gmail.com, pablorodriguezr2000@gmail.com")
-                        .putExtra(CalendarContract.Events.HAS_ALARM, true)
-                        .putExtra(CalendarContract.Reminders.EVENT_ID, CalendarContract.Events._ID)
-                        .putExtra(CalendarContract.Events.ALLOWED_REMINDERS, "METHOD_DEFAULT")
-                        .putExtra(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
-                        .putExtra(CalendarContract.Reminders.MINUTES,5);
-                startActivity(intent);
+                String idTicketSelected = SharedPreferencesManager.getSomeStringValue("idTicket");
+                Call<Ticket> call = service.getTicketById(idTicketSelected);
+                call.enqueue(new Callback<Ticket>() {
+                    @Override
+                    public void onResponse(Call<Ticket> call, Response<Ticket> response) {
+                        if (response.isSuccessful()) {
+                            Calendar cal = Calendar.getInstance();
+                            Intent intent = new Intent(Intent.ACTION_INSERT)
+                                    .setData(CalendarContract.Events.CONTENT_URI)
+                                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.getTimeInMillis())
+                                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, cal.getTimeInMillis() + 60 * 60 * 1000)
+                                    .putExtra(CalendarContract.Events.TITLE, response.body().getTitulo())
+                                    .putExtra(CalendarContract.Events.DESCRIPTION, response.body().getDescripcion())
+                                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                                    .putExtra(Intent.EXTRA_EMAIL, "myrows.contactme@gmail.com, jallamasalvarez@gmail.com, jmbarguenolopez@gmail.com, pablorodriguezr2000@gmail.com")
+                                    .putExtra(CalendarContract.Events.HAS_ALARM, true)
+                                    .putExtra(CalendarContract.Reminders.EVENT_ID, CalendarContract.Events._ID)
+                                    .putExtra(CalendarContract.Events.ALLOWED_REMINDERS, "METHOD_DEFAULT")
+                                    .putExtra(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
+                                    .putExtra(CalendarContract.Reminders.MINUTES, 5);
+                            startActivity(intent);
+                        } else {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Ticket> call, Throwable t) {
+                        Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
+
+            case R.id.asignarUserTicket:
+
+
+                String ticketSelected = SharedPreferencesManager.getSomeStringValue("idTicket");
+                Call<Ticket> callTickets = service.getTicketById(ticketSelected);
+                callTickets.enqueue(new Callback<Ticket>() {
+                    @Override
+                    public void onResponse(Call<Ticket> call, Response<Ticket> response) {
+                        if (response.isSuccessful()) {
+
+                            Intent i = new Intent(MyApp.getContext(), AssignIncidenceActivity.class);
+                            i.putExtra("id_ticket", ticketSelected);
+                            i.putExtra("nombre_ticket", response.body().getTitulo());
+                            startActivity(i);
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Ticket> call, Throwable t) {
+                        Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
         }
 
         return super.onOptionsItemSelected(item);
