@@ -171,6 +171,7 @@ public class AnotacionesFragment extends Fragment {
         builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                adapter.getAnotaciones(anotacionPosition).getId();
                 dialog.dismiss();
             }
         });

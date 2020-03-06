@@ -161,6 +161,7 @@ public class MyTicketRecyclerViewAdapter extends RecyclerView.Adapter<MyTicketRe
     }
 
     public Ticket getTicket(int position){
+        notifyDataSetChanged();
         return mValues.get(position);
     }
 

@@ -16,7 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".PdfActivity"></activity>
+
+        <activity android:name=".inventariables.InventariableDetalleFromMenuActivity"></activity>
+
         <activity android:name=".inventariables.InventariableDetalleActivity" />
 
         <provider

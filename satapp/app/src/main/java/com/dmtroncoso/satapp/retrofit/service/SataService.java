@@ -5,7 +5,10 @@ import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.anotaciones.Anotacion;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 
+import com.dmtroncoso.satapp.retrofit.model.RequestEditInventariable;
+
 import com.dmtroncoso.satapp.retrofit.model.RequestAsignarTecnico;
+
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
 import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.model.UserResponse;
@@ -99,9 +102,6 @@ public interface SataService {
     Call<ResponseBody> getImageOfUser(@Path("id") String idImage);
 
     @GET("/inventariable/{id}")
-    Call<ResponseBody> getInventariableById(@Path("id") String idInv);
-
-    @GET("/inventariable/{id}")
     Call<Inventariable> getInventariableId(@Path("id") String idInv);
 
     @GET("/inventariable")
@@ -125,11 +125,19 @@ public interface SataService {
     @DELETE("/ticket/{id}")
     Call<ResponseBody> deleteTicket(@Path("id") String idTicket);
 
+
+    @GET("/inventariable/{id}")
+    Call<ResponseBody> getInventariableById(@Path("id") String idInv);
+
+    @GET("/inventariable/{id}")
+    Call<InventariableResponse> getInventariable(@Path("id") String idInventariable);
+
+    @PUT("/inventariable/{id}")
+    Call<InventariableResponse> editInventariable(@Path("id") String idInv,
+                                         @Body RequestEditInventariable requestEditInventariable);
+
     @PUT("/ticket/{id_ticket}/asignar")
     Call<Ticket> asignarTicket(@Path("id_ticket") String id_ticket, @Body RequestAsignarTecnico requesAsignarTecnico);
-
-
-
 
     @Multipart
     @PUT("/users/{id}/img")
@@ -150,10 +158,6 @@ public interface SataService {
 
     @GET("/users/me")
     Call<User> getLoggedUser();
-
-
-
-
 
 }
 
