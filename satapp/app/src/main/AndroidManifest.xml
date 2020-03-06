@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".inventariables.InventariableDetalleActivity"></activity>
+        <activity android:name=".inventariables.InventariableDetalleFromMenuActivity"></activity>
+        <activity android:name=".inventariables.InventariableDetalleActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

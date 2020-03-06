@@ -23,10 +23,12 @@ import retrofit2.Response;
 public class InventariableRepository {
     SataService service;
     MutableLiveData<List<InventariableResponse>> listaInv;
+    MutableLiveData<InventariableResponse> inventariable;
 
     public InventariableRepository() {
         service = ServiceGenerator.createServiceTicket(SataService.class);
         listaInv = new MutableLiveData<>();
+        inventariable = new MutableLiveData<>();
     }
 
     public MutableLiveData<List<InventariableResponse>> getAllInventariables(){
@@ -92,5 +94,26 @@ public class InventariableRepository {
         });
 
         return data;
+    }
+
+    public MutableLiveData<InventariableResponse> getInventariableById(String idInventariable) {
+
+        Call<InventariableResponse> call = service.getInventariable(idInventariable);
+        call.enqueue(new Callback<InventariableResponse>() {
+            @Override
+            public void onResponse(Call<InventariableResponse> call, Response<InventariableResponse> response) {
+                if(response.isSuccessful()){
+                    inventariable.setValue(response.body());
+                }else{
+                    Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<InventariableResponse> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Error en la conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return inventariable;
     }
 }

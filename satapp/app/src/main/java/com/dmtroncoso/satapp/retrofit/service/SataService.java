@@ -20,6 +20,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -90,9 +91,6 @@ public interface SataService {
     @GET("/users/img/{id}")
     Call<ResponseBody> getImageOfUser(@Path("id") String idImage);
 
-    @GET("/inventariable/{id}")
-    Call<ResponseBody> getInventariableById(@Path("id") String idInv);
-
     @GET("/inventariable")
     Call<List<InventariableResponse>> getInventariablesPagedList(@Query("page") int page, @Query("limit") int limit);
 
@@ -110,6 +108,16 @@ public interface SataService {
 
     @DELETE("/ticket/{id}")
     Call<ResponseBody> deleteTicket(@Path("id") String idTicket);
+
+    @GET("/inventariable/{id}")
+    Call<ResponseBody> getInventariableById(@Path("id") String idInv);
+
+    @GET("/inventariable/{id}")
+    Call<InventariableResponse> getInventariable(@Path("id") String idInventariable);
+
+    @PUT("/inventariable/{id}")
+    Call<InventariableResponse> editInventariable(@Path("id") String idInv,
+                                         @Body InventariableResponse inventariableResponse);
 
 
 }
