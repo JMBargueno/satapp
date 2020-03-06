@@ -59,7 +59,7 @@ public class MyInventariableResponseRecyclerViewAdapter extends RecyclerView.Ada
 
             holder.textViewInventariableListLocation.setText((holder.mItem.getUbicacion() != null)? holder.mItem.getUbicacion():UBICACION_DESCONOCIDA);
 
-            holder.textViewInventariableListLocation.setText(holder.mItem.getUbicacion());
+            holder.inventariableName.setText(holder.mItem.getNombre());
 
             if(holder.mItem.getImagen()!=null) {
              GlideUrl glideUrl = new GlideUrl(Constantes.URL_BASE + holder.mItem.getImagen()

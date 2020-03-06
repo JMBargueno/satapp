@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.dmtroncoso.satapp.data.InventariableRepository;
-import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 
 import okhttp3.ResponseBody;
 
