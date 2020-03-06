@@ -24,6 +24,7 @@ public class UserRepository {
     MutableLiveData<List<User>> listUsersNoVal;
     MutableLiveData<List<User>> listAllUsers;
     MutableLiveData<ResponseBody> imagenes;
+    MutableLiveData<User> userChange;
 
 
     public UserRepository() {
@@ -55,7 +56,6 @@ public class UserRepository {
 
             }
         });
-
         return data;
     }
 
@@ -104,6 +104,53 @@ public class UserRepository {
 
         return data;
     }
+
+    public MutableLiveData<User> changeUser(String id, String name){
+        final MutableLiveData<User> data = new MutableLiveData<>();
+        Call<User> call = service.updateNombre(id,name);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()){
+                    data.setValue(response.body());
+                    Log.i("put","Usuario actualizado correctamente");
+                }else {
+                    Log.e("put","Actualización errónea");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e("putUser","Error modificando el usuario");
+            }
+        });
+        userChange = data;
+        return data;
+    }
+
+    public MutableLiveData<User> getUserLogged(){
+        final MutableLiveData<User> data = new MutableLiveData<>();
+        Call<User> call = service.getLoggedUser();
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()){
+                    data.setValue(response.body());
+                    Toast.makeText(MyApp.getContext(), "Aqúi entra", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+
+        return data;
+    }
+
+
 
 
 }

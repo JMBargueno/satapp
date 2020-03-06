@@ -7,6 +7,7 @@ import androidx.paging.PagedList;
 
 import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
+import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 
@@ -14,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,20 +49,15 @@ public class InventariableRepository {
         return listaInv;
     }
 
-    public void deleteInventariable(final String id){
+    public List<InventariableResponse> deleteInventariable(final String id){
+        List<InventariableResponse> listInventariable = new ArrayList<>();
         Call<Void> call = service.deleteInventariable(id);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()){
-                    List<InventariableResponse> listaActualizada=new ArrayList<>();
-                    for(int i=0;i<listaInv.getValue().size();i++){
-                        if(listaInv.getValue().get(i).getId()!=id){
-                            listaActualizada.add(listaInv.getValue().get(i));
-                        }
-                    }
-
-                    listaInv.setValue(listaActualizada);
+                    List<InventariableResponse> lista = getAllInventariablesPaginable(1, 10).getValue();
+                    listInventariable.addAll(lista);
                     Toast.makeText(MyApp.getContext(), "Equipo eliminado correctamente", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
@@ -71,5 +68,53 @@ public class InventariableRepository {
                 Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
+
+        return listInventariable;
+    }
+
+    public MutableLiveData<ResponseBody> getInventariable(int idInventariable){
+        final MutableLiveData<ResponseBody> data = new MutableLiveData<>();
+        Call<ResponseBody> call = service.getInventariableById(String.valueOf(idInventariable));
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    data.setValue(response.body());
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+        return data;
+    }
+
+    public MutableLiveData<Inventariable> getOneInventariable(int idInventariable){
+        final MutableLiveData<Inventariable> data = new MutableLiveData<>();
+        Call<Inventariable> call = service.getInventariableId(String.valueOf(idInventariable));
+
+        call.enqueue(new Callback<Inventariable>() {
+            @Override
+            public void onResponse(Call<Inventariable> call, Response<Inventariable> response) {
+                if(response.isSuccessful()){
+                    data.setValue(response.body());
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Inventariable> call, Throwable t) {
+
+            }
+        });
+
+        return data;
     }
 }

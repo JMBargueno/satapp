@@ -47,6 +47,18 @@ public class UserViewModel extends AndroidViewModel {
         return listAllusers;
     }
 
+    public void updateAvatar(){
+
+    }
+
+    public MutableLiveData<User> getLoggedUser(){
+        return userRepository.getUserLogged();
+    }
+
+    public MutableLiveData<User> updateUser(String id , String name){
+        return userRepository.changeUser(id,name);
+    }
+
 
     public void setIdUserSeleccionado(String idUserSeleccionado) {
         this.idUserSeleccionado.setValue(idUserSeleccionado);
