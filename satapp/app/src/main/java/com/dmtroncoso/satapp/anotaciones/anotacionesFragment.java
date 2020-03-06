@@ -26,10 +26,12 @@ import android.widget.Toast;
 
 import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.common.MyApp;
+import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.data.anotaciones.AnotacionViewModel;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 import com.dmtroncoso.satapp.tickets.Anotaciones;
+import com.dmtroncoso.satapp.tickets.Ticket;
 
 import java.util.Calendar;
 import java.util.List;
@@ -227,25 +229,41 @@ public class anotacionesFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.calendarEvent:
-                Calendar beginTime = Calendar.getInstance();
-                beginTime.set(2020, 2, 01, 18, 54);
-                Calendar endTime = Calendar.getInstance();
-                endTime.set(2020, 2, 01, 21, 01);
-                Intent intent = new Intent(Intent.ACTION_INSERT)
-                        .setData(CalendarContract.Events.CONTENT_URI)
-                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                        .putExtra(CalendarContract.Events.TITLE, "Test")
-                        .putExtra(CalendarContract.Events.DESCRIPTION, "Test class")
-                        .putExtra(CalendarContract.Events.EVENT_LOCATION, "The Test")
-                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                        .putExtra(Intent.EXTRA_EMAIL, "myrows.contactme@gmail.com, jallamasalvarez@gmail.com, jmbarguenolopez@gmail.com, pablorodriguezr2000@gmail.com")
-                        .putExtra(CalendarContract.Events.HAS_ALARM, true)
-                        .putExtra(CalendarContract.Reminders.EVENT_ID, CalendarContract.Events._ID)
-                        .putExtra(CalendarContract.Events.ALLOWED_REMINDERS, "METHOD_DEFAULT")
-                        .putExtra(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
-                        .putExtra(CalendarContract.Reminders.MINUTES,5);
-                startActivity(intent);
+                String idTicketSelected= SharedPreferencesManager.getSomeStringValue("idTicket");
+                Call<Ticket> call = service.getTicketById(idTicketSelected);
+                call.enqueue(new Callback<Ticket>() {
+                    @Override
+                    public void onResponse(Call<Ticket> call, Response<Ticket> response) {
+                        if(response.isSuccessful()){
+                            Calendar cal = Calendar.getInstance();
+                            Intent intent = new Intent(Intent.ACTION_INSERT)
+                                    .setData(CalendarContract.Events.CONTENT_URI)
+                                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, cal.getTimeInMillis())
+                                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, cal.getTimeInMillis()+60*60*1000)
+                                    .putExtra(CalendarContract.Events.TITLE, response.body().getTitulo())
+                                    .putExtra(CalendarContract.Events.DESCRIPTION, response.body().getDescripcion())
+                                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                                    .putExtra(Intent.EXTRA_EMAIL, "myrows.contactme@gmail.com, jallamasalvarez@gmail.com, jmbarguenolopez@gmail.com, pablorodriguezr2000@gmail.com")
+                                    .putExtra(CalendarContract.Events.HAS_ALARM, true)
+                                    .putExtra(CalendarContract.Reminders.EVENT_ID, CalendarContract.Events._ID)
+                                    .putExtra(CalendarContract.Events.ALLOWED_REMINDERS, "METHOD_DEFAULT")
+                                    .putExtra(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
+                                    .putExtra(CalendarContract.Reminders.MINUTES,5);
+                            startActivity(intent);
+                        }else{
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Ticket> call, Throwable t) {
+                        Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+
+            case R.id.asignarUserTicket:
+                //Intent asignación
                 break;
         }
 

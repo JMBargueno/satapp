@@ -1,6 +1,7 @@
 package com.dmtroncoso.satapp.retrofit.service;
 
 
+import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.anotaciones.Anotacion;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 
@@ -20,6 +21,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -99,6 +101,9 @@ public interface SataService {
     @GET("/inventariable/{id}")
     Call<ResponseBody> getInventariableById(@Path("id") String idInv);
 
+    @GET("/inventariable/{id}")
+    Call<Inventariable> getInventariableId(@Path("id") String idInv);
+
     @GET("/inventariable")
     Call<List<InventariableResponse>> getInventariablesPagedList(@Query("page") int page, @Query("limit") int limit);
 
@@ -122,6 +127,31 @@ public interface SataService {
 
     @PUT("/ticket/{id_ticket}/asignar")
     Call<Ticket> asignarTicket(@Path("id_ticket") String id_ticket, @Body RequestAsignarTecnico requesAsignarTecnico);
+
+
+
+
+    @Multipart
+    @PUT("/users/{id}/img")
+    Call<User> updateAvatar(@Part MultipartBody.Part avatar,
+                            @Path("id") String id);
+
+    @PUT("/users/{id}/password")
+    Call<User> putPassword(@Path("id")String id,
+                                    @Header("Authorization") String authHeader,
+                                    @Part("password") RequestBody password);
+
+    @PUT("/users/{id}")
+    Call<User> updateNombre(@Path("id") String id,
+                            @Query("name") String name);
+
+    @DELETE("/users/{id}/img")
+    Call<ResponseBody> deleteAvatar(@Path("id") String id);
+
+    @GET("/users/me")
+    Call<User> getLoggedUser();
+
+
 
 
 
