@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.dmtroncoso.satapp.QRScannerActivity;
 import com.dmtroncoso.satapp.R;
+import com.dmtroncoso.satapp.anotaciones.AnotacionesActivity;
 import com.dmtroncoso.satapp.common.MyApp;
 import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.data.TicketViewModel;
@@ -52,6 +53,7 @@ public class TicketFragment extends Fragment {
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     private static final int SCANNER_CODE = 5;
+    private static final int DETALLE_CODE = 1;
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
@@ -181,45 +183,30 @@ public class TicketFragment extends Fragment {
 
     }
 
-    private void showAlertDialogQR(){
+    /*private void showAlertDialogQR(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(false);
         builder.setTitle("QR");
-        builder.setMessage("¿Qué deseas hacer con este ?");
+        builder.setMessage("¿Qué deseas hacer?");
 
-        builder.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("CANCELAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Call<ResponseBody> call = service.deleteTicket(adapter.getTicket(ticketPosition).getId());
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()){
-                            Toast.makeText(MyApp.getContext(), "Ticket eliminado", Toast.LENGTH_SHORT).show();
-                        }else{
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
-                    }
-                });
                 dialog.dismiss();
             }
         });
 
-        builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("CREAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                startActivityForResult(new Intent(MyApp.getContext(), QRScannerActivity.class), SCANNER_CODE);
                 dialog.dismiss();
             }
         });
 
         builder.create().show();
 
-    }
+    }*/
 
     public void loadTicketData(){
         ticketViewModel.getTickets().observe(getActivity(), new Observer<List<Ticket>>() {
@@ -296,14 +283,30 @@ public class TicketFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        String parts = data.getStringExtra("result");
         if (requestCode == SCANNER_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                String parts = data.getStringExtra("result");
-                //Toast.makeText(this, parts, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, NewTicketActivity.class);
-                intent.putExtra("idInventario", parts);
-                startActivity(intent);
+                Call<ResponseBody> call = service.getInventariableById(parts);
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.isSuccessful()){
+                            Intent intent = new Intent(context, NewTicketActivity.class);
+                            intent.putExtra("idInventario", parts);
+                            startActivity(intent);
+                        }else{
+                            Intent intent = new Intent(context, AnotacionesActivity.class);
+                            intent.putExtra("intentIdTicket", parts);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         }
     }
