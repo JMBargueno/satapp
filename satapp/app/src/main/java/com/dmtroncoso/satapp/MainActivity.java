@@ -56,13 +56,6 @@ public class MainActivity extends AppCompatActivity {
         cvQR = findViewById(R.id.cardViewQR);
         usuariosPorValidar = findViewById(R.id.textViewUsuariosPorValidar);
 
-        buttonProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MyApp.getContext(),ProfileActivity.class));
-            }
-        });
-
         cvTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
