@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -27,6 +29,8 @@ import com.dmtroncoso.satapp.common.SharedPreferencesManager;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 import com.dmtroncoso.satapp.retrofit.model.RequestEditInventariable;
 
+import java.util.ArrayList;
+
 public class InventariableDetalleFragment extends Fragment {
 
     private InventariableViewModel inventariableViewModel;
@@ -34,8 +38,10 @@ public class InventariableDetalleFragment extends Fragment {
     private EditText etName, etTipo, etDescripcion, etUbicacion;
     private TextView tvCreated;
     private Button btnSave;
+    private Spinner cmbOpciones;
     private String inventariableId;
     private SharedPreferencesManager sharedPreferencesManager;
+    private ArrayList<String> tipos = new ArrayList<>();
 
     public static InventariableDetalleFragment newInstance() {
         return new InventariableDetalleFragment();
@@ -52,17 +58,29 @@ public class InventariableDetalleFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_edit_inventariable, container, false);
+        tipos = inventariableViewModel.getTipos();
+
+        ArrayAdapter<CharSequence> adaptador =
+                ArrayAdapter.createFromResource(MyApp.getContext(),tipos,
+                        android.R.layout.simple_spinner_item);
+
+        cmbOpciones = v.findViewById(R.id.CmbOpciones);
+
+        adaptador.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+
+        cmbOpciones.setAdapter(adaptador);
 
         imgInv = v.findViewById(R.id.imageviewInventariable);
         etName = v.findViewById(R.id.nombreInvEdit);
-        etTipo = v.findViewById(R.id.tipoInvEdit);
+//        etTipo = v.findViewById(R.id.tipoInvEdit);
         etDescripcion = v.findViewById(R.id.descripcionInvEdit);
         etUbicacion = v.findViewById(R.id.ubicacionInvEdit);
         tvCreated = v.findViewById(R.id.createdAtValue);
         btnSave = v.findViewById(R.id.buttonInvEdit);
 
         btnSave.setOnClickListener(view -> {
-            String tipo = etTipo.getText().toString();
+            String tipo = cmbOpciones.getSelectedItem().toString();
             String nombre = etName.getText().toString();
             String descripcion = etDescripcion.getText().toString();
             String ubicacion = etUbicacion.getText().toString();
@@ -83,7 +101,7 @@ public class InventariableDetalleFragment extends Fragment {
             public void onChanged(InventariableResponse inventariableResponse) {
                 etName.setText(inventariableResponse.getNombre());
                 etDescripcion.setText(inventariableResponse.getDescripcion());
-                etTipo.setText(inventariableResponse.getTipo());
+                cmbOpciones.setAdapter(adaptador);
                 etUbicacion.setText(inventariableResponse.getUbicacion());
                 tvCreated.setText(inventariableResponse.getCreatedAt());
 

@@ -14,6 +14,7 @@ import com.dmtroncoso.satapp.retrofit.model.Inventariable;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 import com.dmtroncoso.satapp.retrofit.model.RequestEditInventariable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InventariableViewModel extends AndroidViewModel {
@@ -22,6 +23,7 @@ public class InventariableViewModel extends AndroidViewModel {
     InventariableRepository inventariableRepository;
     MutableLiveData<String> idInventoriableSeleccionado;
     MutableLiveData<InventariableResponse> inventariable;
+    ArrayList<String> tipos;
 
     public InventariableViewModel(@NonNull Application application) {
         super(application);
@@ -58,5 +60,9 @@ public class InventariableViewModel extends AndroidViewModel {
     public void openDialogInventariableMenu(Context ctx,String id){
         ModalBottomInventariableFragment dialogInventariable = ModalBottomInventariableFragment.newInstance(id);
         dialogInventariable.show(((AppCompatActivity)ctx).getSupportFragmentManager(),"ModalBottomInventariableFragment");
+    }
+    public ArrayList<String> getTipos(){
+        tipos = inventariableRepository.getTipos();
+        return tipos;
     }
 }

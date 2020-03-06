@@ -25,24 +25,27 @@ public class InventariableRepository {
     SataService service;
     MutableLiveData<List<InventariableResponse>> listaInv;
     MutableLiveData<InventariableResponse> inventariable;
+    ArrayList<String> tipos;
 
     public InventariableRepository() {
         service = ServiceGenerator.createServiceTicket(SataService.class);
         listaInv = new MutableLiveData<>();
         inventariable = new MutableLiveData<>();
+        tipos = new ArrayList<>();
     }
 
-    public MutableLiveData<List<InventariableResponse>> getAllInventariables(){
+    public MutableLiveData<List<InventariableResponse>> getAllInventariables() {
         Call<List<InventariableResponse>> call = service.getInventariables();
         call.enqueue(new Callback<List<InventariableResponse>>() {
             @Override
             public void onResponse(Call<List<InventariableResponse>> call, Response<List<InventariableResponse>> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     listaInv.setValue(response.body());
-                }else{
+                } else {
                     Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<List<InventariableResponse>> call, Throwable t) {
                 Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
@@ -51,20 +54,21 @@ public class InventariableRepository {
         return listaInv;
     }
 
-    public List<InventariableResponse> deleteInventariable(final String id){
+    public List<InventariableResponse> deleteInventariable(final String id) {
         List<InventariableResponse> listInventariable = new ArrayList<>();
         Call<Void> call = service.deleteInventariable(id);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     List<InventariableResponse> lista = getAllInventariables().getValue();
                     listInventariable.addAll(lista);
                     Toast.makeText(MyApp.getContext(), "Equipo eliminado correctamente", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(MyApp.getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
@@ -74,16 +78,16 @@ public class InventariableRepository {
         return listInventariable;
     }
 
-    public MutableLiveData<ResponseBody> getInventariable(int idInventariable){
+    public MutableLiveData<ResponseBody> getInventariable(int idInventariable) {
         final MutableLiveData<ResponseBody> data = new MutableLiveData<>();
         Call<ResponseBody> call = service.getInventariableById(String.valueOf(idInventariable));
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     data.setValue(response.body());
-                }else{
+                } else {
 
                 }
             }
@@ -103,12 +107,13 @@ public class InventariableRepository {
         call.enqueue(new Callback<InventariableResponse>() {
             @Override
             public void onResponse(Call<InventariableResponse> call, Response<InventariableResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     inventariable.setValue(response.body());
-                }else{
+                } else {
                     Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<InventariableResponse> call, Throwable t) {
                 Toast.makeText(MyApp.getContext(), "Error en la conexión", Toast.LENGTH_SHORT).show();
@@ -138,7 +143,7 @@ public class InventariableRepository {
         });
     }
 
-    public MutableLiveData<Inventariable> getOneInventariable(int idInventariable){
+    public MutableLiveData<Inventariable> getOneInventariable(int idInventariable) {
         final MutableLiveData<Inventariable> data = new MutableLiveData<>();
         Call<Inventariable> call = service.getInventariableId(String.valueOf(idInventariable));
 
@@ -162,4 +167,23 @@ public class InventariableRepository {
 
     }
 
+    public ArrayList<String> getTipos() {
+        Call<ArrayList<String>> call = service.getTiposInventariables();
+        call.enqueue(new Callback<ArrayList<String>>() {
+            @Override
+            public void onResponse(Call<ArrayList<String>> call, Response<ArrayList<String>> response) {
+                if (response.isSuccessful()) {
+                    tipos.addAll(response.body());
+                } else {
+                    Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<String>> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Error en la conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return tipos;
+    }
 }

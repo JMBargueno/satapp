@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tipo_inventariables_array">
+        <item>PC</item>
+        <item>MON</item>
+        <item>IMP</item>
+        <item>RED</item>
+        <item>PER</item>
+        <item>OTR</item>
+    </string-array>
+</resources>

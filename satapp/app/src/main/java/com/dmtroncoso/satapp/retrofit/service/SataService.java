@@ -15,6 +15,7 @@ import com.dmtroncoso.satapp.retrofit.model.UserResponse;
 import com.dmtroncoso.satapp.tickets.Ticket;
 import com.dmtroncoso.satapp.tickets.Ticket;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -158,6 +159,9 @@ public interface SataService {
 
     @GET("/users/me")
     Call<User> getLoggedUser();
+
+    @GET("/inventariable/tipos")
+    Call<ArrayList<String>> getTiposInventariables();
 
 }
 

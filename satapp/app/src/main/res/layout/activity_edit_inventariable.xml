@@ -69,18 +69,20 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
+        android:textAlignment="center"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardViewR3">
 
-        <EditText
-            android:id="@+id/tipoInvEdit"
+        <Spinner
+            android:id="@+id/CmbOpciones"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@null"
             android:ems="10"
             android:gravity="center"
+            android:textAlignment="center"
             android:hint="Tipo"
             android:scrollbarSize="4dp"
             app:layout_constraintVertical_bias="0.139" />
