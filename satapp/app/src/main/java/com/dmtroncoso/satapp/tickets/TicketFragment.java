@@ -175,6 +175,7 @@ public class TicketFragment extends Fragment {
         builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                adapter.getTicket(ticketPosition).getId();
                 dialog.dismiss();
             }
         });
