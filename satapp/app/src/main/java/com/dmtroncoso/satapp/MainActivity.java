@@ -101,10 +101,10 @@ public class MainActivity extends AppCompatActivity {
 
 
             @Override
-            public void onChanged(List<User> users) {
+            public void onChanged(List<User> usersUnvalidated) {
 
-                if (!users.isEmpty()) {
-                    int unvalidatedUsers = users.size();
+                if (!usersUnvalidated.isEmpty()) {
+
 
                     AlertDialog.Builder builderFinish = new AlertDialog.Builder(MainActivity.this);
                     builderFinish.setPositiveButton("¡Vale!", new DialogInterface.OnClickListener() {
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     builderFinish.setCancelable(true);
-                    builderFinish.setMessage(Constants.USUARIOS_SIN_VALIDAR+unvalidatedUsers);
+                    builderFinish.setMessage(Constants.USUARIOS_SIN_VALIDAR);
                     builderFinish.show();
                 }
             }
