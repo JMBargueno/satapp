@@ -39,6 +39,8 @@ public class MyanotacionesRecyclerViewAdapter extends RecyclerView.Adapter<Myano
     Context ctx;
     SataService service;
 
+
+
     public MyanotacionesRecyclerViewAdapter(List<Anotaciones> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
@@ -118,6 +120,10 @@ public class MyanotacionesRecyclerViewAdapter extends RecyclerView.Adapter<Myano
         }else {
             return 0;
         }
+    }
+
+    public Anotaciones getAnotaciones(int position){
+        return mValues.get(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

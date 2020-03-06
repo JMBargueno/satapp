@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,11 +47,6 @@ public class InventariableListFragment extends Fragment {
     private InventariableViewModel inventariableViewModel;
     private MyInventariableResponseRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
-    private PagedList<InventariableResponse> inventariables;
-    private final int limit = 10;
-    private boolean isLastPage = false;
-    private boolean isLoading = false;
-    private int currentPage;
     private static final int SCANNER_INVENT_CODE = 2;
     Context context;
     SataService service;
@@ -70,7 +66,7 @@ public class InventariableListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        currentPage = 0;
+
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -85,31 +81,21 @@ public class InventariableListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_inventariable_list, container, false);
 
         // Set the adapter
-        Context context = view.getContext();
-        inventariables = new PagedList<>();
-        inventariables.setResults(new ArrayList<>());
 
-        recyclerView = (RecyclerView) view;
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new MyInventariableResponseRecyclerViewAdapter(getActivity(),null, inventariableViewModel);
-        recyclerView.setAdapter(adapter);
-
-        recyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                int visibleItems = layoutManager.getChildCount();
-                int totalItems = layoutManager.getItemCount();
-                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-                boolean isLastItem = firstVisibleItemPosition + visibleItems >= totalItems;
-                boolean isValidFirstItem = firstVisibleItemPosition >= 0;
-                boolean totalIsMoreThanVisible = totalItems >= limit;
-                boolean shouldLoadMore = isValidFirstItem && isLastItem && totalIsMoreThanVisible;
-
-                if (shouldLoadMore) loadInventariables(false);
+        if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+            recyclerView = (RecyclerView) view;
+            if (mColumnCount <= 1) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-        });
+            adapter = new MyInventariableResponseRecyclerViewAdapter(
+                    getActivity(),
+                    null,
+                    inventariableViewModel);
+            recyclerView.setAdapter(adapter);
+        }
         return view;
     }
 
@@ -121,9 +107,12 @@ public class InventariableListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        currentPage=0;
-        loadInventariables(false);
-        Toast.makeText(getActivity(), "onResume()", Toast.LENGTH_SHORT).show();
+        inventariableViewModel.getInventariableList().observe(getActivity(), new Observer<List<InventariableResponse>>() {
+            @Override
+            public void onChanged(List<InventariableResponse> inventariables) {
+                adapter.setData(inventariables);
+            }
+        });
     }
 
     @Override
@@ -131,30 +120,7 @@ public class InventariableListFragment extends Fragment {
         super.onPause();
     }
 
-    public void loadInventariables(final boolean isFirstpage) {
-        isLoading = true;
-        currentPage++;
-        inventariableViewModel.getInventariableList(currentPage, limit).observe(getActivity(), new Observer<List<InventariableResponse>>() {
-            @Override
-            public void onChanged(List<InventariableResponse> data) {
-                if (data != null) {
-                    inventariables.getResults().addAll(data);
 
-                    inventariables.getResults().sort((InventariableResponse o1, InventariableResponse o2) -> {
-                       return o1.getNombre().compareTo(o2.getNombre());
-                    });
-                } else {
-                    Toast.makeText(getContext(), "No hay más equipos que cargar", Toast.LENGTH_LONG).show();
-                }
-
-                adapter.setData(inventariables.getResults().stream().distinct().collect(Collectors.toList()));
-                recyclerView.setVisibility(View.VISIBLE);
-
-                isLoading = false;
-                isLastPage = currentPage == inventariables.getResults().size();
-            }
-        });
-    }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -179,13 +145,15 @@ public class InventariableListFragment extends Fragment {
 
         if(requestCode == SCANNER_INVENT_CODE){
             if(requestCode == Activity.RESULT_OK){
+
                 Call<ResponseBody> call = service.getInventariableById(data.getStringExtra("result"));
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if(response.code() == 200){
-                            //Intent intent = new Intent(context, DETAIL.class);
-                            //startActivity(INTENTDETAIL);
+                            Intent intent = new Intent(context, InventariableDetalleActivity.class);
+                            intent.putExtra("invent",data.getStringExtra("result"));
+                            startActivity(intent);
                             Toast.makeText(context, "Permitido.", Toast.LENGTH_SHORT).show();
                         }else{
 

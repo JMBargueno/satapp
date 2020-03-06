@@ -13,7 +13,8 @@ import okhttp3.ResponseBody;
 
 public class InventariableDetalleViewModel extends AndroidViewModel {
 
-    MutableLiveData<Inventariable> inventariable;
+    MutableLiveData<Inventariable> inventariable2;
+    MutableLiveData<ResponseBody> inventariable;
     InventariableRepository inventariableRepository;
 
     public InventariableDetalleViewModel(@NonNull Application application) {
@@ -22,8 +23,12 @@ public class InventariableDetalleViewModel extends AndroidViewModel {
         inventariable = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Inventariable> getInventariable(int idInventariable) {
-        inventariable = inventariableRepository.getOneInventariable(idInventariable);
+    public MutableLiveData<Inventariable> getInventariable2(int idInventariable) {
+        inventariable2 = inventariableRepository.getOneInventariable(idInventariable);
+        return inventariable2;
+    }
+    public MutableLiveData<ResponseBody> getInventariable(int idInventariable) {
+        inventariable = inventariableRepository.getInventariable(idInventariable);
         return inventariable;
     }
 }

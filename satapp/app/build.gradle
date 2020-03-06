@@ -57,5 +57,9 @@ dependencies {
     //implementation 'com.google.android.material:material:1.1.0-beta01'
     implementation 'androidx.paging:paging-runtime:2.1.0'
     implementation 'androidx.work:work-runtime:2.1.0'
+    //Swipe button
+    implementation 'com.ebanx:swipe-button:0.4.0'
+    //iText pdf
+    //implementation 'com.itextpdf:itext7-core:7.0.2'
 
 }

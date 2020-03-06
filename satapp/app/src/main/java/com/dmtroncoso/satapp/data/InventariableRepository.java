@@ -29,14 +29,13 @@ public class InventariableRepository {
         listaInv = new MutableLiveData<>();
     }
 
-    public MutableLiveData<List<InventariableResponse>> getAllInventariablesPaginable(int page, int limit){
-        Call<List<InventariableResponse>> call = service.getInventariablesPagedList(page,limit);
+    public MutableLiveData<List<InventariableResponse>> getAllInventariables(){
+        Call<List<InventariableResponse>> call = service.getInventariables();
         call.enqueue(new Callback<List<InventariableResponse>>() {
             @Override
             public void onResponse(Call<List<InventariableResponse>> call, Response<List<InventariableResponse>> response) {
                 if(response.isSuccessful()){
                     listaInv.setValue(response.body());
-
                 }else{
                     Toast.makeText(MyApp.getContext(), "Se produjo un error", Toast.LENGTH_SHORT).show();
                 }
@@ -56,7 +55,7 @@ public class InventariableRepository {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()){
-                    List<InventariableResponse> lista = getAllInventariablesPaginable(1, 10).getValue();
+                    List<InventariableResponse> lista = getAllInventariables().getValue();
                     listInventariable.addAll(lista);
                     Toast.makeText(MyApp.getContext(), "Equipo eliminado correctamente", Toast.LENGTH_SHORT).show();
                 }else{
@@ -116,5 +115,6 @@ public class InventariableRepository {
         });
 
         return data;
+
     }
 }

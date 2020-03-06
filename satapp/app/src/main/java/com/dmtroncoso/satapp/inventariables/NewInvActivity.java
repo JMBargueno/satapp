@@ -1,4 +1,4 @@
-package com.dmtroncoso.satapp;
+package com.dmtroncoso.satapp.inventariables;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +17,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.dmtroncoso.satapp.R;
 import com.dmtroncoso.satapp.retrofit.generator.ServiceGenerator;
-import com.dmtroncoso.satapp.retrofit.model.Inventariable;
-import com.dmtroncoso.satapp.retrofit.model.User;
 import com.dmtroncoso.satapp.retrofit.service.SataService;
 
 import java.io.BufferedInputStream;
@@ -104,6 +103,7 @@ public class NewInvActivity extends AppCompatActivity {
                                         Toast.makeText(NewInvActivity.this, "Equipo registrado", Toast.LENGTH_SHORT).show();
                                         //Intent intent = new Intent(NewInvActivity.this, LoggingActivity.class);
                                         //startActivity(intent);
+                                        onBackPressed();
                                     } else {
                                         Log.e("Upload error", response.errorBody().toString());
                                     }

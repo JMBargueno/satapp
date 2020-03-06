@@ -4,4 +4,7 @@
     <string name="new_ticket">Nuevo Ticket</string>
     <string name="ticket_title_hint">Título</string>
     <string name="ticket_description_hint">Describa la incidencia</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

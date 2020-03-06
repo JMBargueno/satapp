@@ -24,7 +24,7 @@ public class ModalBottomInventariableFragment extends BottomSheetDialogFragment 
     public static ModalBottomInventariableFragment newInstance(String id) {
         ModalBottomInventariableFragment fragment= new ModalBottomInventariableFragment();
         Bundle args = new Bundle();
-        args.putString("inventariable_id",id);
+        args.putString("inventariable_id", id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,7 +42,7 @@ public class ModalBottomInventariableFragment extends BottomSheetDialogFragment 
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.modal_bottom_inventariable_fragment, container, false);
 
-        final NavigationView nav = v.findViewById(R.id.navigation_view_bottom_inventariable);
+        final NavigationView nav = v.findViewById(R.id.navigation_view_bottom_user);
         nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

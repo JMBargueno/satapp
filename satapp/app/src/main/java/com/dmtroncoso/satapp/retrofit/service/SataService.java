@@ -2,6 +2,7 @@ package com.dmtroncoso.satapp.retrofit.service;
 
 
 import com.dmtroncoso.satapp.retrofit.model.Inventariable;
+import com.dmtroncoso.satapp.anotaciones.Anotacion;
 import com.dmtroncoso.satapp.retrofit.model.InventariableResponse;
 
 import com.dmtroncoso.satapp.retrofit.model.TicketResponse;
@@ -61,9 +62,9 @@ public interface SataService {
     @POST("/inventariable")
     Call<ResponseBody> uploadInventariable(@Part MultipartBody.Part imagen,
                                            @Part("ubicacion") RequestBody ubicacion,
-                                            @Part("tipo") RequestBody tipo,
-                                            @Part("nombre") RequestBody nombre,
-                                            @Part("descripcion") RequestBody descripcion);
+                                           @Part("tipo") RequestBody tipo,
+                                           @Part("nombre") RequestBody nombre,
+                                           @Part("descripcion") RequestBody descripcion);
 
 
     @Multipart
@@ -86,6 +87,9 @@ public interface SataService {
     @GET("/ticket/{id}")
     Call<Ticket> getTicketById(@Path("id") String id);
 
+    @GET("/ticket/{id}")
+    Call<ResponseBody> getTicketByIdResponseBody(@Path("id") String id);
+
     @GET("/ticket/img/{id}/{index}")
     Call<ResponseBody> getImageOfTicket(@Path("id") String idImage, @Path("index") int index);
 
@@ -103,6 +107,22 @@ public interface SataService {
 
     @DELETE("/inventariable/{id}")
     Call<Void> deleteInventariable(@Path("id") String id);
+
+    @PUT("/users/{id}/validate")
+    Call<User> validateUser(@Path("id") String id);
+
+    @POST("/anotacion")
+    Call<ResponseBody> createAnotacion(@Body Anotacion anotacion);
+
+    @GET("/ticket/user/me")
+    Call<List<Ticket>> getTicketsByUser();
+
+    @DELETE("/anotaciones/{id}")
+    Call<ResponseBody> deleteAnotacion(@Path("id") String idAnotacion);
+
+    @DELETE("/ticket/{id}")
+    Call<ResponseBody> deleteTicket(@Path("id") String idTicket);
+
 
 
 
