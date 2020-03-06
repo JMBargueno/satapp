@@ -23,7 +23,7 @@ public class InventariableDetalleViewModel extends AndroidViewModel {
         inventariable = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Inventariable> getInventariable2(int idInventariable) {
+    public MutableLiveData<Inventariable> getInventariable2(String idInventariable) {
         inventariable2 = inventariableRepository.getOneInventariable(idInventariable);
         return inventariable2;
     }

@@ -94,9 +94,9 @@ public class InventariableRepository {
         return data;
     }
 
-    public MutableLiveData<Inventariable> getOneInventariable(int idInventariable){
+    public MutableLiveData<Inventariable> getOneInventariable(String idInventariable){
         final MutableLiveData<Inventariable> data = new MutableLiveData<>();
-        Call<Inventariable> call = service.getInventariableId(String.valueOf(idInventariable));
+        Call<Inventariable> call = service.getInventariableId(idInventariable);
 
         call.enqueue(new Callback<Inventariable>() {
             @Override
