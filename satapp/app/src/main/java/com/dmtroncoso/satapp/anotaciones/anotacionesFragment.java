@@ -247,6 +247,10 @@ public class anotacionesFragment extends Fragment {
                         .putExtra(CalendarContract.Reminders.MINUTES,5);
                 startActivity(intent);
                 break;
+
+            case R.id.asignarUserTicket:
+                //Intent asignación
+                break;
         }
 
         return super.onOptionsItemSelected(item);
